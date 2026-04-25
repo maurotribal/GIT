@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Frequência Telecentros · 1T 2026</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ── BASE ── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f3f2f1;
+  --canvas:    #ffffff;
+  --border:    #e1dfdd;
+  --text:      #252423;
+  --muted:     #605e5c;
+  --subtle:    #a19f9d;
+
+  --pbi-blue:  #118dff;
+  --pbi-teal:  #12b0c5;
+  --pbi-gold:  #e8a838;
+  --pbi-red:   #e04e4e;
+  --pbi-green: #34a853;
+  --pbi-navy:  #174480;
+  --pbi-gray:  #8a8886;
+
+  --c1: #118dff;   /* Saltense */
+  --c2: #0058b4;   /* Independência */
+  --c3: #e8a838;   /* Nações */
+
+  --header-h: 48px;
+  --filter-h: 44px;
+
+  --shadow: 0 1.6px 3.6px rgba(0,0,0,.13), 0 .3px .9px rgba(0,0,0,.1);
+  --shadow-hover: 0 6px 18px rgba(0,0,0,.14), 0 1px 4px rgba(0,0,0,.09);
+}
+
+html, body { height: 100%; overflow: hidden; font-family: 'Segoe UI', system-ui, sans-serif; background: var(--bg); color: var(--text); font-size: 13px; }
+
+/* ── TOPBAR ── */
+.topbar {
+  height: var(--header-h);
+  background: var(--pbi-navy);
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 16px;
+  flex-shrink: 0;
+}
+.topbar-left { display: flex; align-items: center; gap: 10px; }
+.pbi-icon { width: 22px; height: 22px; }
+.report-title { color: #fff; font-size: 13px; font-weight: 600; letter-spacing: .01em; }
+.report-badge {
+  background: rgba(255,255,255,.12); color: rgba(255,255,255,.8);
+  font-size: 10px; padding: 2px 8px; border-radius: 2px; letter-spacing: .05em; font-weight: 400;
+}
+.topbar-right { display: flex; align-items: center; gap: 8px; }
+.top-btn {
+  background: none; border: none; cursor: pointer; color: rgba(255,255,255,.7);
+  font-size: 11px; padding: 4px 10px; border-radius: 2px; display: flex; align-items: center; gap: 5px;
+  transition: background .15s, color .15s;
+}
+.top-btn:hover { background: rgba(255,255,255,.15); color: #fff; }
+.top-btn svg { width: 14px; height: 14px; }
+
+/* ── FILTER BAR ── */
+.filterbar {
+  height: var(--filter-h);
+  background: #fff;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 6px; padding: 0 14px;
+  flex-shrink: 0;
+}
+.filter-label { font-size: 11px; color: var(--muted); font-weight: 600; letter-spacing: .05em; text-transform: uppercase; margin-right: 4px; }
+.slicer-btn {
+  height: 28px; padding: 0 12px; border-radius: 2px;
+  border: 1px solid var(--border); background: #fff;
+  font-size: 12px; color: var(--text); cursor: pointer;
+  transition: all .15s; font-family: inherit;
+  display: flex; align-items: center; gap: 6px;
+}
+.slicer-btn:hover { border-color: var(--pbi-blue); color: var(--pbi-blue); }
+.slicer-btn.active { background: var(--pbi-blue); border-color: var(--pbi-blue); color: #fff; }
+.slicer-btn .dot { width: 8px; height: 8px; border-radius: 50%; }
+.slicer-sep { width: 1px; height: 24px; background: var(--border); margin: 0 4px; }
+.clear-btn {
+  margin-left: auto; font-size: 11px; color: var(--pbi-blue); background: none;
+  border: none; cursor: pointer; font-family: inherit; padding: 4px 8px; border-radius: 2px;
+  display: flex; align-items: center; gap: 4px;
+}
+.clear-btn:hover { background: #f0f7ff; }
+.updated { margin-left: 8px; font-size: 10px; color: var(--subtle); }
+
+/* ── LAYOUT ── */
+.layout {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--header-h) - var(--filter-h));
+  padding: 10px 12px 10px;
+  gap: 10px;
+  overflow: hidden;
+}
+
+/* ── CARD TILE ── */
+.card {
+  background: var(--canvas);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+  box-shadow: var(--shadow);
+  transition: box-shadow .2s;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+  cursor: pointer;
+}
+.card:hover { box-shadow: var(--shadow-hover); }
+.card.selected { outline: 2px solid var(--pbi-blue); outline-offset: -1px; }
+
+/* card header */
+.card-header {
+  padding: 8px 12px 4px;
+  display: flex; align-items: center; justify-content: space-between;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+.card-title { font-size: 11px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; }
+.card-menu { display: flex; gap: 4px; }
+.card-menu-btn { background: none; border: none; cursor: pointer; color: var(--subtle); padding: 2px 4px; border-radius: 2px; font-size: 12px; }
+.card-menu-btn:hover { background: var(--bg); color: var(--muted); }
+
+/* card body */
+.card-body { flex: 1; padding: 10px 12px; display: flex; flex-direction: column; overflow: hidden; }
+
+/* ── TOP ROW: KPI CARDS ── */
+.row-kpi { display: flex; gap: 10px; flex-shrink: 0; }
+.kpi-card {
+  flex: 1; background: var(--canvas); border: 1px solid var(--border);
+  border-radius: 3px; box-shadow: var(--shadow);
+  padding: 14px 16px 12px; display: flex; flex-direction: column;
+  position: relative; overflow: hidden; cursor: pointer;
+  transition: box-shadow .2s, transform .15s;
+}
+.kpi-card:hover { box-shadow: var(--shadow-hover); transform: translateY(-1px); }
+.kpi-card.selected { outline: 2px solid var(--pbi-blue); outline-offset: -1px; }
+.kpi-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+}
+.kpi-card.k-total::after { background: var(--pbi-blue); }
+.kpi-card.k-saltense::after { background: var(--c1); }
+.kpi-card.k-independencia::after { background: var(--c2); }
+.kpi-card.k-nacoes::after { background: var(--c3); }
+
+.kpi-label { font-size: 10px; font-weight: 600; color: var(--muted); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 6px; }
+.kpi-value { font-size: 34px; font-weight: 700; line-height: 1; color: var(--text); letter-spacing: -.5px; }
+.kpi-value span { font-size: 15px; font-weight: 400; color: var(--muted); margin-left: 2px; }
+.kpi-sub { margin-top: 6px; font-size: 11px; color: var(--muted); display: flex; align-items: center; gap: 4px; }
+.kpi-delta { font-weight: 600; }
+.kpi-delta.up { color: var(--pbi-green); }
+.kpi-delta.down { color: var(--pbi-red); }
+.kpi-delta.neutral { color: var(--pbi-gray); }
+.kpi-sparkline { position: absolute; bottom: 14px; right: 12px; width: 60px; height: 28px; opacity: .7; }
+
+/* ── BOTTOM ROW ── */
+.row-charts { display: flex; gap: 10px; flex: 1; min-height: 0; }
+.col-left { display: flex; flex-direction: column; gap: 10px; flex: 1.4; min-width: 0; }
+.col-right { display: flex; flex-direction: column; gap: 10px; flex: 1; min-width: 0; }
+.chart-wrap { flex: 1; min-height: 0; position: relative; }
+canvas { display: block; }
+
+/* ── TOOLTIP ── */
+.tooltip-custom {
+  position: fixed; z-index: 9999;
+  background: #323130; color: #fff;
+  font-size: 11.5px; padding: 8px 12px; border-radius: 3px;
+  box-shadow: 0 4px 14px rgba(0,0,0,.3);
+  pointer-events: none; opacity: 0; transition: opacity .1s;
+  white-space: nowrap; max-width: 220px; line-height: 1.6;
+}
+.tooltip-custom.visible { opacity: 1; }
+.tt-title { font-weight: 600; margin-bottom: 4px; font-size: 12px; }
+.tt-row { display: flex; align-items: center; gap: 6px; }
+.tt-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.tt-val { margin-left: auto; font-weight: 600; padding-left: 14px; }
+
+/* ── TABLE ── */
+.data-table { width: 100%; border-collapse: collapse; font-size: 12px; }
+.data-table thead tr { background: #f3f2f1; }
+.data-table th {
+  padding: 7px 10px; text-align: left; font-weight: 600;
+  font-size: 10.5px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted);
+  border-bottom: 2px solid var(--border); white-space: nowrap; cursor: pointer;
+}
+.data-table th:hover { color: var(--pbi-blue); }
+.data-table th.sorted { color: var(--pbi-blue); }
+.data-table th .sort-arrow { margin-left: 3px; opacity: .6; }
+.data-table td {
+  padding: 6px 10px; border-bottom: 1px solid #f0efee;
+  color: var(--text); white-space: nowrap;
+}
+.data-table td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
+.data-table tr:hover td { background: #f5f4f3; }
+.data-table tr.total-row td { font-weight: 700; background: #f3f2f1; border-top: 2px solid var(--border); }
+.data-table tr.selected-row td { background: #e8f3ff; }
+.bar-inline { display: flex; align-items: center; gap: 6px; }
+.bar-mini { height: 6px; border-radius: 2px; background: var(--c1); opacity: .7; }
+.bar-mini.c2 { background: var(--c2); }
+.bar-mini.c3 { background: var(--c3); }
+.pct-badge {
+  font-size: 10px; padding: 1px 6px; border-radius: 10px; font-weight: 600; white-space: nowrap;
+}
+.pct-up { background: #dff6dd; color: #107c10; }
+.pct-dn { background: #fde7e9; color: #a4262c; }
+.pct-eq { background: #f3f2f1; color: var(--muted); }
+
+/* ── STATUS BAR ── */
+.statusbar {
+  height: 22px; background: var(--pbi-navy);
+  display: flex; align-items: center; padding: 0 14px; gap: 16px;
+  flex-shrink: 0;
+}
+.statusbar span { font-size: 10px; color: rgba(255,255,255,.65); letter-spacing: .04em; }
+.statusbar .hl { color: rgba(255,255,255,.9); font-weight: 600; }
+
+/* ── ANIMATIONS ── */
+@keyframes fadeUp { from { opacity:0; transform: translateY(8px); } to { opacity:1; transform: none; } }
+.kpi-card { animation: fadeUp .35s ease both; }
+.kpi-card:nth-child(1) { animation-delay: .05s; }
+.kpi-card:nth-child(2) { animation-delay: .1s; }
+.kpi-card:nth-child(3) { animation-delay: .15s; }
+.kpi-card:nth-child(4) { animation-delay: .2s; }
+.card { animation: fadeUp .4s ease both; animation-delay: .25s; }
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <div class="topbar-left">
+    <svg class="pbi-icon" viewBox="0 0 22 22" fill="none">
+      <rect width="22" height="22" rx="2" fill="#F2C811"/>
+      <rect x="4" y="10" width="4" height="8" rx="1" fill="#252423" opacity=".85"/>
+      <rect x="9" y="6" width="4" height="12" rx="1" fill="#252423" opacity=".85"/>
+      <rect x="14" y="3" width="4" height="15" rx="1" fill="#252423" opacity=".85"/>
+    </svg>
+    <span class="report-title">Frequência Telecentros — 1º Trimestre 2026</span>
+    <span class="report-badge">RELATÓRIO INTERATIVO</span>
+  </div>
+  <div class="topbar-right">
+    <button class="top-btn" onclick="window.print()">
+      <svg viewBox="0 0 16 16" fill="currentColor"><path d="M4 1h8v4H4V1zm-2 5h12a1 1 0 011 1v5a1 1 0 01-1 1h-2v3H4v-3H2a1 1 0 01-1-1V7a1 1 0 011-1zm2 8h8v-3H4v3z"/></svg>
+      Exportar
+    </button>
+    <button class="top-btn" id="themeBtn" onclick="toggleTheme()">
+      <svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/><path d="M8 1v2M8 13v2M1 8h2M13 8h2M3.2 3.2l1.4 1.4M11.4 11.4l1.4 1.4M3.2 12.8l1.4-1.4M11.4 4.6l1.4-1.4"/></svg>
+      Tema
+    </button>
+    <span style="color:rgba(255,255,255,.4);font-size:11px;">29 mar 2026 · 08:00</span>
+  </div>
+</div>
+
+<!-- FILTER BAR / SLICERS -->
+<div class="filterbar">
+  <span class="filter-label">Unidade</span>
+  <button class="slicer-btn active" data-filter="all" onclick="setFilter('all',this)">Todas</button>
+  <button class="slicer-btn" data-filter="saltense" onclick="setFilter('saltense',this)">
+    <span class="dot" style="background:var(--c1)"></span>Saltense
+  </button>
+  <button class="slicer-btn" data-filter="independencia" onclick="setFilter('independencia',this)">
+    <span class="dot" style="background:var(--c2)"></span>Independência
+  </button>
+  <button class="slicer-btn" data-filter="nacoes" onclick="setFilter('nacoes',this)">
+    <span class="dot" style="background:var(--c3)"></span>Nações
+  </button>
+  <div class="slicer-sep"></div>
+  <span class="filter-label" style="margin-left:4px">Mês</span>
+  <button class="slicer-btn active" data-month="all" onclick="setMonth('all',this)">1º Trim.</button>
+  <button class="slicer-btn" data-month="jan" onclick="setMonth('jan',this)">Jan</button>
+  <button class="slicer-btn" data-month="fev" onclick="setMonth('fev',this)">Fev</button>
+  <button class="slicer-btn" data-month="mar" onclick="setMonth('mar',this)">Mar</button>
+  <button class="clear-btn" onclick="clearFilters()">
+    <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor"><path d="M6 0a6 6 0 100 12A6 6 0 006 0zm3.5 8.1L8.1 9.5 6 7.4 3.9 9.5 2.5 8.1 4.6 6 2.5 3.9 3.9 2.5 6 4.6 8.1 2.5 9.5 3.9 7.4 6z"/></svg>
+    Limpar filtros
+  </button>
+  <span class="updated">Atualizado: 29/03/2026</span>
+</div>
+
+<!-- MAIN LAYOUT -->
+<div class="layout">
+
+  <!-- KPI ROW -->
+  <div class="row-kpi">
+    <div class="kpi-card k-total" id="kpi-total">
+      <div class="kpi-label">Total de Atendimentos</div>
+      <div class="kpi-value" id="v-total">1.504 <span>atend.</span></div>
+      <div class="kpi-sub">
+        <span>1º Trimestre 2026</span>
+        <span class="kpi-delta neutral" id="d-total">— 3 meses</span>
+      </div>
+    </div>
+    <div class="kpi-card k-saltense" id="kpi-salt">
+      <div class="kpi-label">Telecentro Saltense</div>
+      <div class="kpi-value" id="v-salt">633 <span>atend.</span></div>
+      <div class="kpi-sub">
+        <span>42,1% do total</span>
+        <span class="kpi-delta up" id="d-salt">▲ +39 vs Jan</span>
+      </div>
+    </div>
+    <div class="kpi-card k-independencia" id="kpi-ind">
+      <div class="kpi-label">Telecentro Independência</div>
+      <div class="kpi-value" id="v-ind">487 <span>atend.</span></div>
+      <div class="kpi-sub">
+        <span>32,4% do total</span>
+        <span class="kpi-delta down" id="d-ind">▼ −14 vs Jan</span>
+      </div>
+    </div>
+    <div class="kpi-card k-nacoes" id="kpi-nac">
+      <div class="kpi-label">Telecentro Nações</div>
+      <div class="kpi-value" id="v-nac">384 <span>atend.</span></div>
+      <div class="kpi-sub">
+        <span>25,5% do total</span>
+        <span class="kpi-delta down" id="d-nac">▼ −14 vs Jan</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- CHARTS ROW -->
+  <div class="row-charts">
+
+    <!-- LEFT COL -->
+    <div class="col-left">
+
+      <!-- Grouped Bar -->
+      <div class="card" style="flex:1.1">
+        <div class="card-header">
+          <span class="card-title">Frequência Mensal por Unidade</span>
+          <div class="card-menu">
+            <button class="card-menu-btn" title="Focar">⊞</button>
+            <button class="card-menu-btn" title="Opções">⋯</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap">
+            <canvas id="barChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Line Chart -->
+      <div class="card" style="flex:1">
+        <div class="card-header">
+          <span class="card-title">Tendência — Evolução Trimestral</span>
+          <div class="card-menu">
+            <button class="card-menu-btn">⊞</button>
+            <button class="card-menu-btn">⋯</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="chart-wrap">
+            <canvas id="lineChart"></canvas>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /col-left -->
+
+    <!-- RIGHT COL -->
+    <div class="col-right">
+
+      <!-- Donut -->
+      <div class="card" style="flex:1">
+        <div class="card-header">
+          <span class="card-title">Distribuição por Unidade</span>
+          <div class="card-menu">
+            <button class="card-menu-btn">⊞</button>
+            <button class="card-menu-btn">⋯</button>
+          </div>
+        </div>
+        <div class="card-body" style="flex-direction:row;align-items:center;gap:14px;">
+          <div style="flex:1;min-width:0;position:relative;">
+            <canvas id="donutChart"></canvas>
+            <div id="donutCenter" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none;">
+              <div style="font-size:22px;font-weight:700;color:var(--text);line-height:1;" id="donutBig">1.504</div>
+              <div style="font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;">total</div>
+            </div>
+          </div>
+          <div id="donutLegend" style="display:flex;flex-direction:column;gap:8px;flex-shrink:0;min-width:110px;"></div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="card" style="flex:1.3">
+        <div class="card-header">
+          <span class="card-title">Tabela de Dados</span>
+          <div class="card-menu">
+            <button class="card-menu-btn">⊞</button>
+            <button class="card-menu-btn">⋯</button>
+          </div>
+        </div>
+        <div class="card-body" style="overflow-y:auto;padding:0;">
+          <table class="data-table" id="dataTable">
+            <thead>
+              <tr>
+                <th onclick="sortTable(0)">Mês <span class="sort-arrow" id="sa0">↕</span></th>
+                <th onclick="sortTable(1)">Saltense <span class="sort-arrow" id="sa1">↕</span></th>
+                <th onclick="sortTable(2)">Independência <span class="sort-arrow" id="sa2">↕</span></th>
+                <th onclick="sortTable(3)">Nações <span class="sort-arrow" id="sa3">↕</span></th>
+                <th onclick="sortTable(4)">Total <span class="sort-arrow" id="sa4">↕</span></th>
+                <th>Var.</th>
+              </tr>
+            </thead>
+            <tbody id="tableBody"></tbody>
+            <tfoot id="tableFoot"></tfoot>
+          </table>
+        </div>
+      </div>
+
+    </div><!-- /col-right -->
+  </div><!-- /row-charts -->
+</div><!-- /layout -->
+
+<!-- STATUS BAR -->
+<div class="statusbar">
+  <span id="statusFilters">Filtro: Todas as unidades · 1º Trimestre</span>
+  <span>·</span>
+  <span>Total exibido: <span class="hl" id="statusTotal">1.504</span> atendimentos</span>
+  <span>·</span>
+  <span>Período: <span class="hl">Jan–Mar 2026</span></span>
+  <span>·</span>
+  <span>Média mensal: <span class="hl" id="statusAvg">501,3</span></span>
+</div>
+
+<!-- TOOLTIP -->
+<div class="tooltip-custom" id="tooltip"></div>
+
+<script>
+/* ── DATA ── */
+const RAW = {
+  jan: { salt:196, ind:182, nac:148 },
+  fev: { salt:202, ind:137, nac:102 },
+  mar: { salt:235, ind:168, nac:134 }
+};
+const MONTHS = ['jan','fev','mar'];
+const MLABELS = { jan:'Janeiro', fev:'Fevereiro', mar:'Março' };
+const COLORS = { salt:'#118dff', ind:'#0058b4', nac:'#e8a838' };
+const NAMES  = { salt:'Saltense', ind:'Independência', nac:'Nações' };
+
+let currentFilter = 'all';
+let currentMonth  = 'all';
+let sortCol = -1, sortAsc = true;
+let darkMode = false;
+
+/* ── COMPUTED ── */
+function getVisible() {
+  const units = currentFilter === 'all' ? ['salt','ind','nac'] : [currentFilter];
+  const months = currentMonth === 'all' ? MONTHS : [currentMonth];
+  const rows = months.map(m => {
+    const row = { month: m };
+    units.forEach(u => { row[u] = RAW[m][u]; });
+    return row;
+  });
+  return { units, months, rows };
+}
+
+function sumUnit(u, months) { return months.reduce((a,m) => a + (RAW[m][u]||0), 0); }
+function sumAll(months, units) { return units.reduce((a,u)=>a+sumUnit(u,months),0); }
+
+/* ── CHARTS ── */
+const PBI_OPTS = {
+  responsive: true, maintainAspectRatio: false, animation: { duration: 600, easing:'easeOutCubic' },
+  plugins: { legend:{ display:false }, tooltip:{ enabled:false } }
+};
+
+// BAR
+const barCtx = document.getElementById('barChart').getContext('2d');
+let barChart = new Chart(barCtx, {
+  type:'bar',
+  data:{ labels:[], datasets:[] },
+  options:{
+    ...PBI_OPTS,
+    scales:{
+      x:{ grid:{ color:'rgba(0,0,0,.04)' }, ticks:{ font:{ size:11, family:"'Segoe UI', sans-serif" }, color:'#605e5c' } },
+      y:{ grid:{ color:'rgba(0,0,0,.05)', drawBorder:false }, ticks:{ font:{ size:11 }, color:'#605e5c' }, beginAtZero:true }
+    },
+    plugins:{ ...PBI_OPTS.plugins, legend:{ display:true, position:'top', align:'end', labels:{ boxWidth:10, boxHeight:10, padding:14, font:{size:11}, color:'#605e5c' } } },
+    onHover:(e, els) => showBarTooltip(e, els),
+  }
+});
+
+// LINE
+const lineCtx = document.getElementById('lineChart').getContext('2d');
+let lineChart = new Chart(lineCtx, {
+  type:'line',
+  data:{ labels:[], datasets:[] },
+  options:{
+    ...PBI_OPTS,
+    scales:{
+      x:{ grid:{ display:false }, ticks:{ font:{size:11}, color:'#605e5c' } },
+      y:{ grid:{ color:'rgba(0,0,0,.05)', drawBorder:false }, ticks:{ font:{size:11}, color:'#605e5c' }, beginAtZero:true }
+    },
+    plugins:{ ...PBI_OPTS.plugins, legend:{ display:true, position:'top', align:'end', labels:{ boxWidth:10, boxHeight:10, padding:14, font:{size:11}, color:'#605e5c', usePointStyle:true, pointStyle:'circle' } } },
+  }
+});
+
+// DONUT
+const donutCtx = document.getElementById('donutChart').getContext('2d');
+let donutChart = new Chart(donutCtx, {
+  type:'doughnut',
+  data:{ labels:[], datasets:[{ data:[], backgroundColor:[], borderWidth:2, borderColor:'#fff', hoverOffset:6 }] },
+  options:{
+    ...PBI_OPTS, cutout:'68%',
+    plugins:{ ...PBI_OPTS.plugins, legend:{ display:false } }
+  }
+});
+
+/* ── UPDATE ALL ── */
+function updateAll() {
+  const { units, months, rows } = getVisible();
+  const mLabels = months.map(m => MLABELS[m]);
+
+  // BAR
+  const barDatasets = units.map(u => ({
+    label: NAMES[u],
+    data: months.map(m => RAW[m][u] || 0),
+    backgroundColor: COLORS[u],
+    borderRadius: 3, borderSkipped:false,
+    barPercentage:.7, categoryPercentage:.75
+  }));
+  barChart.data.labels = mLabels;
+  barChart.data.datasets = barDatasets;
+  barChart.update();
+
+  // LINE
+  const lineDatasets = units.map(u => ({
+    label: NAMES[u],
+    data: months.map(m => RAW[m][u] || 0),
+    borderColor: COLORS[u],
+    backgroundColor: COLORS[u]+'22',
+    pointBackgroundColor: COLORS[u],
+    pointRadius: 5, pointHoverRadius: 7,
+    borderWidth: 2.5, tension:.35, fill: units.length===1
+  }));
+  lineChart.data.labels = mLabels;
+  lineChart.data.datasets = lineDatasets;
+  lineChart.update();
+
+  // DONUT
+  const dTotals = units.map(u => sumUnit(u, months));
+  const grand = dTotals.reduce((a,b)=>a+b,0);
+  donutChart.data.labels = units.map(u=>NAMES[u]);
+  donutChart.data.datasets[0].data = dTotals;
+  donutChart.data.datasets[0].backgroundColor = units.map(u=>COLORS[u]);
+  donutChart.update();
+  document.getElementById('donutBig').textContent = grand.toLocaleString('pt-BR');
+
+  // DONUT LEGEND
+  const leg = document.getElementById('donutLegend');
+  leg.innerHTML = units.map((u,i)=>{
+    const pct = grand ? ((dTotals[i]/grand)*100).toFixed(1) : 0;
+    return `<div style="display:flex;align-items:center;gap:6px;">
+      <span style="width:10px;height:10px;border-radius:50%;background:${COLORS[u]};flex-shrink:0;"></span>
+      <div>
+        <div style="font-size:11px;font-weight:600;color:var(--text);">${NAMES[u]}</div>
+        <div style="font-size:10px;color:var(--muted);">${dTotals[i].toLocaleString('pt-BR')} · ${pct}%</div>
+      </div>
+    </div>`;
+  }).join('');
+
+  // KPI
+  const total = grand;
+  const saltT = units.includes('salt') ? sumUnit('salt',months) : null;
+  const indT  = units.includes('ind')  ? sumUnit('ind', months) : null;
+  const nacT  = units.includes('nac')  ? sumUnit('nac', months) : null;
+
+  setKPI('v-total', total, 'atend.');
+  setKPI('v-salt', saltT, 'atend.');
+  setKPI('v-ind',  indT,  'atend.');
+  setKPI('v-nac',  nacT,  'atend.');
+
+  // Deltas (mar vs jan if all months, else show %)
+  if (months.length > 1 && units.includes('salt')) {
+    const dlt = RAW[months[months.length-1]].salt - RAW[months[0]].salt;
+    document.getElementById('d-salt').textContent = (dlt>=0?'▲ +':'▼ ')+dlt+' vs '+MLABELS[months[0]].slice(0,3);
+    document.getElementById('d-salt').className = 'kpi-delta '+(dlt>=0?'up':'down');
+  }
+  if (months.length > 1 && units.includes('ind')) {
+    const dlt = RAW[months[months.length-1]].ind - RAW[months[0]].ind;
+    document.getElementById('d-ind').textContent = (dlt>=0?'▲ +':'▼ ')+dlt+' vs '+MLABELS[months[0]].slice(0,3);
+    document.getElementById('d-ind').className = 'kpi-delta '+(dlt>=0?'up':'down');
+  }
+  if (months.length > 1 && units.includes('nac')) {
+    const dlt = RAW[months[months.length-1]].nac - RAW[months[0]].nac;
+    document.getElementById('d-nac').textContent = (dlt>=0?'▲ +':'▼ ')+dlt+' vs '+MLABELS[months[0]].slice(0,3);
+    document.getElementById('d-nac').className = 'kpi-delta '+(dlt>=0?'up':'down');
+  }
+
+  // TABLE
+  updateTable(units, months, grand);
+
+  // STATUS
+  const filterName = currentFilter==='all' ? 'Todas as unidades' : NAMES[currentFilter] || currentFilter;
+  const monthName  = currentMonth==='all'  ? '1º Trimestre' : MLABELS[currentMonth];
+  document.getElementById('statusFilters').textContent = `Filtro: ${filterName} · ${monthName}`;
+  document.getElementById('statusTotal').textContent = total.toLocaleString('pt-BR');
+  document.getElementById('statusAvg').textContent = months.length ? (total/months.length).toFixed(1).replace('.',',') : '—';
+}
+
+function setKPI(id, val, suf) {
+  const el = document.getElementById(id);
+  if (val === null) { el.innerHTML = `<span style="color:var(--subtle)">—</span>`; return; }
+  el.innerHTML = `${val.toLocaleString('pt-BR')} <span>${suf}</span>`;
+}
+
+/* ── TABLE ── */
+function updateTable(units, months, grand) {
+  const tbody = document.getElementById('tableBody');
+  const tfoot = document.getElementById('tableFoot');
+  const rows = months.map(m => {
+    const totM = units.reduce((a,u)=>a+(RAW[m][u]||0),0);
+    return { m, totM };
+  });
+
+  // sort
+  if (sortCol >= 0) {
+    rows.sort((a,b) => {
+      let va, vb;
+      if (sortCol===0)       { va=MONTHS.indexOf(a.m); vb=MONTHS.indexOf(b.m); }
+      else if (sortCol===1)  { va=RAW[a.m].salt||0; vb=RAW[b.m].salt||0; }
+      else if (sortCol===2)  { va=RAW[a.m].ind||0;  vb=RAW[b.m].ind||0; }
+      else if (sortCol===3)  { va=RAW[a.m].nac||0;  vb=RAW[b.m].nac||0; }
+      else                   { va=a.totM; vb=b.totM; }
+      return sortAsc ? va-vb : vb-va;
+    });
+  }
+
+  const maxTotal = Math.max(...months.map(m=>units.reduce((a,u)=>a+(RAW[m][u]||0),0)));
+
+  tbody.innerHTML = rows.map(({m, totM}, i) => {
+    const prev = i > 0 ? rows[i-1].totM : null;
+    const delta = prev !== null ? totM - prev : null;
+    const deltaHtml = delta === null ? `<span class="pct-badge pct-eq">—</span>` :
+      delta > 0 ? `<span class="pct-badge pct-up">▲ +${delta}</span>` :
+      delta < 0 ? `<span class="pct-badge pct-dn">▼ ${delta}</span>` :
+                  `<span class="pct-badge pct-eq">= 0</span>`;
+
+    const barW = maxTotal ? Math.round((totM/maxTotal)*70) : 0;
+
+    const saltCell = units.includes('salt') ? `<div class="bar-inline">${RAW[m].salt}<div class="bar-mini" style="width:${Math.round((RAW[m].salt/maxTotal)*50)}px;background:var(--c1);"></div></div>` : '—';
+    const indCell  = units.includes('ind')  ? `<div class="bar-inline">${RAW[m].ind}<div class="bar-mini c2" style="width:${Math.round((RAW[m].ind/maxTotal)*50)}px;"></div></div>` : '—';
+    const nacCell  = units.includes('nac')  ? `<div class="bar-inline">${RAW[m].nac}<div class="bar-mini c3" style="width:${Math.round((RAW[m].nac/maxTotal)*50)}px;"></div></div>` : '—';
+
+    return `<tr>
+      <td><strong>${MLABELS[m]}</strong></td>
+      <td>${saltCell}</td>
+      <td>${indCell}</td>
+      <td>${nacCell}</td>
+      <td><strong>${totM.toLocaleString('pt-BR')}</strong></td>
+      <td>${deltaHtml}</td>
+    </tr>`;
+  }).join('');
+
+  // footer totals
+  const totSalt = units.includes('salt') ? sumUnit('salt',months) : null;
+  const totInd  = units.includes('ind')  ? sumUnit('ind', months) : null;
+  const totNac  = units.includes('nac')  ? sumUnit('nac', months) : null;
+  tfoot.innerHTML = `<tr class="total-row">
+    <td>TOTAL</td>
+    <td>${totSalt !== null ? totSalt : '—'}</td>
+    <td>${totInd  !== null ? totInd  : '—'}</td>
+    <td>${totNac  !== null ? totNac  : '—'}</td>
+    <td>${grand.toLocaleString('pt-BR')}</td>
+    <td></td>
+  </tr>`;
+}
+
+/* ── SORT ── */
+function sortTable(col) {
+  if (sortCol === col) sortAsc = !sortAsc; else { sortCol = col; sortAsc = true; }
+  ['sa0','sa1','sa2','sa3','sa4'].forEach((id,i) => {
+    document.getElementById(id).textContent = i===col ? (sortAsc?'↑':'↓') : '↕';
+  });
+  updateAll();
+}
+
+/* ── FILTERS ── */
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('[data-filter]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateAll();
+}
+function setMonth(m, btn) {
+  currentMonth = m;
+  document.querySelectorAll('[data-month]').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  updateAll();
+}
+function clearFilters() {
+  currentFilter = 'all'; currentMonth = 'all';
+  document.querySelectorAll('[data-filter]').forEach((b,i)=>b.classList.toggle('active',i===0));
+  document.querySelectorAll('[data-month]').forEach((b,i)=>b.classList.toggle('active',i===0));
+  updateAll();
+}
+
+/* ── TOOLTIP ── */
+const ttEl = document.getElementById('tooltip');
+function showBarTooltip(e, els) {
+  if (!els.length) { ttEl.classList.remove('visible'); return; }
+  const idx = els[0].index;
+  const di  = els[0].datasetIndex;
+  const ds  = barChart.data.datasets;
+  const month = barChart.data.labels[idx];
+  let html = `<div class="tt-title">${month}</div>`;
+  ds.forEach((d,i) => {
+    html += `<div class="tt-row"><span class="tt-dot" style="background:${d.backgroundColor}"></span>${d.label}<span class="tt-val">${d.data[idx].toLocaleString('pt-BR')}</span></div>`;
+  });
+  ttEl.innerHTML = html;
+  ttEl.classList.add('visible');
+  ttEl.style.left = (e.native.clientX + 14)+'px';
+  ttEl.style.top  = (e.native.clientY - 10)+'px';
+}
+document.addEventListener('mousemove', e => {
+  if (!ttEl.classList.contains('visible')) return;
+  ttEl.style.left = (e.clientX+14)+'px';
+  ttEl.style.top  = (e.clientY-10)+'px';
+});
+barCtx.canvas.addEventListener('mouseleave', () => ttEl.classList.remove('visible'));
+
+/* ── DARK THEME ── */
+function toggleTheme() {
+  darkMode = !darkMode;
+  if (darkMode) {
+    document.documentElement.style.setProperty('--bg','#201f1e');
+    document.documentElement.style.setProperty('--canvas','#292827');
+    document.documentElement.style.setProperty('--border','#3b3a38');
+    document.documentElement.style.setProperty('--text','#f3f2f1');
+    document.documentElement.style.setProperty('--muted','#c8c6c4');
+    document.documentElement.style.setProperty('--subtle','#8a8886');
+  } else {
+    document.documentElement.style.setProperty('--bg','#f3f2f1');
+    document.documentElement.style.setProperty('--canvas','#ffffff');
+    document.documentElement.style.setProperty('--border','#e1dfdd');
+    document.documentElement.style.setProperty('--text','#252423');
+    document.documentElement.style.setProperty('--muted','#605e5c');
+    document.documentElement.style.setProperty('--subtle','#a19f9d');
+  }
+}
+
+/* ── INIT ── */
+updateAll();
+
+// Resize handling
+window.addEventListener('resize', () => {
+  barChart.resize(); lineChart.resize(); donutChart.resize();
+});
+</script>
+</body>
+</html>

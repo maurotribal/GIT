@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Telecentros 2026</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Sora',Helvetica,Arial,sans-serif;background:#F4F6FB;color:#334155;-webkit-font-smoothing:antialiased}
+
+/* ════ SLIDE ENGINE ════ */
+.deck{position:relative;width:100vw;height:100vh}
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateY(16px);transition:opacity .5s ease,transform .5s ease;z-index:1}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0)}
+.slide.exit-left{opacity:0;transform:translateY(-16px)}
+
+/* ════ TELA 1 — CAPA ════ */
+.cover{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5vh 5vw 10vh;background:#fff}
+.cover-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 24px;border-radius:50px;background:rgba(108,92,231,.08);border:1px solid rgba(108,92,231,.15);font-size:clamp(.68rem,.95vw,.88rem);font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#6C5CE7;margin-bottom:3vh}
+.cover h1{font-size:clamp(2.6rem,6.5vw,5.8rem);font-weight:800;line-height:1.05;letter-spacing:-.04em;color:#111827;margin-bottom:1.5vh}
+.cover h1 span{background:linear-gradient(135deg,#6C5CE7,#A78BFA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cover .year{font-size:clamp(3rem,7.5vw,7rem);font-weight:800;color:#D1D5E0;letter-spacing:-.02em;margin-bottom:2vh}
+.cover .sub{font-size:clamp(1rem,1.5vw,1.3rem);color:#64748B;font-weight:500;line-height:1.7;max-width:600px}
+.cover .sub strong{color:#111827;font-weight:700}
+.cover-chips{display:flex;gap:clamp(10px,1.8vw,20px);margin-top:4.5vh;flex-wrap:wrap;justify-content:center}
+.chip{display:flex;align-items:center;gap:clamp(10px,1.2vw,16px);padding:clamp(12px,1.6vh,20px) clamp(18px,2.5vw,32px);border-radius:16px;background:#fff;border:1px solid #E5E9F2;cursor:pointer;transition:all .35s ease;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.chip:hover{transform:translateY(-4px);box-shadow:0 8px 28px rgba(0,0,0,.08)}
+.chip-i{width:clamp(42px,4.5vw,56px);height:clamp(42px,4.5vw,56px);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:clamp(1.1rem,1.7vw,1.5rem);color:#fff;flex-shrink:0}
+.ci-w{background:linear-gradient(135deg,#2563EB,#60A5FA);box-shadow:0 4px 18px rgba(37,99,235,.18)}
+.ci-o{background:linear-gradient(135deg,#9333EA,#C084FC);box-shadow:0 4px 18px rgba(147,51,234,.18)}
+.ci-n{background:linear-gradient(135deg,#16A34A,#4ADE80);box-shadow:0 4px 18px rgba(22,163,74,.18)}
+.chip-t{font-size:clamp(.88rem,1.2vw,1.1rem);font-weight:700;color:#111827}
+.cover-hint{position:absolute;bottom:3vh;font-size:clamp(.72rem,.85vw,.82rem);color:#94A3B8;font-weight:500}
+.cover-hint kbd{background:#F4F6FB;border:1px solid #E5E9F2;border-radius:5px;padding:3px 10px;font-weight:700;font-size:.78em;color:#111827}
+
+/* ════ TELA 2 — OFERECIDO ════ */
+.offer{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:6vh 5vw;background:#F4F6FB}
+.offer-label{font-size:clamp(.65rem,.85vw,.82rem);font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#94A3B8;margin-bottom:2vh}
+.offer h2{font-size:clamp(2rem,4.5vw,4rem);font-weight:800;letter-spacing:-.03em;color:#111827;text-align:center;margin-bottom:6vh;line-height:1.1}
+.offer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,2.5vw,32px);max-width:1100px;width:100%}
+.ocard{display:flex;flex-direction:column;align-items:center;text-align:center;padding:clamp(32px,5vh,56px) clamp(24px,3vw,40px);border-radius:24px;background:#fff;border:1px solid #E5E9F2;cursor:pointer;transition:all .4s ease;box-shadow:0 2px 8px rgba(0,0,0,.03)}
+.ocard:hover{transform:translateY(-8px);box-shadow:0 16px 40px rgba(0,0,0,.08)}
+.ocard-i{width:clamp(72px,9vw,100px);height:clamp(72px,9vw,100px);border-radius:24px;display:flex;align-items:center;justify-content:center;font-size:clamp(2rem,3.5vw,3rem);color:#fff;margin-bottom:3vh}
+.oi-w{background:linear-gradient(135deg,#2563EB,#60A5FA);box-shadow:0 8px 32px rgba(37,99,235,.18)}
+.oi-o{background:linear-gradient(135deg,#9333EA,#C084FC);box-shadow:0 8px 32px rgba(147,51,234,.18)}
+.oi-n{background:linear-gradient(135deg,#16A34A,#4ADE80);box-shadow:0 8px 32px rgba(22,163,74,.18)}
+.ocard-num{font-size:clamp(.6rem,.78vw,.75rem);font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#94A3B8;margin-bottom:.8vh}
+.ocard-name{font-size:clamp(1.3rem,2.2vw,1.9rem);font-weight:800;color:#111827;letter-spacing:-.02em}
+
+/* ════ TELAS 3,5,7 — MÓDULOS (split) ════ */
+.csplit{display:grid;grid-template-columns:36% 64%;height:100%}
+.hero{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:4vh 2vw;overflow:hidden}
+.hero::after{content:'';position:absolute;inset:0;background:linear-gradient(180deg,rgba(255,255,255,.05),rgba(0,0,0,.15));pointer-events:none}
+.h-w{background:linear-gradient(160deg,#2563EB,#60A5FA)}
+.h-o{background:linear-gradient(160deg,#9333EA,#C084FC)}
+.h-n{background:linear-gradient(160deg,#16A34A,#4ADE80)}
+.hero-ic{font-size:clamp(6rem,11vw,11rem);color:#fff;filter:drop-shadow(0 6px 30px rgba(0,0,0,.18));z-index:2}
+.hero-lbl{margin-top:2vh;z-index:2;text-align:center}
+.hero-lbl small{display:block;font-size:clamp(.6rem,.78vw,.78rem);font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:rgba(255,255,255,.65);margin-bottom:4px}
+.hero-lbl strong{font-size:clamp(1.3rem,2vw,2rem);font-weight:800;color:#fff;letter-spacing:-.02em}
+.mods{background:#fff;display:flex;flex-direction:column;justify-content:center;padding:5vh 4.5vw}
+.mods-tag{display:inline-flex;align-items:center;gap:10px;padding:8px 22px;border-radius:50px;font-size:clamp(.72rem,.92vw,.88rem);font-weight:700;letter-spacing:.15em;text-transform:uppercase;margin-bottom:2.5vh;align-self:flex-start}
+.mt-w{background:rgba(37,99,235,.06);color:#2563EB}
+.mt-o{background:rgba(147,51,234,.06);color:#9333EA}
+.mt-n{background:rgba(22,163,74,.06);color:#16A34A}
+.mods h2{font-size:clamp(2.2rem,4.5vw,4.8rem);font-weight:800;line-height:1.06;letter-spacing:-.04em;color:#111827;margin-bottom:2vh}
+.mods-bar{width:56px;height:4px;border-radius:2px;margin-bottom:3vh}
+.mb-w{background:linear-gradient(135deg,#2563EB,#60A5FA)}
+.mb-o{background:linear-gradient(135deg,#9333EA,#C084FC)}
+.mb-n{background:linear-gradient(135deg,#16A34A,#4ADE80)}
+.mlist{display:flex;flex-direction:column;gap:clamp(8px,1.2vh,14px)}
+.mrow{display:flex;align-items:center;gap:clamp(14px,1.8vw,24px);padding:clamp(14px,1.8vh,22px) clamp(18px,2.2vw,28px);border-radius:16px;background:#F4F6FB;border:1px solid #E5E9F2;transition:all .3s ease}
+.mrow:hover{transform:translateX(8px)}
+.mrow-w:hover{background:rgba(37,99,235,.06);border-color:rgba(37,99,235,.25)}
+.mrow-o:hover{background:rgba(147,51,234,.06);border-color:rgba(147,51,234,.25)}
+.mrow-n:hover{background:rgba(22,163,74,.06);border-color:rgba(22,163,74,.25)}
+.mbadge{font-size:clamp(.7rem,.88vw,.85rem);font-weight:800;letter-spacing:.08em;text-transform:uppercase;padding:clamp(5px,.6vh,8px) clamp(12px,1.3vw,18px);border-radius:8px;white-space:nowrap;flex-shrink:0}
+.bd-w{background:rgba(37,99,235,.08);color:#2563EB}
+.bd-o{background:rgba(147,51,234,.08);color:#9333EA}
+.bd-n{background:rgba(22,163,74,.08);color:#16A34A}
+.mtxt{font-size:clamp(1.05rem,1.65vw,1.55rem);font-weight:700;color:#111827;letter-spacing:-.01em;line-height:1.3}
+
+/* ════════════════════════════════════════════
+   TELAS 4,6,8 — TEXTO CENTRALIZADO
+   Abordagem ultra-simples: flex puro, sem
+   position:absolute, sem orbs, cor hardcoded
+════════════════════════════════════════════ */
+.txtslide{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  background:#FFFFFF;
+  text-align:center;
+  padding:5vh 5vw;
+}
+.txtslide .ts-box{
+  width:clamp(76px,9vw,110px);
+  height:clamp(76px,9vw,110px);
+  border-radius:26px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(2.2rem,3.5vw,3.2rem);
+  color:#ffffff;
+  margin-bottom:4vh;
+  flex-shrink:0;
+}
+.ts-bw{background:linear-gradient(135deg,#2563EB,#60A5FA);box-shadow:0 12px 48px rgba(37,99,235,.2)}
+.ts-bo{background:linear-gradient(135deg,#9333EA,#C084FC);box-shadow:0 12px 48px rgba(147,51,234,.2)}
+.ts-bn{background:linear-gradient(135deg,#16A34A,#4ADE80);box-shadow:0 12px 48px rgba(22,163,74,.2)}
+
+.txtslide .ts-sub{
+  font-size:clamp(.7rem,1vw,.95rem);
+  font-weight:700;
+  letter-spacing:.3em;
+  text-transform:uppercase;
+  color:#94A3B8;
+  margin-bottom:3.5vh;
+}
+.txtslide .ts-main{
+  font-family:'Sora',Helvetica,Arial,sans-serif;
+  font-size:clamp(2.2rem,4.8vw,5rem);
+  font-weight:800;
+  color:#111827;
+  line-height:1.35;
+  letter-spacing:-.03em;
+  max-width:1100px;
+}
+.txtslide .ts-foot{
+  margin-top:auto;
+  padding-bottom:2vh;
+  display:flex;align-items:center;gap:10px;
+}
+.txtslide .ts-foot i{font-size:.85rem;color:#94A3B8}
+.txtslide .ts-foot span{font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#94A3B8}
+
+/* ════ NAV BAR ════ */
+.nav{position:fixed;bottom:0;left:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:center;gap:14px;padding:14px 24px;background:linear-gradient(transparent,rgba(244,246,251,.95) 50%)}
+.nbtn{width:40px;height:40px;border-radius:12px;border:1px solid #E5E9F2;background:#fff;color:#64748B;font-size:.85rem;cursor:pointer;display:grid;place-items:center;transition:all .3s ease;font-family:'Sora',sans-serif;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.nbtn:hover:not(:disabled){background:#6C5CE7;color:#fff;border-color:#6C5CE7;transform:translateY(-2px);box-shadow:0 4px 18px rgba(108,92,231,.25)}
+.nbtn:disabled{opacity:.25;cursor:not-allowed}
+.dots{display:flex;gap:8px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;background:#D1D5E0;cursor:pointer;border:none;transition:all .3s ease}
+.dot.active{background:#6C5CE7;transform:scale(1.35);box-shadow:0 0 10px rgba(108,92,231,.4)}
+.dot:hover:not(.active){background:#A0A8BA}
+.pgc{font-size:.72rem;font-weight:700;color:#94A3B8;letter-spacing:.12em;min-width:50px;text-align:center}
+
+/* ════ RESPONSIVE ════ */
+@media(max-width:768px){
+  .csplit{grid-template-columns:1fr;grid-template-rows:32vh 1fr}
+  .cover-chips{flex-direction:column;width:100%;max-width:360px}
+  .chip{width:100%}
+  .cover h1{font-size:clamp(1.9rem,6.5vw,3rem)}
+  .cover .year{font-size:clamp(2.2rem,9vw,4.5rem)}
+  .offer-grid{grid-template-columns:1fr;max-width:400px}
+  .ocard{flex-direction:row;text-align:left;padding:18px 20px;gap:16px}
+  .ocard-i{margin-bottom:0;width:64px;height:64px;font-size:1.6rem}
+  .offer h2{font-size:clamp(1.6rem,5.5vw,2.6rem)}
+  .hero-ic{font-size:clamp(4rem,14vw,6rem)}
+  .mods{padding:3vh 4vw;overflow-y:auto}
+  .mods h2{font-size:clamp(1.6rem,5vw,2.5rem)}
+  .mrow{padding:10px 14px;gap:10px}
+  .mbadge{font-size:clamp(.6rem,1.7vw,.75rem);padding:3px 10px}
+  .mtxt{font-size:clamp(.88rem,2.8vw,1.12rem)}
+  .txtslide .ts-main{font-size:clamp(1.6rem,5.5vw,2.8rem)}
+  .txtslide .ts-box{width:68px;height:68px;font-size:1.8rem}
+}
+@media(max-width:480px){
+  .csplit{grid-template-rows:26vh 1fr}
+  .cover h1{font-size:1.7rem}
+  .cover .year{font-size:2.2rem}
+  .cover .sub{font-size:.82rem}
+  .chip-i{width:36px;height:36px;font-size:1rem;border-radius:10px}
+  .chip-t{font-size:.8rem}
+  .offer h2{font-size:1.3rem}
+  .ocard-i{width:48px;height:48px;font-size:1.2rem;border-radius:14px}
+  .ocard-name{font-size:1rem}
+  .mods h2{font-size:1.4rem}
+  .mbadge{font-size:.55rem;padding:2px 7px}
+  .mtxt{font-size:.78rem}
+  .txtslide .ts-main{font-size:1.3rem}
+  .txtslide .ts-box{width:56px;height:56px;font-size:1.5rem;border-radius:16px}
+  .txtslide .ts-sub{font-size:.6rem}
+  .nbtn{width:34px;height:34px;font-size:.78rem}
+  .dot{width:8px;height:8px}
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<!-- ═══ TELA 1 — CAPA ═══ -->
+<div class="slide active cover" id="s0">
+  <div class="cover-badge"><i class="fas fa-laptop-code"></i> Telecentros 2026</div>
+  <h1>Orientações essenciais<br>em <span>Informática Básica</span></h1>
+  <div class="year">2026</div>
+  <p class="sub">Conhecendo as ferramentas digitais essenciais.<br><strong>3 cursos · 12 módulos · Um novo começo.</strong></p>
+  <div class="cover-chips">
+    <div class="chip" onclick="goTo(2)"><div class="chip-i ci-w"><i class="fab fa-windows"></i></div><span class="chip-t">Windows 10</span></div>
+    <div class="chip" onclick="goTo(4)"><div class="chip-i ci-o"><i class="fas fa-file-lines"></i></div><span class="chip-t">Pacote Office</span></div>
+    <div class="chip" onclick="goTo(6)"><div class="chip-i ci-n"><i class="fas fa-globe"></i></div><span class="chip-t">Internet e IA</span></div>
+  </div>
+  <div class="cover-hint"><kbd>←</kbd> <kbd>→</kbd> para navegar</div>
+</div>
+
+<!-- ═══ TELA 2 — O QUE É OFERECIDO ═══ -->
+<div class="slide offer" id="s1">
+  <div class="offer-label">Programa de Capacitação</div>
+  <h2>O que é oferecido nos<br>Telecentros</h2>
+  <div class="offer-grid">
+    <div class="ocard" onclick="goTo(2)"><div class="ocard-i oi-w"><i class="fab fa-windows"></i></div><div><div class="ocard-num">Curso 01</div><div class="ocard-name">Windows 10</div></div></div>
+    <div class="ocard" onclick="goTo(4)"><div class="ocard-i oi-o"><i class="fas fa-file-lines"></i></div><div><div class="ocard-num">Curso 02</div><div class="ocard-name">Pacote Office</div></div></div>
+    <div class="ocard" onclick="goTo(6)"><div class="ocard-i oi-n"><i class="fas fa-globe"></i></div><div><div class="ocard-num">Curso 03</div><div class="ocard-name">Internet e IA</div></div></div>
+  </div>
+</div>
+
+<!-- ═══ TELA 3 — WINDOWS 10 MÓDULOS ═══ -->
+<div class="slide csplit" id="s2">
+  <div class="hero h-w" style="position:relative">
+    <i class="fab fa-windows hero-ic"></i>
+    <div class="hero-lbl"><small>Curso 01 de 03</small><strong>Windows 10</strong></div>
+  </div>
+  <div class="mods">
+    <div class="mods-tag mt-w"><i class="fab fa-windows"></i> Sistema Operacional</div>
+    <h2>Windows 10</h2>
+    <div class="mods-bar mb-w"></div>
+    <div class="mlist">
+      <div class="mrow mrow-w"><span class="mbadge bd-w">Módulo 01</span><span class="mtxt">O Windows 10 no Cenário de 2026</span></div>
+      <div class="mrow mrow-w"><span class="mbadge bd-w">Módulo 02</span><span class="mtxt">Gerenciamento de Arquivos e Pastas</span></div>
+      <div class="mrow mrow-w"><span class="mbadge bd-w">Módulo 03</span><span class="mtxt">Multimídia e Transferência de Dados</span></div>
+      <div class="mrow mrow-w"><span class="mbadge bd-w">Módulo 04</span><span class="mtxt">Manutenção, Segurança e Solução</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TELA 4 — FRASE WINDOWS
+     ESTRUTURA ULTRA SIMPLES: flex column center
+═══════════════════════════════════════════════ -->
+<div class="slide txtslide" id="s3">
+  <div class="ts-box ts-bw"><i class="fab fa-windows"></i></div>
+  <div class="ts-sub">Curso 01 · Sistema Operacional · Windows 10</div>
+  <p class="ts-main" style="color:#111827;font-weight:800">Foco em configurações, arquivos, multimídia e segurança no contexto de 2026.</p>
+  <div class="ts-foot"><i class="fas fa-laptop-code"></i><span>Telecentros 2026</span></div>
+</div>
+
+<!-- ═══ TELA 5 — OFFICE MÓDULOS ═══ -->
+<div class="slide csplit" id="s4">
+  <div class="hero h-o" style="position:relative">
+    <i class="fas fa-file-lines hero-ic"></i>
+    <div class="hero-lbl"><small>Curso 02 de 03</small><strong>Microsoft Office</strong></div>
+  </div>
+  <div class="mods">
+    <div class="mods-tag mt-o"><i class="fas fa-briefcase"></i> Produtividade</div>
+    <h2>Microsoft Office</h2>
+    <div class="mods-bar mb-o"></div>
+    <div class="mlist">
+      <div class="mrow mrow-o"><span class="mbadge bd-o">Módulo 01</span><span class="mtxt">Introdução ao Office</span></div>
+      <div class="mrow mrow-o"><span class="mbadge bd-o">Módulo 02</span><span class="mtxt">Microsoft Word</span></div>
+      <div class="mrow mrow-o"><span class="mbadge bd-o">Módulo 03</span><span class="mtxt">Microsoft Excel</span></div>
+      <div class="mrow mrow-o"><span class="mbadge bd-o">Módulo 04</span><span class="mtxt">Microsoft PowerPoint</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TELA 6 — FRASE OFFICE
+═══════════════════════════════════════════════ -->
+<div class="slide txtslide" id="s5">
+  <div class="ts-box ts-bo"><i class="fas fa-file-lines"></i></div>
+  <div class="ts-sub">Curso 02 · Produtividade · Microsoft Office</div>
+  <p class="ts-main" style="color:#111827;font-weight:800">Aprendizado de criação de documentos, planilhas e apresentações profissionais com foco em atalhos e técnicas práticas.</p>
+  <div class="ts-foot"><i class="fas fa-laptop-code"></i><span>Telecentros 2026</span></div>
+</div>
+
+<!-- ═══ TELA 7 — INTERNET MÓDULOS ═══ -->
+<div class="slide csplit" id="s6">
+  <div class="hero h-n" style="position:relative">
+    <i class="fas fa-globe hero-ic"></i>
+    <div class="hero-lbl"><small>Curso 03 de 03</small><strong>Internet e IA</strong></div>
+  </div>
+  <div class="mods">
+    <div class="mods-tag mt-n"><i class="fas fa-globe"></i> Mundo Digital</div>
+    <h2>Internet, Redes Sociais,<br>Segurança Online e IA</h2>
+    <div class="mods-bar mb-n"></div>
+    <div class="mlist">
+      <div class="mrow mrow-n"><span class="mbadge bd-n">Módulo 01</span><span class="mtxt">Internet e Navegadores</span></div>
+      <div class="mrow mrow-n"><span class="mbadge bd-n">Módulo 02</span><span class="mtxt">Segurança Online</span></div>
+      <div class="mrow mrow-n"><span class="mbadge bd-n">Módulo 03</span><span class="mtxt">Redes Sociais</span></div>
+      <div class="mrow mrow-n"><span class="mbadge bd-n">Módulo 04</span><span class="mtxt">Inteligência Artificial</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     TELA 8 — FRASE INTERNET
+═══════════════════════════════════════════════ -->
+<div class="slide txtslide" id="s7">
+  <div class="ts-box ts-bn"><i class="fas fa-globe"></i></div>
+  <div class="ts-sub">Curso 03 · Mundo Digital · Internet e IA</div>
+  <p class="ts-main" style="color:#111827;font-weight:800">Foco em navegação segura, uso consciente de redes sociais e o potencial da Inteligência Artificial no cotidiano e no trabalho.</p>
+  <div class="ts-foot"><i class="fas fa-laptop-code"></i><span>Telecentros 2026</span></div>
+</div>
+
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="navBar">
+  <button class="nbtn" id="btnPrev" aria-label="Anterior">◀</button>
+  <div class="dots" id="dots"></div>
+  <span class="pgc" id="counter">1 / 8</span>
+  <button class="nbtn" id="btnNext" aria-label="Próximo">▶</button>
+</nav>
+
+<script>
+var slides=document.querySelectorAll('.slide');
+var total=slides.length;
+var cur=0;
+var busy=false;
+var btnP=document.getElementById('btnPrev');
+var btnN=document.getElementById('btnNext');
+var dotsE=document.getElementById('dots');
+var ctr=document.getElementById('counter');
+
+for(var i=0;i<total;i++){
+  var d=document.createElement('button');
+  d.className='dot'+(i===0?' active':'');
+  d.setAttribute('aria-label','Página '+(i+1));
+  (function(idx){d.addEventListener('click',function(){goTo(idx)})})(i);
+  dotsE.appendChild(d);
+}
+
+function goTo(n){
+  if(busy||n<0||n>=total||n===cur)return;
+  busy=true;
+  slides[cur].classList.add('exit-left');
+  slides[cur].classList.remove('active');
+  cur=n;
+  slides[cur].classList.remove('exit-left');
+  slides[cur].classList.add('active');
+  setTimeout(function(){
+    var exs=document.querySelectorAll('.exit-left');
+    for(var j=0;j<exs.length;j++)exs[j].classList.remove('exit-left');
+    busy=false;
+  },600);
+  updateUI();
+}
+
+function updateUI(){
+  ctr.textContent=(cur+1)+' / '+total;
+  btnP.disabled=cur===0;
+  btnN.disabled=cur===total-1;
+  var ds=dotsE.querySelectorAll('.dot');
+  for(var i=0;i<ds.length;i++)ds[i].classList.toggle('active',i===cur);
+}
+
+btnP.addEventListener('click',function(){goTo(cur-1)});
+btnN.addEventListener('click',function(){goTo(cur+1)});
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();goTo(cur+1)}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(cur-1)}
+});
+var tx=0,ty=0;
+document.addEventListener('touchstart',function(e){tx=e.changedTouches[0].screenX;ty=e.changedTouches[0].screenY},{passive:true});
+document.addEventListener('touchend',function(e){
+  var dx=e.changedTouches[0].screenX-tx;
+  var dy=e.changedTouches[0].screenY-ty;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){dx<0?goTo(cur+1):goTo(cur-1)}
+},{passive:true});
+updateUI();
+</script>
+</body>
+</html>

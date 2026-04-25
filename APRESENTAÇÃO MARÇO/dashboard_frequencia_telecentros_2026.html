@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Frequência — Telecentros 2026</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Sora',Helvetica,Arial,sans-serif;background:#F4F6FB;color:#334155;-webkit-font-smoothing:antialiased}
+
+/* ════ SLIDE ENGINE ════ */
+.deck{position:relative;width:100vw;height:100vh}
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;z-index:1;overflow-y:auto}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0)}
+.slide.exit-left{opacity:0;transform:translateY(-14px)}
+
+/* ════ TELA 1 — CAPA ════ */
+.cover{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5vh 5vw 10vh;background:#fff}
+.cover-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 24px;border-radius:50px;background:rgba(37,99,235,.07);border:1px solid rgba(37,99,235,.14);font-size:clamp(.66rem,.9vw,.85rem);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#2563EB;margin-bottom:3vh}
+.cover h1{font-size:clamp(2.4rem,5.5vw,5rem);font-weight:800;line-height:1.08;letter-spacing:-.04em;color:#111827;margin-bottom:1.5vh}
+.cover h1 span{background:linear-gradient(135deg,#2563EB,#60A5FA);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.cover .periodo{font-size:clamp(1.1rem,1.8vw,1.5rem);font-weight:700;color:#64748B;margin-bottom:3vh;letter-spacing:-.01em}
+.cover .big-num{font-size:clamp(5rem,12vw,10rem);font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#2563EB,#9333EA,#16A34A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;line-height:1;margin-bottom:1vh}
+.cover .big-label{font-size:clamp(.9rem,1.3vw,1.15rem);font-weight:700;color:#94A3B8;letter-spacing:.15em;text-transform:uppercase;margin-bottom:4vh}
+.cover-stats{display:flex;gap:clamp(16px,3vw,40px);flex-wrap:wrap;justify-content:center}
+.cstat{display:flex;flex-direction:column;align-items:center;padding:clamp(18px,2.5vh,32px) clamp(24px,3vw,48px);border-radius:20px;background:#F8F9FE;border:1px solid #E5E9F2}
+.cstat-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;margin-bottom:1.5vh}
+.csi-ind{background:linear-gradient(135deg,#F59E0B,#F97316)}
+.csi-sal{background:linear-gradient(135deg,#2563EB,#60A5FA)}
+.csi-nac{background:linear-gradient(135deg,#16A34A,#4ADE80)}
+.cstat-num{font-size:clamp(2rem,3.5vw,2.8rem);font-weight:800;color:#111827;letter-spacing:-.03em}
+.cstat-name{font-size:clamp(.68rem,.88vw,.82rem);font-weight:700;color:#94A3B8;letter-spacing:.12em;text-transform:uppercase;margin-top:.5vh}
+.cover-hint{position:absolute;bottom:3vh;font-size:clamp(.7rem,.82vw,.78rem);color:#94A3B8;font-weight:500}
+.cover-hint kbd{background:#F4F6FB;border:1px solid #E5E9F2;border-radius:5px;padding:3px 10px;font-weight:700;font-size:.78em;color:#111827}
+
+/* ════ TELA 2 — VISÃO GERAL MENSAL ════ */
+.overview{display:flex;flex-direction:column;padding:4vh 5vw 10vh;background:#fff}
+.slide-header{margin-bottom:3vh}
+.slide-header small{font-size:clamp(.6rem,.78vw,.72rem);font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#94A3B8;display:block;margin-bottom:1vh}
+.slide-header h2{font-size:clamp(1.8rem,3.5vw,3rem);font-weight:800;letter-spacing:-.03em;color:#111827}
+
+.chart-area{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(12px,2vw,24px);margin-bottom:3vh}
+.month-col{background:#F8F9FE;border-radius:20px;padding:clamp(18px,2.5vh,28px) clamp(16px,2vw,28px);border:1px solid #E5E9F2}
+.month-col h3{font-size:clamp(.9rem,1.2vw,1.1rem);font-weight:800;color:#111827;margin-bottom:2vh;letter-spacing:-.01em}
+.bar-group{display:flex;flex-direction:column;gap:clamp(8px,1vh,14px)}
+.bar-item{display:flex;align-items:center;gap:clamp(8px,1vw,14px)}
+.bar-label{font-size:clamp(.6rem,.75vw,.72rem);font-weight:700;color:#64748B;min-width:clamp(60px,7vw,90px);text-align:right;letter-spacing:.02em}
+.bar-track{flex:1;height:clamp(28px,3.5vh,40px);background:#E8ECF4;border-radius:10px;overflow:hidden;position:relative}
+.bar-fill{height:100%;border-radius:10px;display:flex;align-items:center;justify-content:flex-end;padding-right:clamp(8px,1vw,14px);font-size:clamp(.72rem,.9vw,.85rem);font-weight:800;color:#fff;transition:width 1s ease}
+.bf-ind{background:linear-gradient(135deg,#F59E0B,#F97316)}
+.bf-sal{background:linear-gradient(135deg,#2563EB,#60A5FA)}
+.bf-nac{background:linear-gradient(135deg,#16A34A,#4ADE80)}
+.month-total{display:flex;justify-content:space-between;align-items:center;margin-top:2vh;padding-top:1.5vh;border-top:2px solid #E5E9F2}
+.month-total span:first-child{font-size:clamp(.65rem,.82vw,.78rem);font-weight:700;color:#94A3B8;letter-spacing:.12em;text-transform:uppercase}
+.month-total span:last-child{font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:800;color:#111827;letter-spacing:-.02em}
+
+/* ════ TELAS 3,4,5 — DETALHE POR UNIDADE ════ */
+.detail{display:flex;flex-direction:column;padding:3vh 4vw 10vh;background:#fff}
+.detail-top{display:flex;align-items:center;gap:clamp(14px,2vw,24px);margin-bottom:3vh}
+.detail-icon{width:clamp(56px,6vw,76px);height:clamp(56px,6vw,76px);border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:clamp(1.5rem,2.5vw,2.2rem);color:#fff;flex-shrink:0}
+.di-ind{background:linear-gradient(135deg,#F59E0B,#F97316);box-shadow:0 8px 28px rgba(245,158,11,.2)}
+.di-sal{background:linear-gradient(135deg,#2563EB,#60A5FA);box-shadow:0 8px 28px rgba(37,99,235,.2)}
+.di-nac{background:linear-gradient(135deg,#16A34A,#4ADE80);box-shadow:0 8px 28px rgba(22,163,74,.2)}
+.detail-info h2{font-size:clamp(1.6rem,3vw,2.6rem);font-weight:800;color:#111827;letter-spacing:-.03em}
+.detail-info p{font-size:clamp(.72rem,.92vw,.88rem);font-weight:600;color:#94A3B8;letter-spacing:.08em}
+
+.detail-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(10px,1.5vw,20px);margin-bottom:2.5vh}
+.dcard{background:#F8F9FE;border-radius:16px;padding:clamp(14px,2vh,24px) clamp(12px,1.5vw,20px);border:1px solid #E5E9F2;text-align:center}
+.dcard-label{font-size:clamp(.55rem,.7vw,.68rem);font-weight:700;color:#94A3B8;letter-spacing:.15em;text-transform:uppercase;margin-bottom:.8vh}
+.dcard-num{font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:800;letter-spacing:-.02em}
+
+.detail-table{width:100%;border-collapse:separate;border-spacing:0;font-size:clamp(.58rem,.78vw,.74rem)}
+.detail-table thead th{background:#F1F3F9;color:#64748B;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:clamp(6px,1vh,12px) clamp(4px,.5vw,8px);text-align:center;position:sticky;top:0;z-index:2}
+.detail-table thead th:first-child{border-radius:10px 0 0 10px;text-align:left;padding-left:clamp(10px,1.2vw,16px)}
+.detail-table thead th:last-child{border-radius:0 10px 10px 0}
+.detail-table tbody td{padding:clamp(5px,.8vh,10px) clamp(4px,.5vw,8px);text-align:center;border-bottom:1px solid #F1F3F9;font-weight:600;color:#334155}
+.detail-table tbody td:first-child{font-weight:800;color:#111827;text-align:left;padding-left:clamp(10px,1.2vw,16px)}
+.detail-table tbody tr:hover td{background:rgba(37,99,235,.03)}
+.detail-table .total-col{font-weight:800;color:#111827;font-size:clamp(.65rem,.85vw,.82rem)}
+.cell-zero{color:#D1D5E0}
+.cell-high{background:rgba(37,99,235,.08);border-radius:6px;font-weight:800;color:#2563EB}
+.cell-holiday{background:#FEF3C7;border-radius:6px;color:#92400E;font-weight:700}
+.cell-weekend{background:#F3F4F6;border-radius:6px;color:#9CA3AF}
+.cell-closed{background:#E0F2FE;border-radius:6px;color:#0369A1}
+.cell-manut{background:#1E3A5F;border-radius:6px;color:#fff}
+
+.detail-legend{display:flex;gap:clamp(10px,1.5vw,20px);flex-wrap:wrap;margin-top:2vh}
+.legend-item{display:flex;align-items:center;gap:6px;font-size:clamp(.55rem,.72vw,.68rem);font-weight:600;color:#64748B}
+.legend-dot{width:14px;height:14px;border-radius:4px;flex-shrink:0}
+.ld-abonada{background:#22C55E}
+.ld-sabdom{background:#FACC15}
+.ld-feriado{background:#EF4444}
+.ld-manut{background:#1E3A5F}
+.ld-outro{background:#8B5CF6}
+
+/* ════ TELA 6 — COMPARATIVO FINAL ════ */
+.final{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5vh 5vw 10vh;background:#fff}
+.final h2{font-size:clamp(1.8rem,3.5vw,3rem);font-weight:800;letter-spacing:-.03em;color:#111827;margin-bottom:4vh}
+.rank{display:flex;flex-direction:column;gap:clamp(14px,2vh,24px);width:100%;max-width:700px;margin-bottom:4vh}
+.rank-item{display:flex;align-items:center;gap:clamp(14px,2vw,24px);padding:clamp(16px,2.5vh,28px) clamp(20px,2.5vw,32px);border-radius:20px;background:#F8F9FE;border:1px solid #E5E9F2}
+.rank-pos{font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:800;color:#D1D5E0;min-width:44px}
+.rank-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:#fff;flex-shrink:0}
+.rank-info{flex:1;text-align:left}
+.rank-name{font-size:clamp(1rem,1.5vw,1.3rem);font-weight:800;color:#111827;letter-spacing:-.01em}
+.rank-sub{font-size:clamp(.6rem,.78vw,.72rem);font-weight:600;color:#94A3B8}
+.rank-val{font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;letter-spacing:-.03em}
+.rv-1{color:#2563EB}
+.rv-2{color:#F59E0B}
+.rv-3{color:#16A34A}
+.final-total{margin-top:2vh}
+.final-total small{font-size:clamp(.62rem,.8vw,.75rem);font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:#94A3B8;display:block;margin-bottom:1vh}
+.final-total .ft-num{font-size:clamp(3.5rem,7vw,6rem);font-weight:800;letter-spacing:-.04em;background:linear-gradient(135deg,#2563EB,#9333EA,#16A34A);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+
+/* ════ NAV ════ */
+.nav{position:fixed;bottom:0;left:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:center;gap:14px;padding:14px 24px;background:linear-gradient(transparent,rgba(255,255,255,.95) 50%)}
+.nbtn{width:40px;height:40px;border-radius:12px;border:1px solid #E5E9F2;background:#fff;color:#64748B;font-size:.85rem;cursor:pointer;display:grid;place-items:center;transition:all .3s ease;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.nbtn:hover:not(:disabled){background:#2563EB;color:#fff;border-color:#2563EB;transform:translateY(-2px);box-shadow:0 4px 18px rgba(37,99,235,.25)}
+.nbtn:disabled{opacity:.25;cursor:not-allowed}
+.dots{display:flex;gap:8px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;background:#D1D5E0;cursor:pointer;border:none;transition:all .3s ease}
+.dot.active{background:#2563EB;transform:scale(1.35);box-shadow:0 0 10px rgba(37,99,235,.4)}
+.dot:hover:not(.active){background:#A0A8BA}
+.pgc{font-size:.72rem;font-weight:700;color:#94A3B8;letter-spacing:.12em;min-width:50px;text-align:center}
+
+/* ════ RESPONSIVE ════ */
+@media(max-width:768px){
+  .chart-area{grid-template-columns:1fr}
+  .detail-cards{grid-template-columns:repeat(2,1fr)}
+  .detail-table{font-size:.55rem}
+  .cover-stats{flex-direction:column;align-items:center}
+  .rank-item{flex-wrap:wrap}
+  .cover h1{font-size:clamp(1.8rem,6vw,3rem)}
+  .cover .big-num{font-size:clamp(4rem,14vw,7rem)}
+  .bar-label{min-width:50px;font-size:.58rem}
+}
+@media(max-width:480px){
+  .detail-cards{grid-template-columns:1fr 1fr}
+  .cover h1{font-size:1.6rem}
+  .cover .big-num{font-size:3.5rem}
+  .cover .periodo{font-size:.9rem}
+  .slide-header h2{font-size:1.4rem}
+  .rank-val{font-size:1.5rem}
+  .final-total .ft-num{font-size:3rem}
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<!-- ═══ TELA 1 — CAPA ═══ -->
+<div class="slide active cover" id="s0">
+  <div class="cover-badge"><i class="fas fa-chart-line"></i> Relatório de Frequência</div>
+  <h1>Telecentros <span>2026</span></h1>
+  <div class="periodo"><i class="fas fa-calendar-days"></i> &nbsp;1º Trimestre — Janeiro a Março</div>
+  <div class="big-num">1.281</div>
+  <div class="big-label">Atendimentos Registrados</div>
+  <div class="cover-stats">
+    <div class="cstat">
+      <div class="cstat-icon csi-ind"><i class="fas fa-building-columns"></i></div>
+      <div class="cstat-num">453</div>
+      <div class="cstat-name">Independência</div>
+    </div>
+    <div class="cstat">
+      <div class="cstat-icon csi-sal"><i class="fas fa-building-columns"></i></div>
+      <div class="cstat-num">567</div>
+      <div class="cstat-name">Saltense</div>
+    </div>
+    <div class="cstat">
+      <div class="cstat-icon csi-nac"><i class="fas fa-building-columns"></i></div>
+      <div class="cstat-num">261</div>
+      <div class="cstat-name">Nações</div>
+    </div>
+  </div>
+  <div class="cover-hint"><kbd>←</kbd> <kbd>→</kbd> para navegar</div>
+</div>
+
+<!-- ═══ TELA 2 — VISÃO MENSAL ═══ -->
+<div class="slide overview" id="s1">
+  <div class="slide-header">
+    <small><i class="fas fa-chart-bar"></i> &nbsp;Comparativo Mensal</small>
+    <h2>Atendimentos por Mês</h2>
+  </div>
+  <div class="chart-area">
+    <!-- JANEIRO -->
+    <div class="month-col">
+      <h3><i class="fas fa-calendar"></i> &nbsp;Janeiro</h3>
+      <div class="bar-group">
+        <div class="bar-item">
+          <span class="bar-label">Independência</span>
+          <div class="bar-track"><div class="bar-fill bf-ind" style="width:87%">182</div></div>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">Saltense</span>
+          <div class="bar-track"><div class="bar-fill bf-sal" style="width:94%">196</div></div>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">Nações</span>
+          <div class="bar-track"><div class="bar-fill bf-nac" style="width:71%">148</div></div>
+        </div>
+      </div>
+      <div class="month-total"><span>Total mês</span><span>526</span></div>
+    </div>
+    <!-- FEVEREIRO -->
+    <div class="month-col">
+      <h3><i class="fas fa-calendar"></i> &nbsp;Fevereiro</h3>
+      <div class="bar-group">
+        <div class="bar-item">
+          <span class="bar-label">Independência</span>
+          <div class="bar-track"><div class="bar-fill bf-ind" style="width:68%">137</div></div>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">Saltense</span>
+          <div class="bar-track"><div class="bar-fill bf-sal" style="width:100%">202</div></div>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">Nações</span>
+          <div class="bar-track"><div class="bar-fill bf-nac" style="width:50%">102</div></div>
+        </div>
+      </div>
+      <div class="month-total"><span>Total mês</span><span>441</span></div>
+    </div>
+    <!-- MARÇO -->
+    <div class="month-col">
+      <h3><i class="fas fa-calendar"></i> &nbsp;Março</h3>
+      <div class="bar-group">
+        <div class="bar-item">
+          <span class="bar-label">Independência</span>
+          <div class="bar-track"><div class="bar-fill bf-ind" style="width:79%">134</div></div>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">Saltense</span>
+          <div class="bar-track"><div class="bar-fill bf-sal" style="width:100%">169</div></div>
+        </div>
+        <div class="bar-item">
+          <span class="bar-label">Nações</span>
+          <div class="bar-track"><div class="bar-fill bf-nac" style="width:6%"><span style="position:absolute;left:100%;margin-left:6px;color:#64748B">11</span></div></div>
+        </div>
+      </div>
+      <div class="month-total"><span>Total mês</span><span>314</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TELA 3 — INDEPENDÊNCIA ═══ -->
+<div class="slide detail" id="s2">
+  <div class="detail-top">
+    <div class="detail-icon di-ind"><i class="fas fa-building-columns"></i></div>
+    <div class="detail-info">
+      <h2>Telecentro Independência</h2>
+      <p>Frequência diária — 1º Trimestre 2026</p>
+    </div>
+  </div>
+  <div class="detail-cards">
+    <div class="dcard"><div class="dcard-label">Total Geral</div><div class="dcard-num" style="color:#F59E0B">453</div></div>
+    <div class="dcard"><div class="dcard-label">Janeiro</div><div class="dcard-num" style="color:#111827">182</div></div>
+    <div class="dcard"><div class="dcard-label">Fevereiro</div><div class="dcard-num" style="color:#111827">137</div></div>
+    <div class="dcard"><div class="dcard-label">Março</div><div class="dcard-num" style="color:#111827">134</div></div>
+  </div>
+  <div style="overflow-x:auto;flex:1">
+  <table class="detail-table">
+    <thead><tr><th>Mês</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th><th>29</th><th>30</th><th>31</th><th>Total</th></tr></thead>
+    <tbody>
+      <tr><td>Jan</td><td class="cell-holiday"></td><td class="cell-holiday"></td><td class="cell-holiday"></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>13</td><td>9</td><td>7</td><td>9</td><td>7</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>4</td><td>13</td><td>6</td><td></td><td></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>3</td><td>15</td><td>11</td><td></td><td></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>12</td><td>17</td><td>13</td><td>8</td><td>6</td><td class="total-col">182</td></tr>
+      <tr><td>Fev</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>10</td><td>5</td><td>6</td><td>10</td><td>5</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>7</td><td>7</td><td>8</td><td>5</td><td>4</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td></td><td></td><td></td><td>3</td><td>15</td><td>11</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>7</td><td>5</td><td>6</td><td>5</td><td class="cell-weekend"></td><td></td><td></td><td class="total-col">137</td></tr>
+      <tr><td>Mar</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>17</td><td>7</td><td class="cell-holiday"></td><td>6</td><td>7</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>6</td><td>8</td><td>5</td><td>8</td><td>6</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>15</td><td>19</td><td>17</td><td>9</td><td>4</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="total-col">134</td></tr>
+      <tr style="color:#D1D5E0"><td>Abr</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="total-col">0</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="detail-legend">
+    <div class="legend-item"><div class="legend-dot ld-abonada"></div>Falta Abonada / Fechado</div>
+    <div class="legend-item"><div class="legend-dot ld-sabdom"></div>Sábado ou Domingo</div>
+    <div class="legend-item"><div class="legend-dot ld-feriado"></div>Feriado / Ponto Fac.</div>
+    <div class="legend-item"><div class="legend-dot ld-manut"></div>Manutenção</div>
+    <div class="legend-item"><div class="legend-dot ld-outro"></div>Outro Motivo</div>
+  </div>
+</div>
+
+<!-- ═══ TELA 4 — SALTENSE ═══ -->
+<div class="slide detail" id="s3">
+  <div class="detail-top">
+    <div class="detail-icon di-sal"><i class="fas fa-building-columns"></i></div>
+    <div class="detail-info">
+      <h2>Telecentro Saltense</h2>
+      <p>Frequência diária — 1º Trimestre 2026</p>
+    </div>
+  </div>
+  <div class="detail-cards">
+    <div class="dcard"><div class="dcard-label">Total Geral</div><div class="dcard-num" style="color:#2563EB">567</div></div>
+    <div class="dcard"><div class="dcard-label">Janeiro</div><div class="dcard-num" style="color:#111827">196</div></div>
+    <div class="dcard"><div class="dcard-label">Fevereiro</div><div class="dcard-num" style="color:#111827">202</div></div>
+    <div class="dcard"><div class="dcard-label">Março</div><div class="dcard-num" style="color:#111827">169</div></div>
+  </div>
+  <div style="overflow-x:auto;flex:1">
+  <table class="detail-table">
+    <thead><tr><th>Mês</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th><th>29</th><th>30</th><th>31</th><th>Total</th></tr></thead>
+    <tbody>
+      <tr><td>Jan</td><td class="cell-holiday"></td><td class="cell-holiday"></td><td></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>12</td><td>10</td><td>16</td><td>7</td><td>7</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>7</td><td>11</td><td>8</td><td>8</td><td>3</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td></td><td>8</td><td>6</td><td>4</td><td>3</td><td class="cell-weekend"></td><td>11</td><td></td><td>21</td><td>18</td><td>7</td><td>20</td><td class="total-col">196</td></tr>
+      <tr><td>Fev</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>18</td><td>7</td><td>9</td><td>6</td><td>9</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>8</td><td>9</td><td>9</td><td>16</td><td>11</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td></td><td></td><td></td><td>6</td><td>12</td><td>18</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>15</td><td>11</td><td>12</td><td>15</td><td class="cell-weekend"></td><td></td><td></td><td class="total-col">202</td></tr>
+      <tr><td>Mar</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>23</td><td>17</td><td>16</td><td>24</td><td>14</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td></td><td>9</td><td>5</td><td>1</td><td>12</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>8</td><td>10</td><td>12</td><td>9</td><td></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="total-col">169</td></tr>
+      <tr style="color:#D1D5E0"><td>Abr</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="total-col">0</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="detail-legend">
+    <div class="legend-item"><div class="legend-dot ld-abonada"></div>Falta Abonada / Fechado</div>
+    <div class="legend-item"><div class="legend-dot ld-sabdom"></div>Sábado ou Domingo</div>
+    <div class="legend-item"><div class="legend-dot ld-feriado"></div>Feriado / Ponto Fac.</div>
+    <div class="legend-item"><div class="legend-dot ld-manut"></div>Manutenção</div>
+    <div class="legend-item"><div class="legend-dot ld-outro"></div>Outro Motivo</div>
+  </div>
+</div>
+
+<!-- ═══ TELA 5 — NAÇÕES ═══ -->
+<div class="slide detail" id="s4">
+  <div class="detail-top">
+    <div class="detail-icon di-nac"><i class="fas fa-building-columns"></i></div>
+    <div class="detail-info">
+      <h2>Telecentro Nações</h2>
+      <p>Frequência diária — 1º Trimestre 2026</p>
+    </div>
+  </div>
+  <div class="detail-cards">
+    <div class="dcard"><div class="dcard-label">Total Geral</div><div class="dcard-num" style="color:#16A34A">261</div></div>
+    <div class="dcard"><div class="dcard-label">Janeiro</div><div class="dcard-num" style="color:#111827">148</div></div>
+    <div class="dcard"><div class="dcard-label">Fevereiro</div><div class="dcard-num" style="color:#111827">102</div></div>
+    <div class="dcard"><div class="dcard-label">Março</div><div class="dcard-num" style="color:#111827">11</div></div>
+  </div>
+  <div style="overflow-x:auto;flex:1">
+  <table class="detail-table">
+    <thead><tr><th>Mês</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th><th>8</th><th>9</th><th>10</th><th>11</th><th>12</th><th>13</th><th>14</th><th>15</th><th>16</th><th>17</th><th>18</th><th>19</th><th>20</th><th>21</th><th>22</th><th>23</th><th>24</th><th>25</th><th>26</th><th>27</th><th>28</th><th>29</th><th>30</th><th>31</th><th>Total</th></tr></thead>
+    <tbody>
+      <tr><td>Jan</td><td class="cell-holiday"></td><td class="cell-holiday"></td><td></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>6</td><td>9</td><td>8</td><td>9</td><td></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>13</td><td>12</td><td class="cell-manut"></td><td>1</td><td></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>5</td><td>7</td><td>2</td><td>1</td><td></td><td class="cell-weekend"></td><td>8</td><td>2</td><td>1</td><td>10</td><td class="cell-high">17</td><td>8</td><td class="total-col">148</td></tr>
+      <tr><td>Fev</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>13</td><td>10</td><td>6</td><td>8</td><td>8</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>6</td><td>8</td><td>3</td><td>4</td><td>5</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td></td><td></td><td></td><td>7</td><td>2</td><td>1</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>8</td><td>2</td><td>1</td><td>3</td><td class="cell-weekend"></td><td>7</td><td></td><td class="total-col">102</td></tr>
+      <tr><td>Mar</td><td class="cell-weekend"></td><td class="cell-weekend"></td><td>4</td><td>6</td><td>1</td><td></td><td></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td></td><td></td><td></td><td></td><td></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td></td><td></td><td></td><td></td><td></td><td class="cell-weekend"></td><td class="cell-weekend"></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="total-col">11</td></tr>
+      <tr style="color:#D1D5E0"><td>Abr</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td class="total-col">0</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div class="detail-legend">
+    <div class="legend-item"><div class="legend-dot ld-abonada"></div>Falta Abonada / Fechado</div>
+    <div class="legend-item"><div class="legend-dot ld-sabdom"></div>Sábado ou Domingo</div>
+    <div class="legend-item"><div class="legend-dot ld-feriado"></div>Feriado / Ponto Fac.</div>
+    <div class="legend-item"><div class="legend-dot ld-manut"></div>Manutenção</div>
+    <div class="legend-item"><div class="legend-dot ld-outro"></div>Outro Motivo</div>
+  </div>
+</div>
+
+<!-- ═══ TELA 6 — RANKING FINAL ═══ -->
+<div class="slide final" id="s5">
+  <div class="slide-header" style="text-align:center;margin-bottom:3vh">
+    <small><i class="fas fa-trophy"></i> &nbsp;Resultado Consolidado</small>
+    <h2>Ranking 1º Trimestre 2026</h2>
+  </div>
+  <div class="rank">
+    <div class="rank-item">
+      <div class="rank-pos">1º</div>
+      <div class="rank-icon csi-sal"><i class="fas fa-building-columns"></i></div>
+      <div class="rank-info"><div class="rank-name">Telecentro Saltense</div><div class="rank-sub">Jan 196 · Fev 202 · Mar 169</div></div>
+      <div class="rank-val rv-1">567</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-pos">2º</div>
+      <div class="rank-icon csi-ind"><i class="fas fa-building-columns"></i></div>
+      <div class="rank-info"><div class="rank-name">Telecentro Independência</div><div class="rank-sub">Jan 182 · Fev 137 · Mar 134</div></div>
+      <div class="rank-val rv-2">453</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-pos">3º</div>
+      <div class="rank-icon csi-nac"><i class="fas fa-building-columns"></i></div>
+      <div class="rank-info"><div class="rank-name">Telecentro Nações</div><div class="rank-sub">Jan 148 · Fev 102 · Mar 11</div></div>
+      <div class="rank-val rv-3">261</div>
+    </div>
+  </div>
+  <div class="final-total">
+    <small>Total geral — 3 unidades</small>
+    <div class="ft-num">1.281</div>
+  </div>
+</div>
+
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="navBar">
+  <button class="nbtn" id="btnPrev" aria-label="Anterior">◀</button>
+  <div class="dots" id="dots"></div>
+  <span class="pgc" id="counter">1 / 6</span>
+  <button class="nbtn" id="btnNext" aria-label="Próximo">▶</button>
+</nav>
+
+<script>
+var slides=document.querySelectorAll('.slide');
+var total=slides.length;
+var cur=0,busy=false;
+var btnP=document.getElementById('btnPrev');
+var btnN=document.getElementById('btnNext');
+var dotsE=document.getElementById('dots');
+var ctr=document.getElementById('counter');
+
+for(var i=0;i<total;i++){
+  var d=document.createElement('button');
+  d.className='dot'+(i===0?' active':'');
+  d.setAttribute('aria-label','Página '+(i+1));
+  (function(idx){d.addEventListener('click',function(){goTo(idx)})})(i);
+  dotsE.appendChild(d);
+}
+
+function goTo(n){
+  if(busy||n<0||n>=total||n===cur)return;
+  busy=true;
+  slides[cur].classList.add('exit-left');
+  slides[cur].classList.remove('active');
+  cur=n;
+  slides[cur].classList.remove('exit-left');
+  slides[cur].classList.add('active');
+  setTimeout(function(){
+    var exs=document.querySelectorAll('.exit-left');
+    for(var j=0;j<exs.length;j++)exs[j].classList.remove('exit-left');
+    busy=false;
+  },600);
+  updateUI();
+}
+
+function updateUI(){
+  ctr.textContent=(cur+1)+' / '+total;
+  btnP.disabled=cur===0;
+  btnN.disabled=cur===total-1;
+  var ds=dotsE.querySelectorAll('.dot');
+  for(var i=0;i<ds.length;i++)ds[i].classList.toggle('active',i===cur);
+}
+
+btnP.addEventListener('click',function(){goTo(cur-1)});
+btnN.addEventListener('click',function(){goTo(cur+1)});
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();goTo(cur+1)}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(cur-1)}
+});
+var tx=0,ty=0;
+document.addEventListener('touchstart',function(e){tx=e.changedTouches[0].screenX;ty=e.changedTouches[0].screenY},{passive:true});
+document.addEventListener('touchend',function(e){
+  var dx=e.changedTouches[0].screenX-tx,dy=e.changedTouches[0].screenY-ty;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){dx<0?goTo(cur+1):goTo(cur-1)}
+},{passive:true});
+updateUI();
+</script>
+</body>
+</html>

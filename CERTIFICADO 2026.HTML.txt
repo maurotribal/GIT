@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificado de Participação - Março 2026</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+            font-family: 'Montserrat', sans-serif;
+        }
+
+        .certificate-container {
+            width: 297mm;
+            height: 210mm;
+            padding: 20mm;
+            margin: 10px auto;
+            background-color: white;
+            box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            position: relative;
+            box-sizing: border-box;
+            border: 15px solid #1a3a5f;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .inner-border {
+            position: absolute;
+            top: 5mm;
+            left: 5mm;
+            right: 5mm;
+            bottom: 5mm;
+            border: 2px solid #c5a059;
+            pointer-events: none;
+        }
+
+        header h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 52px;
+            color: #1a3a5f;
+            margin: 0;
+            text-transform: uppercase;
+            letter-spacing: 5px;
+        }
+
+        .subheader {
+            font-size: 18px;
+            color: #666;
+            margin-top: 10px;
+            letter-spacing: 2px;
+        }
+
+        .content {
+            margin-top: 40px;
+        }
+
+        .present-to {
+            font-size: 20px;
+            color: #333;
+        }
+
+        .student-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 45px;
+            font-weight: bold;
+            color: #1a3a5f;
+            margin: 20px 0;
+            border-bottom: 2px solid #c5a059;
+            display: inline-block;
+            padding: 0 30px;
+        }
+
+        .description {
+            font-size: 18px;
+            line-height: 1.6;
+            color: #444;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+
+        .course-info {
+            font-weight: bold;
+            color: #1a3a5f;
+        }
+
+        footer {
+            margin-top: 60px;
+            width: 100%;
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .signature-box {
+            width: 250px;
+            border-top: 1px solid #333;
+            padding-top: 10px;
+            font-size: 14px;
+        }
+
+        .signature-box strong {
+            display: block;
+            color: #1a3a5f;
+        }
+
+        .seal {
+            position: absolute;
+            bottom: 40mm;
+            right: 40mm;
+            opacity: 0.1;
+        }
+
+        @media print {
+            body { background: none; }
+            .certificate-container { margin: 0; box-shadow: none; border: 15px solid #1a3a5f !important; -webkit-print-color-adjust: exact; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="certificate-container">
+    <div class="inner-border"></div>
+    
+    <header>
+        <h1>Certificado</h1>
+        <div class="subheader">DE PARTICIPAÇÃO E CONCLUSÃO</div>
+    </header>
+
+    <div class="content">
+        <p class="present-to">Conferimos o presente título a:</p>
+        <div class="student-name">NOME DO ALUNO AQUI</div>
+        
+        <p class="description">
+            Pela participação e aproveitamento satisfatório no curso de capacitação digital realizado na <span class="course-info">Unidade [Nome da Unidade]</span>, promovendo o desenvolvimento de competências tecnológicas essenciais e cidadania digital.
+        </p>
+
+        <p class="description">
+            Carga Horária: <strong>[X] Horas</strong> | Período: <strong>Março de 2026</strong>
+        </p>
+    </div>
+
+    <footer>
+        <div class="signature-box">
+            <strong>Mauro Celso Pereira de Souza</strong>
+            Gestão de TI e Engenharia de Software
+        </div>
+        <div class="signature-box">
+            <strong>Fábio Jorge</strong>
+            Secretário Municipal
+        </div>
+    </footer>
+
+    <div class="seal">
+        </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,1346 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Informática Básica - Windows 10 (2026)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #7c3aed;
+            --accent: #10b981;
+            --warning: #f59e0b;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.1);
+            --radius: 16px;
+            --radius-lg: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #f8fafc 100%);
+            color: var(--dark);
+            line-height: 1.7;
+            min-height: 100vh;
+            padding: 20px;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 4rem 1rem 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .header-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .header-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 180px;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+        
+        .header-subtitle {
+            font-size: 1.25rem;
+            color: var(--dark-light);
+            max-width: 800px;
+            margin: 2rem auto 0;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        .header-note {
+            font-size: 1rem;
+            color: var(--gray);
+            margin-top: 1.5rem;
+            font-style: italic;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        /* Content Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0 5rem;
+        }
+        
+        /* Module Cards */
+        .module-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .module-header {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.95;
+        }
+        
+        .module-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.1) 100%);
+        }
+        
+        .module-icon {
+            font-size: 4.5rem;
+            color: white;
+            z-index: 2;
+            text-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            transition: transform 0.4s ease;
+        }
+        
+        .module-card:hover .module-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .module-content {
+            padding: 2.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .module-number {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            color: white;
+            background: rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: flex-start;
+            backdrop-filter: blur(10px);
+        }
+        
+        .module-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            line-height: 1.3;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .module-description {
+            color: var(--dark-light);
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        /* Module-specific colors */
+        .module-1 .module-header::before {
+            background: linear-gradient(135deg, var(--primary), #3b82f6);
+        }
+        
+        .module-2 .module-header::before {
+            background: linear-gradient(135deg, var(--secondary), #8b5cf6);
+        }
+        
+        .module-3 .module-header::before {
+            background: linear-gradient(135deg, var(--accent), #34d399);
+        }
+        
+        .module-4 .module-header::before {
+            background: linear-gradient(135deg, var(--warning), #fbbf24);
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.1rem 2.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            gap: 0.8rem;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            letter-spacing: 0.3px;
+        }
+        
+        .module-1 .btn {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .module-2 .btn {
+            background-color: var(--secondary);
+            color: white;
+        }
+        
+        .module-3 .btn {
+            background-color: var(--accent);
+            color: white;
+        }
+        
+        .module-4 .btn {
+            background-color: var(--warning);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Lesson Modal */
+        .lesson-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.4s ease;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .lesson-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.5s ease;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .lesson-header {
+            padding: 2.5rem 3rem;
+            position: relative;
+            color: white;
+        }
+        
+        .lesson-header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.95;
+            z-index: 1;
+        }
+        
+        .lesson-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .lesson-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .lesson-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .lesson-body {
+            padding: 3rem;
+            color: var(--dark);
+        }
+        
+        .lesson-section {
+            margin-bottom: 3rem;
+        }
+        
+        .lesson-section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray-light);
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .lesson-item {
+            margin-bottom: 1.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .lesson-item::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--primary);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        
+        .lesson-item-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .lesson-text {
+            color: var(--dark-light);
+            margin-bottom: 0.8rem;
+            line-height: 1.7;
+        }
+        
+        .lesson-note {
+            background: #f0f9ff;
+            border-left: 4px solid var(--primary);
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 1rem;
+        }
+        
+        .lesson-code {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            margin: 1.2rem 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .close-lesson {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .close-lesson:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            color: var(--dark-light);
+            border-top: 1px solid var(--gray-light);
+            position: relative;
+        }
+        
+        .footer-author {
+            font-weight: 600;
+            color: var(--dark);
+            margin: 0.8rem 0;
+            font-size: 1.3rem;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .footer-title {
+            font-weight: 500;
+            margin: 0.5rem 0;
+            color: var(--primary);
+        }
+        
+        .footer-year {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .lesson-content {
+                max-width: 95%;
+            }
+            
+            .lesson-body {
+                padding: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2.5rem;
+            }
+            
+            .header-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .module-title {
+                font-size: 1.6rem;
+            }
+            
+            .lesson-header {
+                padding: 2rem;
+            }
+            
+            .lesson-title {
+                font-size: 2rem;
+            }
+            
+            .lesson-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .lesson-body {
+                padding: 2rem;
+            }
+            
+            .lesson-section-title {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 1rem 1.8rem;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 3rem 1rem 2rem;
+            }
+            
+            .header-title {
+                font-size: 2rem;
+            }
+            
+            .module-content {
+                padding: 2rem;
+            }
+            
+            .lesson-header {
+                padding: 1.8rem;
+            }
+            
+            .lesson-title {
+                font-size: 1.7rem;
+            }
+            
+            .lesson-body {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title">Curso de Informática Básica</h1>
+            <p class="header-subtitle">Domine o Windows 10 em 4 módulos práticos e objetivos. Aprenda desde os primeiros passos até a manutenção avançada do sistema.</p>
+            <p class="header-note">Clique em qualquer módulo para visualizar o conteúdo completo da apostila</p>
+        </header>
+        
+        <div class="modules-grid">
+            <div class="module-card module-1">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-desktop"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 01</span>
+                    <h3 class="module-title">O Windows 10 no Cenário de 2026</h3>
+                    <p class="module-description">Introdução e fundamentos, configurações visuais, sistema, manutenção e organização no contexto de suporte estendido.</p>
+                    <button class="btn view-lesson-btn" data-lesson="1">
+                        Ver Apostila Completa <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="module-card module-2">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 02</span>
+                    <h3 class="module-title">Gerenciamento de Arquivos e Pastas</h3>
+                    <p class="module-description">Criação, seleção, manipulação, exclusão e organização lógica de armazenamento com o Explorador de Arquivos.</p>
+                    <button class="btn view-lesson-btn" data-lesson="2">
+                        Ver Apostila Completa <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="module-card module-3">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-photo-video"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 03</span>
+                    <h3 class="module-title">Multimídia e Transferência de Dados</h3>
+                    <p class="module-description">Armazenamento externo, conexões USB/Bluetooth, e gerenciamento de fotos e vídeos entre dispositivos.</p>
+                    <button class="btn view-lesson-btn" data-lesson="3">
+                        Ver Apostila Completa <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="module-card module-4">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 04</span>
+                    <h3 class="module-title">Manutenção, Segurança e Solução</h3>
+                    <p class="module-description">Solução de travamentos, limpeza de disco, Windows Update, antivírus e proteção contra ransomware.</p>
+                    <button class="btn view-lesson-btn" data-lesson="4">
+                        Ver Apostila Completa <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Curso de Informática Básica - Windows 10</p>
+            <p class="footer-author">Material Didático Completo</p>
+            <p class="footer-title">Conteúdo Unificado em 4 Módulos</p>
+            <p class="footer-year">© 2026 - Para fins educacionais</p>
+        </footer>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal1">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--primary), #3b82f6);"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">MÓDULO 1: O Windows 10 no Cenário de 2026</h2>
+                    <p class="lesson-subtitle">Introdução e Fundamentos, Configurações Visuais e Sistema, Manutenção e Organização.</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(1)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Definição do Tema</div>
+                        <p class="lesson-text">O Windows 10 é o Sistema Operacional da Microsoft que gerencia o hardware e permite a execução de softwares. Em 2026, é uma plataforma madura, operando sob regime de suporte estendido, exigindo atenção específica à segurança e manutenção.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Contexto de Segurança (2026)</div>
+                        <p class="lesson-text">Status: O suporte padrão encerrou em 2025. O sistema opera agora com Atualizações de Segurança Estendidas (ESU).</p>
+                        <p class="lesson-text">Implicação Prática: O uso do sistema permanece inalterado, mas a aplicação de atualizações manuais e verificações de segurança tornou-se obrigatória para evitar vulnerabilidades.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Estrutura de Operação</div>
+                        <p class="lesson-text">O domínio do sistema baseia-se em:</p>
+                        <p class="lesson-text">• Interface (GUI): O ambiente visual de janelas e menus.</p>
+                        <p class="lesson-text">• Configurações: O painel de controle central (Win + I).</p>
+                        <p class="lesson-text">• Gerenciamento de Arquivos: Organização de pastas e documentos.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (CONFIGURAÇÕES VISUAIS E SISTEMA)</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Acesso às Configurações</div>
+                        <p class="lesson-text">Todas as configurações abaixo partem do menu central.</p>
+                        <p class="lesson-text"><strong>Comando:</strong> Pressione Win (tecla da bandeira) + I no teclado.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Guia Prático: Personalização Visual</div>
+                        <p class="lesson-text">Ajuste a aparência para conforto visual e legibilidade.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Alterar Papel de Parede:</strong></p>
+                        <p class="lesson-text">1. Acesse Win + I > Personalização > Tela de fundo.</p>
+                        <p class="lesson-text">2. No menu suspenso "Tela de Fundo", selecione Imagem.</p>
+                        <p class="lesson-text">3. Clique em Procurar para escolher uma foto salva no computador.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Ativar Modo Escuro (Conforto Visual):</strong></p>
+                        <p class="lesson-text">1. Acesse Win + I > Personalização > Cores.</p>
+                        <p class="lesson-text">2. Em "Escolher a cor", selecione Escuro. Isso altera janelas e menus para tons de cinza/preto.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Configurar Tela de Bloqueio:</strong></p>
+                        <p class="lesson-text">1. Acesse Win + I > Personalização > Tela de bloqueio.</p>
+                        <p class="lesson-text">2. Em "Tela de fundo", selecione Destaque do Windows (exibe imagens diárias automáticas).</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Guia Prático: Ajustes de Sistema</div>
+                        <p class="lesson-text">Configurações essenciais para a qualidade de imagem e áudio.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Ajustar Resolução da Tela:</strong></p>
+                        <p class="lesson-text">1. Acesse Win + I > Sistema > Vídeo.</p>
+                        <p class="lesson-text">2. Role até "Resolução da tela".</p>
+                        <p class="lesson-text">3. Selecione a opção marcada como (Recomendável) para garantir a nitidez correta.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Configurar Saída de Som:</strong></p>
+                        <p class="lesson-text">1. Acesse Win + I > Sistema > Som.</p>
+                        <p class="lesson-text">2. Em "Escolha o dispositivo de saída", selecione o equipamento desejado (ex: Alto-falantes ou Fones de Ouvido).</p>
+                        <br>
+                        <p class="lesson-text"><strong>Ajustar Suspensão (Economia de Energia):</strong></p>
+                        <p class="lesson-text">1. Acesse Win + I > Sistema > Energia e suspensão.</p>
+                        <p class="lesson-text">2. Defina o tempo em "Tela" (quando desligar o monitor) e "Suspensão" (quando o PC entra em modo de espera).</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (MANUTENÇÃO E ORGANIZAÇÃO)</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Guia Prático: Manutenção e Limpeza</div>
+                        <p class="lesson-text">Como manter o computador rápido e organizado.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Desinstalar Programas:</strong></p>
+                        <p class="lesson-text">1. Acesse Win + I > Aplicativos.</p>
+                        <p class="lesson-text">2. Na lista exibida, clique sobre o programa que deseja remover.</p>
+                        <p class="lesson-text">3. Clique no botão Desinstalar e confirme a ação.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Limpar Arquivos Temporários:</strong></p>
+                        <p class="lesson-text">1. Acesse Win + I > Sistema > Armazenamento.</p>
+                        <p class="lesson-text">2. Ative a chave Sensor de Armazenamento.</p>
+                        <p class="lesson-text">3. Clique em "Configurar Sensor de Armazenamento" e selecione "Limpar agora" para liberar espaço imediatamente.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Guia Prático: Barra de Tarefas</div>
+                        <p class="lesson-text">Personalize a barra inferior para otimizar o fluxo de trabalho.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Mover a Barra de Tarefas:</strong></p>
+                        <p class="lesson-text">1. Clique com o botão direito em uma área vazia da Barra de Tarefas.</p>
+                        <p class="lesson-text">2. Desmarque a opção Bloquear a barra de tarefas.</p>
+                        <p class="lesson-text">3. Clique e arraste a barra para o topo ou laterais da tela.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Ocultar Ícones do Sistema:</strong></p>
+                        <p class="lesson-text">1. Clique com o botão direito na Barra de Tarefas > Configurações da Barra de Tarefas.</p>
+                        <p class="lesson-text">2. Em "Área de notificação", clique em "Selecionar os ícones que devem aparecer".</p>
+                        <p class="lesson-text">3. Ative ou desative ícones como Rede, Volume ou Relógio.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Atualizações e Segurança (Crítico 2026)</div>
+                        <p class="lesson-text">Procedimento obrigatório devido ao fim do suporte padrão.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Verificar Atualizações Manuais:</strong></p>
+                        <p class="lesson-text">1. Acesse Win + I > Atualização e Segurança.</p>
+                        <p class="lesson-text">2. Clique no botão Verificar se há atualizações.</p>
+                        <p class="lesson-text">3. Se houver pacotes disponíveis (especialmente ESU ou .NET Framework), clique em Baixar e instalar.</p>
+                        <p class="lesson-text">4. Reinicie o computador após a conclusão.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <p class="lesson-text">• Ajustes Gerais: Sempre iniciam pelo comando Win + I.</p>
+                        <p class="lesson-text">• Manutenção: Desinstale aplicativos não utilizados via menu Aplicativos para evitar lentidão.</p>
+                        <p class="lesson-text">• Segurança: A verificação do Windows Update deve ser semanal em 2026.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Glossário de Comandos</div>
+                        <p class="lesson-text">• Win + I: Abre o menu Configurações.</p>
+                        <p class="lesson-text">• Win + P: Abre menu de projeção (para conectar em TVs ou projetores).</p>
+                        <p class="lesson-text">• Ctrl + Shift + Esc: Abre o Gerenciador de Tarefas (para fechar programas travados).</p>
+                        <p class="lesson-text">• Recomendável (Resolução): Configuração nativa do monitor para imagem sem distorção.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas de Fixação</div>
+                        <p class="lesson-text">1. Qual o caminho para desinstalar um programa?</p>
+                        <p class="lesson-text">Resposta: Configurações (Win+I) > Aplicativos > Selecionar App > Desinstalar.</p>
+                        <br>
+                        <p class="lesson-text">2. Como ativar o "Modo Escuro"?</p>
+                        <p class="lesson-text">Resposta: Configurações > Personalização > Cores > Escolher "Escuro".</p>
+                        <br>
+                        <p class="lesson-text">3. Onde ajusto o tempo para o computador desligar a tela sozinho?</p>
+                        <p class="lesson-text">Resposta: Em Configurações > Sistema > Energia e suspensão.</p>
+                        <br>
+                        <p class="lesson-text">4. Se a imagem da tela estiver distorcida ou esticada, o que devo verificar?</p>
+                        <p class="lesson-text">Resposta: A Resolução de Tela (em Sistema > Vídeo).</p>
+                        <br>
+                        <p class="lesson-text">5. Qual a frequência recomendada para verificar atualizações no cenário de 2026?</p>
+                        <p class="lesson-text">Resposta: Semanalmente, através do menu Atualização e Segurança.</p>
+                    </div>
+                    <div class="lesson-note">
+                        <strong>Mensagem Final:</strong> A configuração do computador não é um processo técnico complexo, mas uma sequência lógica de passos. Utilize esta apostila como um guia de consulta rápida: sempre que precisar alterar algo, verifique o caminho descrito na Página 2 ou 3. Mantenha seu sistema atualizado e limpo para garantir desempenho máximo.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal2">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--secondary), #8b5cf6);"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">MÓDULO 2: Gerenciamento de Arquivos e Pastas</h2>
+                    <p class="lesson-subtitle">Criação, Seleção, Manipulação e Exclusão.</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(2)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Definição do Tema</div>
+                        <p class="lesson-text">O Gerenciamento de Arquivos refere-se à capacidade de organizar, localizar e manipular os dados digitais armazenados no computador. Arquivos são os documentos, fotos e planilhas; Pastas são os diretórios onde esses arquivos são guardados.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Importância da Organização</div>
+                        <p class="lesson-text">Um computador sem organização torna-se improdutivo. O objetivo deste módulo é ensinar a estrutura lógica de armazenamento para que o usuário saiba exatamente onde guardar e onde encontrar qualquer informação, evitando a perda de documentos importantes ou a duplicidade desnecessária de arquivos.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. A Ferramenta Principal: Explorador de Arquivos</div>
+                        <p class="lesson-text">O Explorador de Arquivos (antigo Windows Explorer) é o programa nativo do Windows responsável pela navegação entre pastas e unidades de disco.</p>
+                        <p class="lesson-text">Ele se divide em três áreas principais:</p>
+                        <p class="lesson-text">• Barra de Endereço/Faixa de Opções: No topo, onde estão os comandos (Copiar, Colar, Nova Pasta).</p>
+                        <p class="lesson-text">• Painel de Navegação (Esquerda): Lista de acesso rápido (Documentos, Downloads, Este Computador).</p>
+                        <p class="lesson-text">• Painel de Conteúdo (Direita): Exibe os arquivos que estão dentro da pasta selecionada.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Estrutura de Armazenamento</div>
+                        <p class="lesson-text">• Disco Local (C:): É o disco rígido principal onde o Windows e os programas estão instalados.</p>
+                        <p class="lesson-text">• Dispositivos Removíveis (D:, E:): Pen drives ou HDs externos conectados via USB aparecem com estas letras.</p>
+                        <p class="lesson-text">• Pastas de Usuário: O Windows já cria pastas padrão para facilitar a organização: Documentos, Imagens, Vídeos, Downloads e Área de Trabalho.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (CRIAÇÃO E SELEÇÃO)</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Como Abrir o Explorador de Arquivos</div>
+                        <p class="lesson-text">Existem duas formas principais de iniciar o gerenciamento:</p>
+                        <p class="lesson-text">• Via Mouse: Clique no ícone da pasta amarela fixado na Barra de Tarefas (parte inferior da tela).</p>
+                        <p class="lesson-text">• Via Teclado (Recomendado): Pressione Win + E.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Guia Prático: Criar uma Nova Pasta</div>
+                        <p class="lesson-text">Para organizar arquivos, você deve criar compartimentos (pastas) específicos.</p>
+                        <p class="lesson-text">Passo a passo:</p>
+                        <p class="lesson-text">1. Abra o local onde deseja criar a pasta (ex: Documentos).</p>
+                        <p class="lesson-text">2. Método A (Mouse): Clique com o botão direito em uma área branca vazia > Selecione Novo > Clique em Pasta.</p>
+                        <p class="lesson-text">3. Método B (Teclado): Pressione Ctrl + Shift + N.</p>
+                        <p class="lesson-text">4. Digite o nome desejado e pressione Enter.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Guia Prático: Técnicas de Seleção</div>
+                        <p class="lesson-text">Antes de mover ou copiar, é necessário selecionar os itens.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Selecionar TUDO na pasta:</strong></p>
+                        <p class="lesson-text">Comando: Ctrl + A.</p>
+                        <p class="lesson-text">Uso: Quando você quer mover todo o conteúdo de um lugar para outro.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Seleção Alternada (Arquivos separados):</strong></p>
+                        <p class="lesson-text">Ação: Mantenha a tecla Ctrl pressionada.</p>
+                        <p class="lesson-text">Clique com o mouse apenas nos arquivos desejados (ex: o 1º, o 3º e o 5º). Solte o Ctrl ao terminar.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Seleção em Sequência (Bloco):</strong></p>
+                        <p class="lesson-text">Ação: Clique no primeiro arquivo da lista.</p>
+                        <p class="lesson-text">Segure a tecla Shift.</p>
+                        <p class="lesson-text">Clique no último arquivo da lista. Todos os arquivos entre o primeiro e o último serão selecionados.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (MANIPULAÇÃO E EXCLUSÃO)</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Copiar vs. Recortar (Diferença Crítica)</div>
+                        <p class="lesson-text">Entender esta distinção evita a perda de dados ou duplicação inútil.</p>
+                        <p class="lesson-text">• COPIAR (Ctrl + C): Cria uma duplicata. O arquivo permanece na pasta original E aparece na pasta de destino.</p>
+                        <p class="lesson-text">Uso: Backup ou envio para pen drive.</p>
+                        <p class="lesson-text">• RECORTAR (Ctrl + X): Move o arquivo. Ele é removido da pasta original e vai para o destino.</p>
+                        <p class="lesson-text">Uso: Organização (tirar da bagunça e colocar no lugar certo).</p>
+                        <p class="lesson-text">• COLAR (Ctrl + V): Comando final. Insere o arquivo copiado ou recortado na pasta onde você está agora.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Guia Prático: Mover Arquivos</div>
+                        <p class="lesson-text">1. Selecione o arquivo desejado.</p>
+                        <p class="lesson-text">2. Pressione Ctrl + X (o ícone ficará levemente transparente).</p>
+                        <p class="lesson-text">3. Navegue até a pasta de destino (abra a nova pasta).</p>
+                        <p class="lesson-text">4. Pressione Ctrl + V.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Guia Prático: Renomear e Excluir</div>
+                        <p class="lesson-text"><strong>Renomear Arquivo:</strong></p>
+                        <p class="lesson-text">1. Clique uma vez sobre o arquivo para selecioná-lo.</p>
+                        <p class="lesson-text">2. Pressione a tecla F2 (no topo do teclado).</p>
+                        <p class="lesson-text">3. Digite o novo nome e tecle Enter.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Excluir para a Lixeira:</strong></p>
+                        <p class="lesson-text">1. Selecione o arquivo.</p>
+                        <p class="lesson-text">2. Pressione a tecla Delete (ou Del).</p>
+                        <p class="lesson-text">3. Resultado: O arquivo pode ser recuperado se necessário.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Excluir Permanentemente (Cuidado!):</strong></p>
+                        <p class="lesson-text">1. Selecione o arquivo.</p>
+                        <p class="lesson-text">2. Pressione Shift + Delete.</p>
+                        <p class="lesson-text">3. Resultado: O arquivo é apagado do disco sem passar pela lixeira. Não há como recuperar facilmente.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Guia Prático: Desinstalar Programas</div>
+                        <p class="lesson-text">Remover softwares que não são mais utilizados libera espaço e memória.</p>
+                        <p class="lesson-text">1. Pressione Win + I para abrir Configurações.</p>
+                        <p class="lesson-text">2. Clique em Aplicativos.</p>
+                        <p class="lesson-text">3. Em "Aplicativos e recursos", localize o programa na lista.</p>
+                        <p class="lesson-text">4. Clique sobre o nome do programa e depois no botão Desinstalar.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <p class="lesson-text">• Acesso: Use Win + E para abrir o Explorador.</p>
+                        <p class="lesson-text">• Criação: Use Ctrl + Shift + N para novas pastas.</p>
+                        <p class="lesson-text">• Movimentação: Ctrl + X (recortar) move o arquivo; Ctrl + C (copiar) duplica. Sempre finalize com Ctrl + V (colar).</p>
+                        <p class="lesson-text">• Limpeza: Delete envia para lixeira; Shift + Delete apaga para sempre.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Glossário Técnico</div>
+                        <p class="lesson-text">• Diretório: Sinônimo técnico de "Pasta".</p>
+                        <p class="lesson-text">• Extensão de Arquivo: As letras após o ponto no nome do arquivo (ex: .docx, .pdf, .jpg) que indicam qual programa abre aquele arquivo.</p>
+                        <p class="lesson-text">• Área de Transferência: Memória temporária invisível onde o Windows guarda o que você copiou ou recortou antes de colar.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas de Fixação</div>
+                        <p class="lesson-text">1. Qual a diferença entre Copiar e Recortar?</p>
+                        <p class="lesson-text">Resposta: Copiar cria uma duplicata; Recortar move o arquivo (tira da origem).</p>
+                        <br>
+                        <p class="lesson-text">2. Qual atalho seleciona todos os arquivos de uma pasta de uma vez?</p>
+                        <p class="lesson-text">Resposta: Ctrl + A.</p>
+                        <br>
+                        <p class="lesson-text">3. Se eu quiser apagar um arquivo sem que ele vá para a lixeira, que teclas uso?</p>
+                        <p class="lesson-text">Resposta: Shift + Delete.</p>
+                        <br>
+                        <p class="lesson-text">4. Para renomear um arquivo usando o teclado, qual tecla devo apertar?</p>
+                        <p class="lesson-text">Resposta: F2.</p>
+                        <br>
+                        <p class="lesson-text">5. Qual o atalho para criar uma nova pasta rapidamente?</p>
+                        <p class="lesson-text">Resposta: Ctrl + Shift + N.</p>
+                    </div>
+                    <div class="lesson-note">
+                        <strong>Mensagem Final:</strong> A habilidade de gerenciar arquivos é a base da produtividade digital. Um profissional organizado não perde tempo procurando documentos. Pratique os atalhos de teclado (Ctrl + C, Ctrl + V, F2) diariamente até que se tornem automáticos. Sua prioridade agora deve ser criar uma estrutura de pastas lógica para seus documentos pessoais e de trabalho.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal3">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--accent), #34d399);"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">MÓDULO 3: Multimídia e Transferência de Dados</h2>
+                    <p class="lesson-subtitle">Armazenamento Externo, Multimídia e Bluetooth.</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(3)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Definição do Tema</div>
+                        <p class="lesson-text">Este módulo aborda a comunicação do computador com o mundo externo. Trata-se da capacidade de importar dados (trazer fotos do celular ou arquivos de um Pen Drive para o PC) e exportar dados (levar documentos do PC para outros dispositivos), além de gerenciar arquivos de mídia (áudio e vídeo).</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Importância e Contexto</div>
+                        <p class="lesson-text">O computador atua como um "Hub" (central) digital. Saber conectar periféricos corretamente é essencial para realizar backups de segurança e liberar espaço em dispositivos móveis.</p>
+                        <p class="lesson-text">• Físico (Cabos e Plugs): O uso de portas USB para transferência de alta velocidade.</p>
+                        <p class="lesson-text">• Sem Fio (Wireless): O uso de Bluetooth e Wi-Fi para conexões rápidas e limpas.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Tipos de Conexão e Portas</div>
+                        <p class="lesson-text">Antes de conectar qualquer dispositivo, identifique a porta correta no seu computador:</p>
+                        <p class="lesson-text">• USB-A (Retangular): O padrão clássico, usado na maioria dos Pen Drives e mouses antigos.</p>
+                        <p class="lesson-text">• USB-C (Arredondado/Pequeno): O padrão moderno (comum em celulares e laptops novos). É menor, reversível (não tem lado errado) e transfere dados mais rápido.</p>
+                        <p class="lesson-text">• Entrada P2 (Áudio): O orifício circular para fones de ouvido com fio (embora o Bluetooth seja a preferência atual).</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Conceito de Armazenamento Externo vs. Nuvem</div>
+                        <p class="lesson-text">Embora este módulo foque em transferência física (Pen Drive/Cabo), é importante notar que serviços de nuvem (OneDrive, Google Drive) funcionam como "Pen Drives virtuais", permitindo acesso aos dados via internet sem necessidade de hardware físico.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (ARMAZENAMENTO EXTERNO)</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Pen Drives e HDs Externos</div>
+                        <p class="lesson-text">Dispositivos portáteis para transporte de arquivos.</p>
+                        <p class="lesson-text">Como utilizar:</p>
+                        <p class="lesson-text">1. Inserção: Conecte o dispositivo na porta USB correspondente.</p>
+                        <p class="lesson-text">2. Identificação: O Windows geralmente emite um som e exibe uma notificação. Se nada acontecer, pressione Win + E (Explorador de Arquivos) e olhe na coluna da esquerda, abaixo de "Este Computador". O dispositivo aparecerá com o nome da marca ou "Unidade USB (D:, E:)".</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Guia Prático: Transferindo Arquivos</div>
+                        <p class="lesson-text">O processo padrão é o "Arrastar e Soltar" ou "Copiar e Colar".</p>
+                        <p class="lesson-text">1. Abra a pasta do Pen Drive em uma janela.</p>
+                        <p class="lesson-text">2. Abra a pasta onde está o arquivo (ex: Documentos) em outra janela.</p>
+                        <p class="lesson-text">3. Clique no arquivo desejado, mantenha o botão pressionado, arraste até a janela do Pen Drive e solte.</p>
+                        <p class="lesson-text">Nota: Ao arrastar entre unidades diferentes (do PC para o Pen Drive), o Windows faz uma Cópia (o original fica no PC). Se quiser mover, segure a tecla Shift enquanto arrasta.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Protocolo de Segurança: Ejeção</div>
+                        <p class="lesson-text">Remover um Pen Drive abruptamente pode corromper os dados (queimar o arquivo).</p>
+                        <p class="lesson-text">Passo a passo obrigatório:</p>
+                        <p class="lesson-text">1. Vá à Barra de Tarefas (perto do relógio).</p>
+                        <p class="lesson-text">2. Clique na seta para cima ^ se o ícone estiver escondido.</p>
+                        <p class="lesson-text">3. Clique no ícone que parece um Pen Drive/Plugue.</p>
+                        <p class="lesson-text">4. Selecione Ejetar [Nome do Dispositivo].</p>
+                        <p class="lesson-text">5. Aguarde a mensagem "O Hardware pode ser removido com segurança" antes de puxar o dispositivo.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Conectando o Celular via Cabo (Backup de Fotos)</div>
+                        <p class="lesson-text">Ao conectar um smartphone (Android ou iPhone) via USB, o Windows pode não reconhecê-lo imediatamente como uma memória.</p>
+                        <p class="lesson-text">Ajuste no Celular (Crítico):</p>
+                        <p class="lesson-text">1. Conecte o cabo USB no PC e no Celular.</p>
+                        <p class="lesson-text">2. Olhe para a tela do celular. Deve aparecer uma notificação "Carregando via USB".</p>
+                        <p class="lesson-text">3. Toque nessa notificação e mude a opção de "Apenas Carregar" para "Transferência de Arquivo" ou "MTP".</p>
+                        <p class="lesson-text">4. Agora o celular aparecerá no Explorador de Arquivos do Windows como se fosse um Pen Drive.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (MULTIMÍDIA E BLUETOOTH)</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. O Aplicativo "Fotos"</div>
+                        <p class="lesson-text">Visualizador nativo do Windows para imagens e vídeos simples.</p>
+                        <p class="lesson-text">Funcionalidades de Edição Rápida:</p>
+                        <p class="lesson-text">Ao abrir uma imagem, clique no primeiro ícone da barra superior ("Editar imagem") ou pressione Ctrl + E.</p>
+                        <p class="lesson-text">• Cortar e Girar: Use para endireitar fotos tortas ou remover bordas inúteis.</p>
+                        <p class="lesson-text">• Ajuste: Permite alterar brilho e cor.</p>
+                        <p class="lesson-text">• Filtros: Aplica estilos de cor automáticos (similar às redes sociais).</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Conexão Bluetooth (Fones, Caixas de Som, Mouses)</div>
+                        <p class="lesson-text">Elimina a necessidade de cabos.</p>
+                        <p class="lesson-text">Guia Prático de Pareamento:</p>
+                        <p class="lesson-text">1. No Computador: Acesse Win + I (Configurações) > Dispositivos > Bluetooth e outros dispositivos.</p>
+                        <p class="lesson-text">2. Verifique se a chave "Bluetooth" está Ativada.</p>
+                        <p class="lesson-text">3. Clique no botão + Adicionar Bluetooth ou outro dispositivo > Selecione Bluetooth.</p>
+                        <p class="lesson-text">4. No Dispositivo (Fone/Mouse): Coloque-o em "Modo de Pareamento" (geralmente segurando o botão de ligar até a luz piscar rápido).</p>
+                        <p class="lesson-text">5. Conclusão: O nome do dispositivo aparecerá na tela do PC. Clique nele para conectar.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Aplicativo "Vincular ao Celular" (Phone Link)</div>
+                        <p class="lesson-text">Uma alternativa moderna ao cabo USB para usuários de Android e iPhone.</p>
+                        <p class="lesson-text">• Função: Permite ver as fotos recentes do celular, responder SMS e receber notificações do telefone direto na tela do PC, sem usar cabos.</p>
+                        <p class="lesson-text">• Como acessar: Digite "Vincular ao Celular" na barra de pesquisa do Windows e siga as instruções de emparelhamento via QR Code.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Captura de Tela (Print Screen)</div>
+                        <p class="lesson-text">Como salvar o que você está vendo na tela como uma imagem.</p>
+                        <p class="lesson-text">• Método Rápido: Pressione a tecla PrtScn (Print Screen). A tela piscará.</p>
+                        <p class="lesson-text">• Onde fica: A imagem vai para a Área de Transferência (Ctrl + V para colar) ou é salva automaticamente na pasta Imagens > Capturas de Tela.</p>
+                        <p class="lesson-text">• Ferramenta de Captura: Use Win + Shift + S para selecionar apenas um pedaço específico da tela.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <p class="lesson-text">• Conexão Física: Identifique se a porta é USB-A ou USB-C. Sempre use a ejeção segura.</p>
+                        <p class="lesson-text">• Conexão Móvel: Ao usar cabo, altere o modo do celular para "Transferência de Arquivos".</p>
+                        <p class="lesson-text">• Sem Fio: O Bluetooth requer que o dispositivo esteja em modo de pareamento para ser encontrado.</p>
+                        <p class="lesson-text">• Mídia: Use o app Fotos para edições básicas e o Explorador de Arquivos para organizar o backup.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Glossário Técnico</div>
+                        <p class="lesson-text">• Pareamento: Processo de conectar dois dispositivos Bluetooth pela primeira vez.</p>
+                        <p class="lesson-text">• Backup: Cópia de segurança de dados em um segundo local (Pen Drive ou Nuvem).</p>
+                        <p class="lesson-text">• MTP (Media Transfer Protocol): Protocolo que permite ao Windows ler os arquivos dentro do seu celular Android.</p>
+                        <p class="lesson-text">• USB-C: Conector moderno, menor e reversível.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas de Fixação</div>
+                        <p class="lesson-text">1. Por que devo usar a opção "Ejetar" antes de remover um Pen Drive?</p>
+                        <p class="lesson-text">Resposta: Para evitar a corrupção de dados e garantir que todos os arquivos foram salvos.</p>
+                        <br>
+                        <p class="lesson-text">2. Conectei meu celular no PC mas ele não apareceu nas pastas. O que fazer?</p>
+                        <p class="lesson-text">Resposta: Verificar a tela do celular e mudar o modo USB de "Carregar" para "Transferência de Arquivos".</p>
+                        <br>
+                        <p class="lesson-text">3. Qual o atalho para tirar um "print" de apenas uma parte da tela?</p>
+                        <p class="lesson-text">Resposta: Win + Shift + S.</p>
+                        <br>
+                        <p class="lesson-text">4. Onde ativo o Bluetooth no Windows?</p>
+                        <p class="lesson-text">Resposta: Configurações (Win+I) > Dispositivos.</p>
+                        <br>
+                        <p class="lesson-text">5. Qual a diferença visual entre USB-A e USB-C?</p>
+                        <p class="lesson-text">Resposta: USB-A é retangular e maior; USB-C é menor e arredondado.</p>
+                    </div>
+                    <div class="lesson-note">
+                        <strong>Mensagem Final:</strong> A capacidade de transferir dados dá a você a posse real das suas informações. Não deixe suas fotos presas apenas no celular (que pode ser perdido ou roubado). Crie o hábito de, uma vez por mês, conectar seu dispositivo ao PC e fazer uma cópia (backup) das fotos e documentos importantes para um armazenamento externo ou para a nuvem.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal4">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--warning), #fbbf24);"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">MÓDULO 4: Manutenção, Segurança e Solução de Problemas</h2>
+                    <p class="lesson-subtitle">Manutenção, Segurança e Soluções Práticas.</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(4)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Definição do Tema</div>
+                        <p class="lesson-text">A manutenção de computadores envolve ações preventivas (limpeza e atualizações) e corretivas (destravamento de programas) para garantir que o sistema opere com velocidade e segurança. No Windows 10, a maioria dessas ferramentas já vem instalada, dispensando softwares externos.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Importância da Rotina (Contexto 2026)</div>
+                        <p class="lesson-text">Como o Windows 10 é um sistema maduro, a perda de desempenho geralmente ocorre por acúmulo de arquivos temporários ou falta de reinicialização correta. Além disso, a segurança em 2026 depende estritamente da aplicação das Atualizações de Segurança Estendidas (ESU).</p>
+                        <p class="lesson-text">Saúde do Sistema: Um PC limpo processa dados mais rápido.</p>
+                        <p class="lesson-text">Segurança: Um PC atualizado fecha as portas para invasores.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Os Três Pilares da Manutenção</div>
+                        <p class="lesson-text">Para manter o PC saudável, o usuário deve dominar:</p>
+                        <p class="lesson-text">Gerenciamento de Processos: Saber o que fazer quando a tela "congela".</p>
+                        <p class="lesson-text">Higiene Digital: Eliminar arquivos inúteis que ocupam espaço (lixo de sistema).</p>
+                        <p class="lesson-text">Blindagem: Manter o antivírus ativo e o sistema operacional vacinado com as últimas atualizações.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Reiniciar vs. Desligar (Conceito Importante)</div>
+                        <p class="lesson-text">Muitos erros são resolvidos apenas reiniciando a máquina.</p>
+                        <p class="lesson-text">Desligar: O Windows 10 entra em um estado de "hibernação profunda" para ligar mais rápido depois. Não limpa totalmente a memória.</p>
+                        <p class="lesson-text">Reiniciar: Desliga todos os processos completamente e recarrega o sistema do zero. É a ação recomendada para resolver falhas.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (SOLUÇÃO DE TRAVAMENTOS E LIMPEZA)</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. O Gerenciador de Tarefas (O "Salva-Vidas")</div>
+                        <p class="lesson-text">Quando um programa para de responder e o mouse não clica em nada, não é necessário desligar o PC na tomada. Use o Gerenciador de Tarefas para encerrar apenas o programa problemático.</p>
+                        <p class="lesson-text">Guia Prático: Forçar o Fechamento de Programas</p>
+                        <p class="lesson-text">Comando: Pressione Ctrl + Shift + Esc simultaneamente.</p>
+                        <p class="lesson-text">Alternativa: Se não funcionar, use Ctrl + Alt + Del e clique em "Gerenciador de Tarefas".</p>
+                        <p class="lesson-text">Identificação: Na lista de processos, procure o aplicativo com status "Não respondendo" ou aquele que travou.</p>
+                        <p class="lesson-text">Ação: Clique sobre o nome do programa para selecioná-lo e clique no botão Finalizar tarefa (canto inferior direito da janela).</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Limpeza de Disco (Liberando Espaço)</div>
+                        <p class="lesson-text">Arquivos temporários, caches de internet e lixeiras cheias deixam o sistema lento. Existem dois métodos para limpar.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Método A: Sensor de Armazenamento (Moderno/Automático)</strong></p>
+                        <p class="lesson-text">1. Acesse Win + I (Configurações) > Sistema > Armazenamento.</p>
+                        <p class="lesson-text">2. Ative a chave no topo da tela.</p>
+                        <p class="lesson-text">3. Clique em Configurar o Sensor de Armazenamento para definir que ele apague o lixo automaticamente a cada 30 dias.</p>
+                        <br>
+                        <p class="lesson-text"><strong>Método B: Limpeza de Disco (Manual/Profunda)</strong></p>
+                        <p class="lesson-text">1. Na Barra de Pesquisa, digite "Limpeza de Disco" e abra o aplicativo.</p>
+                        <p class="lesson-text">2. Selecione a unidade (Geralmente C:) e clique em OK.</p>
+                        <p class="lesson-text">3. Marque as caixas: Arquivos de Internet Temporários, Lixeira e Miniaturas.</p>
+                        <p class="lesson-text">4. Clique em OK > Excluir Arquivos.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (SEGURANÇA E ATUALIZAÇÃO)</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Windows Update (Crítico em 2026)</div>
+                        <p class="lesson-text">Manter o sistema atualizado não é opcional. Atualizações corrigem falhas que hackers utilizam para roubar dados.</p>
+                        <p class="lesson-text">Guia Prático: Verificar Atualizações</p>
+                        <p class="lesson-text">1. Acesse Win + I > Atualização e Segurança.</p>
+                        <p class="lesson-text">2. Clique no botão cinza Verificar se há atualizações.</p>
+                        <p class="lesson-text">3. Atenção: Se houver atualizações disponíveis (especialmente nomeadas como "Security Update" ou ".NET Framework"), clique em Instalar agora.</p>
+                        <p class="lesson-text">4. Se o sistema pedir para reiniciar, faça isso imediatamente para concluir a instalação.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Segurança do Windows (Antivírus)</div>
+                        <p class="lesson-text">O Windows 10 possui o "Microsoft Defender", um antivírus de nível empresarial integrado.</p>
+                        <p class="lesson-text">Guia Prático: Verificação de Vírus</p>
+                        <p class="lesson-text">1. Na Barra de Tarefas (perto do relógio), clique no ícone de Escudo (pode estar dentro da setinha ^).</p>
+                        <p class="lesson-text">2. Se todos os ícones estiverem com um "V" verde, o sistema está seguro.</p>
+                        <p class="lesson-text">3. Para checar manualmente: Clique em Proteção contra vírus e ameaças > Verificação Rápida.</p>
+                        <p class="lesson-text">Regra de Ouro dos Antivírus: Jamais instale dois antivírus ao mesmo tempo (Ex: Defender + Avast ou Norton). Eles entrarão em conflito, identificando um ao outro como ameaça, o que causará lentidão extrema e travamentos no computador.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Proteção Contra Ransomware</div>
+                        <p class="lesson-text">Uma camada extra de segurança para proteger seus arquivos pessoais contra sequestro digital.</p>
+                        <p class="lesson-text">1. Dentro do menu de Segurança, vá em Proteção contra vírus e ameaças.</p>
+                        <p class="lesson-text">2. Role até o fim e clique em Gerenciar proteção contra ransomware.</p>
+                        <p class="lesson-text">3. Ative a opção Acesso a pastas controladas. Isso impede que programas desconhecidos alterem seus documentos e fotos.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <p class="lesson-text">Travamento: Use Ctrl + Shift + Esc para fechar o programa, não desligue o PC direto.</p>
+                        <p class="lesson-text">Limpeza: Use o "Sensor de Armazenamento" para manutenção automática.</p>
+                        <p class="lesson-text">Atualização: Verifique o Windows Update semanalmente para garantir as correções de segurança (ESU).</p>
+                        <p class="lesson-text">Proteção: Confie no Windows Defender e evite instalar antivírus de terceiros que pesam no sistema.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Glossário Técnico</div>
+                        <p class="lesson-text">Malware: Termo geral para qualquer programa malicioso (vírus, spyware, ransomware).</p>
+                        <p class="lesson-text">Cache: Arquivos temporários guardados para abrir sites/apps mais rápido, mas que podem corromper ou ocupar espaço demais com o tempo.</p>
+                        <p class="lesson-text">Reinicialização: Processo de desligar e ligar o sistema operacional para limpar a memória RAM e concluir atualizações.</p>
+                        <p class="lesson-text">Processo: Qualquer tarefa ou programa em execução pelo processador.</p>
+                    </div>
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas de Fixação</div>
+                        <p class="lesson-text">1. Qual o atalho direto para abrir o Gerenciador de Tarefas? Resposta: Ctrl + Shift + Esc.</p>
+                        <br>
+                        <p class="lesson-text">2. Por que não devo ter dois antivírus instalados? Resposta: Eles entram em conflito e deixam o computador extremamente lento.</p>
+                        <br>
+                        <p class="lesson-text">3. Qual a diferença entre Desligar e Reiniciar? Resposta: Reiniciar limpa a memória e recarrega o sistema do zero; Desligar mantém dados salvos para ligar rápido.</p>
+                        <br>
+                        <p class="lesson-text">4. Onde verifico se meu PC está protegido contra as últimas ameaças? Resposta: Configurações > Atualização e Segurança > Windows Update.</p>
+                        <br>
+                        <p class="lesson-text">5. O que o recurso "Sensor de Armazenamento" faz? Resposta: Apaga arquivos temporários e lixo do sistema automaticamente.</p>
+                    </div>
+                    <div class="lesson-note">
+                        <strong>Mensagem Final:</strong> A manutenção preventiva é o segredo da longevidade do computador. Criar o hábito de reiniciar o PC corretamente e verificar atualizações uma vez por semana evita 90% dos problemas técnicos comuns. Com essas ferramentas, você tem autonomia para resolver travamentos simples sem depender de assistência técnica imediata.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funções para abrir e fechar as aulas
+        function openLesson(lessonNumber) {
+            // Fechar todas as aulas primeiro
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`lessonModal${i}`).style.display = 'none';
+            }
+            
+            // Abrir a aula específica
+            document.getElementById(`lessonModal${lessonNumber}`).style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Impede scroll da página principal
+        }
+        
+        function closeLesson(lessonNumber) {
+            document.getElementById(`lessonModal${lessonNumber}`).style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restaura scroll
+        }
+        
+        // Configurar eventos para os botões
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.view-lesson-btn');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lessonNumber = this.getAttribute('data-lesson');
+                    openLesson(lessonNumber);
+                });
+            });
+            
+            // Fechar modal ao clicar fora do conteúdo
+            const modals = document.querySelectorAll('.lesson-modal');
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+            
+            // Fechar com tecla ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    for (let i = 1; i <= 4; i++) {
+                        document.getElementById(`lessonModal${i}`).style.display = 'none';
+                    }
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Efeito de carregamento suave
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // Animar os cartões ao aparecer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observar os cartões
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.module-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

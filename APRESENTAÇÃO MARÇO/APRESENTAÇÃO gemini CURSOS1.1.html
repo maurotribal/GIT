@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apresentação Executiva — Portal 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary-bg: #FDFBF7; /* Creme suave da paleta melhorada */
+  --win-blue: #0F2C59;   /* Azul Marinho Profundo */
+  --off-purple: #4F1787; /* Roxo Imperial */
+  --int-green: #006769;  /* Verde Esmeralda Escuro */
+  --ctrl-gray: #374151;  /* Grafite Executivo (substituindo o dourado) */
+  --text-dark: #1F2937;
+  --text-light: #F9FAFB;
+}
+
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  background: var(--primary-bg);
+  font-family: 'Roboto', sans-serif;
+  color: var(--text-dark);
+  overflow: hidden;
+}
+
+.slide {
+  width: 100vw; height: 100vh;
+  display: grid;
+  grid-template-rows: 6px 70px 30px 1fr 60px;
+  user-select: none;
+}
+
+/* ── Barra de Progresso ── */
+.prog-track { background: #E5E7EB; }
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--win-blue), var(--off-purple), var(--int-green));
+  transition: width .6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── Top Bar ── */
+.topbar {
+  background: #fff;
+  border-bottom: 1px solid #E5E7EB;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%;
+}
+.topbar-brand h1 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: 14px; font-weight: 800; color: var(--text-dark);
+  text-transform: uppercase; letter-spacing: 1px;
+}
+.topbar-brand p { font-size: 10px; color: #6B7280; font-weight: 500; }
+
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #D1D5DB; transition: all .3s ease;
+}
+.dot.active { background: var(--win-blue); transform: scale(1.4); }
+
+/* ── Step Label ── */
+.step-lbl {
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 11px; font-weight: 700; color: #9CA3AF;
+  letter-spacing: 2px; text-transform: uppercase;
+}
+
+/* ── Conteúdo SVG ── */
+.svg-wrap {
+  display: flex; align-items: center; justify-content: center;
+  padding: 20px;
+  overflow: hidden;
+}
+.svg-wrap svg { max-width: 100%; max-height: 100%; }
+
+/* ── Bottom Bar ── */
+.bottombar {
+  background: #fff; border-top: 1px solid #E5E7EB;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 5%;
+}
+.btn {
+  height: 34px; padding: 0 20px;
+  border-radius: 6px; border: 1px solid #D1D5DB;
+  background: #fff; font-family: 'Montserrat', sans-serif;
+  font-size: 10px; font-weight: 700; cursor: pointer;
+  transition: all .2s;
+}
+.btn:hover:not(:disabled) { background: #F3F4F6; }
+.btn-p { background: var(--text-dark); color: #fff; border: none; }
+
+/* ── Animação ── */
+.s { opacity: 0; transform: translateY(15px); transition: all 0.5s ease; }
+.s.v { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+  .topbar-brand h1 { font-size: 11px; }
+  .btn { padding: 0 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="slide" id="slide">
+  <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+
+  <div class="topbar">
+    <div class="topbar-brand">
+      <h1>Curso de Informática Básica 2026</h1>
+      <p>ESTRATÉGIA DE INCLUSÃO DIGITAL · TELECENTROS SALTO/SP</p>
+    </div>
+    <div class="step-dots" id="dots" style="display:flex; gap:8px;"></div>
+  </div>
+
+  <div class="step-lbl" id="lbl"></div>
+
+  <div class="svg-wrap" id="wrap">
+    <svg viewBox="0 0 900 480" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <filter id="shd" x="-10%" y="-10%" width="120%" height="120%">
+          <feDropShadow dx="0" dy="3" stdDeviation="5" flood-opacity="0.1"/>
+        </filter>
+        <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="4" markerHeight="4" orient="auto">
+          <path d="M1 1L9 5L1 9" fill="none" stroke="#9CA3AF" stroke-width="2"/>
+        </marker>
+      </defs>
+
+      <g class="s d0" data-step="1">
+        <rect x="250" y="20" width="400" height="65" rx="10" fill="#fff" filter="url(#shd)"/>
+        <rect x="250" y="20" width="8" height="65" rx="4" fill="#1F2937"/>
+        <text x="450" y="40" text-anchor="middle" fill="#6B7280" font-size="9" font-family="Montserrat" font-weight="700">PÁGINA INICIAL — PORTAL</text>
+        <text x="450" y="62" text-anchor="middle" fill="#1F2937" font-size="16" font-family="Montserrat" font-weight="800">Curso de Informática Básica 2026</text>
+      </g>
+
+      <g class="s d0" data-step="2">
+        <path d="M450 85 V110 M150 110 H750 M150 110 V125 M450 110 V125 M750 110 V125" stroke="#D1D5DB" stroke-width="1.5" fill="none" marker-end="url(#ah)"/>
+      </g>
+
+      <g class="s d1" data-step="2">
+        <rect x="10" y="125" width="280" height="55" rx="10" fill="var(--win-blue)" filter="url(#shd)"/>
+        <text x="150" y="157" text-anchor="middle" fill="#FFF" font-size="14" font-family="Montserrat" font-weight="700">Curso 01: Windows 10</text>
+      </g>
+
+      <g class="s d2" data-step="2">
+        <rect x="310" y="125" width="280" height="55" rx="10" fill="var(--off-purple)" filter="url(#shd)"/>
+        <text x="450" y="157" text-anchor="middle" fill="#FFF" font-size="14" font-family="Montserrat" font-weight="700">Curso 02: Office</text>
+      </g>
+
+      <g class="s d3" data-step="2">
+        <rect x="610" y="125" width="280" height="55" rx="10" fill="var(--int-green)" filter="url(#shd)"/>
+        <text x="750" y="157" text-anchor="middle" fill="#FFF" font-size="14" font-family="Montserrat" font-weight="700">Curso 03: Internet & IA</text>
+      </g>
+
+      <g class="s d1" data-step="3">
+        <rect x="10" y="195" width="280" height="45" rx="8" fill="#fff" filter="url(#shd)"/>
+        <rect x="10" y="195" width="4" height="45" rx="2" fill="var(--win-blue)"/>
+        <text x="25" y="222" fill="#1F2937" font-size="11" font-family="Roboto" font-weight="700">M1: Ecossistema Windows 10</text>
+      </g>
+
+      <g class="s d2" data-step="4">
+        <rect x="310" y="195" width="280" height="45" rx="8" fill="#fff" filter="url(#shd)"/>
+        <rect x="310" y="195" width="4" height="45" rx="2" fill="var(--off-purple)"/>
+        <text x="325" y="222" fill="#1F2937" font-size="11" font-family="Roboto" font-weight="700">M1: Produtividade com Office</text>
+      </g>
+
+      <g class="s d3" data-step="5">
+        <rect x="610" y="195" width="280" height="45" rx="8" fill="#fff" filter="url(#shd)"/>
+        <rect x="610" y="195" width="4" height="45" rx="2" fill="var(--int-green)"/>
+        <text x="625" y="222" fill="#1F2937" font-size="11" font-family="Roboto" font-weight="700">M4: IA Generativa e Futuro</text>
+      </g>
+
+      <g class="s d0" data-step="6">
+        <line x1="10" y1="380" x2="890" y2="380" stroke="#E5E7EB" stroke-dasharray="5 3"/>
+        <text x="450" y="405" text-anchor="middle" fill="#9CA3AF" font-size="9" font-family="Montserrat" font-weight="800">ESTRUTURA INTERNA DA APRESENTAÇÃO</text>
+        
+        <rect x="20" y="420" width="200" height="40" rx="8" fill="var(--win-blue)"/>
+        <text x="120" y="445" text-anchor="middle" fill="#FFF" font-size="10" font-family="Montserrat" font-weight="700">VÍDEO</text>
+
+        <rect x="240" y="420" width="200" height="40" rx="8" fill="#4B5563"/>
+        <text x="340" y="445" text-anchor="middle" fill="#FFF" font-size="10" font-family="Montserrat" font-weight="700">APOSTILA</text>
+
+        <rect x="460" y="420" width="200" height="40" rx="8" fill="var(--int-green)"/>
+        <text x="560" y="445" text-anchor="middle" fill="#FFF" font-size="10" font-family="Montserrat" font-weight="700">FECHAMENTO</text>
+
+        <rect x="680" y="420" width="200" height="40" rx="8" fill="var(--ctrl-gray)"/>
+        <text x="780" y="445" text-anchor="middle" fill="#FFF" font-size="10" font-family="Montserrat" font-weight="700">CONTROLES</text>
+      </g>
+    </svg>
+  </div>
+
+  <div class="bottombar">
+    <div style="font-size: 10px; color: #9CA3AF; font-weight: 700;">SALTO/SP · 2026</div>
+    <div class="navbtns" style="display:flex; gap:12px;">
+      <span id="ctr" style="font-family:'Montserrat'; font-size:10px; font-weight:700; align-self:center;">PASSO 1/6</span>
+      <button class="btn" id="bPrev" onclick="go(-1)" disabled>VOLTAR</button>
+      <button class="btn btn-p" id="bNext" onclick="go(1)">AVANÇAR</button>
+    </div>
+  </div>
+</div>
+
+<script>
+let cur = 1;
+const TOTAL = 6;
+const LABELS = ['Visão Estratégica', 'Eixos de Formação', 'Módulos Windows', 'Módulos Office', 'Módulos Internet & IA', 'Modelo Pedagógico'];
+
+function render() {
+  document.getElementById('prog').style.width = (cur / TOTAL * 100) + '%';
+  document.getElementById('lbl').textContent = LABELS[cur-1];
+  document.getElementById('ctr').textContent = `PASSO ${cur}/${TOTAL}`;
+  
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = Array.from({length: TOTAL}, (_, i) => `<div class="dot ${i+1 === cur ? 'active' : ''}"></div>`).join('');
+
+  document.querySelectorAll('[data-step]').forEach(el => {
+    parseInt(el.dataset.step) <= cur ? el.classList.add('v') : el.classList.remove('v');
+  });
+
+  document.getElementById('bPrev').disabled = cur === 1;
+  const nextBtn = document.getElementById('bNext');
+  nextBtn.textContent = cur === TOTAL ? 'CONCLUIR' : 'AVANÇAR';
+  nextBtn.style.background = cur === TOTAL ? '#059669' : '#1F2937';
+}
+
+function go(dir) {
+  const next = cur + dir;
+  if (next >= 1 && next <= TOTAL) { cur = next; render(); }
+}
+
+document.getElementById('wrap').addEventListener('click', () => go(1));
+render();
+</script>
+</body>
+</html>

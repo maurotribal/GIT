@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Organograma — Portal Informática Básica 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #EEF2F7;
+  font-family: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+.slide {
+  width: 100vw; height: 100vh;
+  display: grid;
+  grid-template-rows: 4px 54px 22px 1fr 46px;
+  user-select: none;
+}
+
+/* ── Progress bar ── */
+.prog-track { background: #D8DEE9; }
+.prog-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #0078D4 0%, #7719AA 55%, #038387 100%);
+  transition: width .55s cubic-bezier(.4,0,.2,1);
+}
+
+/* ── Top bar ── */
+.topbar {
+  background: #fff;
+  border-bottom: 1px solid #DDE3EE;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+}
+.topbar-brand h1 {
+  font-size: 11.5px; font-weight: 700; color: #1B2A4A;
+  text-transform: uppercase; letter-spacing: .08em;
+}
+.topbar-brand p { font-size: 10.5px; color: #7B8499; margin-top: 2px; }
+.step-dots { display: flex; gap: 7px; align-items: center; }
+.dot {
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #D8DEE9;
+  transition: background .3s ease, transform .3s ease, width .3s ease;
+}
+.dot.past   { background: #90C8F0; }
+.dot.active { background: #0078D4; transform: scale(1.45); }
+
+/* ── Step label ── */
+.step-lbl {
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10.5px; font-weight: 600; color: #7B8499;
+  letter-spacing: .08em; text-transform: uppercase;
+  background: #EEF2F7;
+  transition: opacity .3s;
+}
+
+/* ── SVG area ── */
+.svg-wrap {
+  display: flex; align-items: center; justify-content: center;
+  padding: 6px 24px 2px;
+  cursor: pointer;
+  overflow: hidden;
+}
+.svg-wrap svg { width: 100%; height: 100%; display: block; }
+
+/* ── Bottom bar ── */
+.bottombar {
+  background: #fff; border-top: 1px solid #DDE3EE;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px;
+}
+.hint { font-size: 10.5px; color: #A0A8B8; }
+.navbtns { display: flex; align-items: center; gap: 8px; }
+.ctr { font-size: 10.5px; color: #7B8499; min-width: 72px; text-align: right; }
+.btn {
+  height: 28px; padding: 0 14px;
+  border: 1px solid #DDE3EE; border-radius: 3px;
+  background: #fff; color: #1B2A4A;
+  font: 600 11px/1 'IBM Plex Sans','Segoe UI',sans-serif;
+  cursor: pointer;
+  transition: background .15s, border-color .15s, color .15s;
+  letter-spacing: .02em;
+}
+.btn:hover:not(:disabled) { background: #EEF2F7; border-color: #B0BAC8; }
+.btn:disabled { opacity: .3; cursor: not-allowed; }
+.btn-p {
+  background: #1B2A4A; color: #fff; border-color: #1B2A4A;
+}
+.btn-p:hover:not(:disabled) { background: #243A5E; border-color: #243A5E; }
+.btn-done {
+  background: #038387; color: #fff; border-color: #038387;
+}
+
+/* ── SVG animated step elements ── */
+.s {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity .48s ease, transform .48s ease;
+}
+.s.v { opacity: 1; transform: translateY(0); }
+
+/* stagger delays */
+.d0 { transition-delay: 0ms;   }
+.d1 { transition-delay: 130ms; }
+.d2 { transition-delay: 260ms; }
+.d3 { transition-delay: 390ms; }
+.d4 { transition-delay: 510ms; }
+
+/* override on backward nav — set via JS inline style */
+</style>
+</head>
+<body>
+
+<div class="slide" id="slide">
+
+  <div class="prog-track"><div class="prog-fill" id="prog"></div></div>
+
+  <div class="topbar">
+    <div class="topbar-brand">
+      <h1>Portal de Cursos de Informática Básica · 2026</h1>
+      <p>Telecentros Salto/SP &nbsp;·&nbsp; Mauro Celso Pereira de Souza</p>
+    </div>
+    <div class="step-dots" id="dots"></div>
+  </div>
+
+  <div class="step-lbl" id="lbl"></div>
+
+  <div class="svg-wrap" id="wrap">
+  <svg viewBox="0 0 900 496" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- Arrow marker -->
+    <marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+      <path d="M1 1.5L8.5 5L1 8.5" fill="none" stroke="#B0BAC8" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+    </marker>
+    <!-- Subtle dot grid background -->
+    <pattern id="dots" width="24" height="24" patternUnits="userSpaceOnUse">
+      <circle cx="1" cy="1" r="1" fill="#D8DEE9"/>
+    </pattern>
+  </defs>
+
+  <!-- background -->
+  <rect width="900" height="496" fill="#EEF2F7"/>
+  <rect width="900" height="496" fill="url(#dots)"/>
+
+  <!-- ════════════════════════════════════════════════
+       STEP 1 · d0 — Root portal node
+       ════════════════════════════════════════════════ -->
+  <g class="s d0" data-step="1">
+    <!-- shadow layer -->
+    <rect x="272" y="17" width="360" height="54" rx="5" fill="#1B2A4A" opacity=".12"/>
+    <!-- main card -->
+    <rect x="270" y="14" width="360" height="54" rx="5" fill="#1B2A4A"/>
+    <!-- left accent bar -->
+    <rect x="270" y="14" width="5" height="54" rx="2" fill="#0078D4"/>
+    <!-- top tag -->
+    <text x="450" y="31" text-anchor="middle" dominant-baseline="central"
+      fill="#4E6E94" font-size="9" font-weight="600" letter-spacing=".1em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">PÁGINA INICIAL — PORTAL</text>
+    <!-- title -->
+    <text x="450" y="52" text-anchor="middle" dominant-baseline="central"
+      fill="#FFFFFF" font-size="14" font-weight="700"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Curso de Informática Básica 2026</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════════
+       STEP 2 — Three courses
+       ════════════════════════════════════════════════ -->
+
+  <!-- d0: trunk connectors -->
+  <g class="s d0" data-step="2">
+    <line x1="450" y1="68" x2="450" y2="82" stroke="#B0BAC8" stroke-width="1" marker-end="url(#ah)"/>
+    <line x1="150" y1="82" x2="750" y2="82" stroke="#B0BAC8" stroke-width="1"/>
+    <line x1="150" y1="82" x2="150" y2="96" stroke="#B0BAC8" stroke-width="1" marker-end="url(#ah)"/>
+    <line x1="450" y1="82" x2="450" y2="96" stroke="#B0BAC8" stroke-width="1" marker-end="url(#ah)"/>
+    <line x1="750" y1="82" x2="750" y2="96" stroke="#B0BAC8" stroke-width="1" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- d1: Course 01 Windows 10 -->
+  <g class="s d1" data-step="2">
+    <rect x="12"  y="18" width="278" height="52" rx="4" fill="#0078D4" opacity=".18"/>
+    <rect x="10"  y="96" width="280" height="52" rx="4" fill="#0078D4"/>
+    <rect x="10"  y="96" width="5"   height="52" rx="2" fill="#50AEFF"/>
+    <text x="150" y="112" text-anchor="middle" dominant-baseline="central"
+      fill="#BDE4FF" font-size="8.5" font-weight="700" letter-spacing=".1em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">CURSO 01</text>
+    <text x="150" y="132" text-anchor="middle" dominant-baseline="central"
+      fill="#FFFFFF" font-size="14" font-weight="700"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Windows 10</text>
+  </g>
+
+  <!-- d2: Course 02 Microsoft Office -->
+  <g class="s d2" data-step="2">
+    <rect x="312" y="18" width="278" height="52" rx="4" fill="#7719AA" opacity=".18"/>
+    <rect x="310" y="96" width="280" height="52" rx="4" fill="#7719AA"/>
+    <rect x="310" y="96" width="5"   height="52" rx="2" fill="#B870E0"/>
+    <text x="450" y="112" text-anchor="middle" dominant-baseline="central"
+      fill="#DFBAFC" font-size="8.5" font-weight="700" letter-spacing=".1em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">CURSO 02</text>
+    <text x="450" y="132" text-anchor="middle" dominant-baseline="central"
+      fill="#FFFFFF" font-size="14" font-weight="700"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Microsoft Office</text>
+  </g>
+
+  <!-- d3: Course 03 Internet -->
+  <g class="s d3" data-step="2">
+    <rect x="612" y="18" width="278" height="52" rx="4" fill="#038387" opacity=".18"/>
+    <rect x="610" y="96" width="280" height="52" rx="4" fill="#038387"/>
+    <rect x="610" y="96" width="5"   height="52" rx="2" fill="#2EC8CB"/>
+    <text x="750" y="108" text-anchor="middle" dominant-baseline="central"
+      fill="#A6E8E9" font-size="8.5" font-weight="700" letter-spacing=".1em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">CURSO 03</text>
+    <text x="750" y="124" text-anchor="middle" dominant-baseline="central"
+      fill="#FFFFFF" font-size="13" font-weight="700"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Internet e Novas</text>
+    <text x="750" y="141" text-anchor="middle" dominant-baseline="central"
+      fill="#FFFFFF" font-size="13" font-weight="700"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Tecnologias</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════════
+       STEP 3 — Windows 10 Modules
+       ════════════════════════════════════════════════ -->
+
+  <!-- d0: connector + M1 -->
+  <g class="s d0" data-step="3">
+    <line x1="150" y1="148" x2="150" y2="162" stroke="#B0BAC8" stroke-width="1" marker-end="url(#ah)"/>
+    <rect x="10" y="162" width="280" height="54" rx="4" fill="#fff" stroke="#0078D4" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="10" y="162" width="4"   height="54" rx="2" fill="#0078D4"/>
+    <text x="26" y="174" dominant-baseline="central"
+      fill="#0078D4" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 01</text>
+    <text x="26" y="192" dominant-baseline="central"
+      fill="#003C72" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Windows 10 no Cenário</text>
+    <text x="26" y="207" dominant-baseline="central"
+      fill="#003C72" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">de 2026</text>
+  </g>
+
+  <!-- d1: connector + M2 -->
+  <g class="s d1" data-step="3">
+    <line x1="150" y1="216" x2="150" y2="226" stroke="#B0BAC8" stroke-width="0.9"/>
+    <rect x="10" y="226" width="280" height="54" rx="4" fill="#fff" stroke="#0078D4" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="10" y="226" width="4"   height="54" rx="2" fill="#0078D4"/>
+    <text x="26" y="238" dominant-baseline="central"
+      fill="#0078D4" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 02</text>
+    <text x="26" y="256" dominant-baseline="central"
+      fill="#003C72" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Gerenciamento de</text>
+    <text x="26" y="271" dominant-baseline="central"
+      fill="#003C72" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Arquivos e Pastas</text>
+  </g>
+
+  <!-- d2: connector + M3 -->
+  <g class="s d2" data-step="3">
+    <line x1="150" y1="280" x2="150" y2="290" stroke="#B0BAC8" stroke-width="0.9"/>
+    <rect x="10" y="290" width="280" height="54" rx="4" fill="#fff" stroke="#0078D4" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="10" y="290" width="4"   height="54" rx="2" fill="#0078D4"/>
+    <text x="26" y="302" dominant-baseline="central"
+      fill="#0078D4" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 03</text>
+    <text x="26" y="320" dominant-baseline="central"
+      fill="#003C72" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Multimídia e</text>
+    <text x="26" y="335" dominant-baseline="central"
+      fill="#003C72" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Transferência de Dados</text>
+  </g>
+
+  <!-- d3: connector + M4 -->
+  <g class="s d3" data-step="3">
+    <line x1="150" y1="344" x2="150" y2="354" stroke="#B0BAC8" stroke-width="0.9"/>
+    <rect x="10" y="354" width="280" height="54" rx="4" fill="#fff" stroke="#0078D4" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="10" y="354" width="4"   height="54" rx="2" fill="#0078D4"/>
+    <text x="26" y="366" dominant-baseline="central"
+      fill="#0078D4" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 04</text>
+    <text x="26" y="384" dominant-baseline="central"
+      fill="#003C72" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Manutenção,</text>
+    <text x="26" y="399" dominant-baseline="central"
+      fill="#003C72" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Segurança e Solução</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════════
+       STEP 4 — Office Modules
+       ════════════════════════════════════════════════ -->
+
+  <!-- d0: connector + M1 -->
+  <g class="s d0" data-step="4">
+    <line x1="450" y1="148" x2="450" y2="162" stroke="#B0BAC8" stroke-width="1" marker-end="url(#ah)"/>
+    <rect x="310" y="162" width="280" height="54" rx="4" fill="#fff" stroke="#7719AA" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="310" y="162" width="4"   height="54" rx="2" fill="#7719AA"/>
+    <text x="326" y="174" dominant-baseline="central"
+      fill="#7719AA" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 01</text>
+    <text x="326" y="199" dominant-baseline="central"
+      fill="#3D0074" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Introdução ao Office</text>
+  </g>
+
+  <!-- d1: connector + M2 -->
+  <g class="s d1" data-step="4">
+    <line x1="450" y1="216" x2="450" y2="226" stroke="#B0BAC8" stroke-width="0.9"/>
+    <rect x="310" y="226" width="280" height="54" rx="4" fill="#fff" stroke="#7719AA" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="310" y="226" width="4"   height="54" rx="2" fill="#7719AA"/>
+    <text x="326" y="238" dominant-baseline="central"
+      fill="#7719AA" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 02</text>
+    <text x="326" y="263" dominant-baseline="central"
+      fill="#3D0074" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Microsoft Word</text>
+  </g>
+
+  <!-- d2: connector + M3 -->
+  <g class="s d2" data-step="4">
+    <line x1="450" y1="280" x2="450" y2="290" stroke="#B0BAC8" stroke-width="0.9"/>
+    <rect x="310" y="290" width="280" height="54" rx="4" fill="#fff" stroke="#7719AA" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="310" y="290" width="4"   height="54" rx="2" fill="#7719AA"/>
+    <text x="326" y="302" dominant-baseline="central"
+      fill="#7719AA" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 03</text>
+    <text x="326" y="327" dominant-baseline="central"
+      fill="#3D0074" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Microsoft Excel</text>
+  </g>
+
+  <!-- d3: connector + M4 -->
+  <g class="s d3" data-step="4">
+    <line x1="450" y1="344" x2="450" y2="354" stroke="#B0BAC8" stroke-width="0.9"/>
+    <rect x="310" y="354" width="280" height="54" rx="4" fill="#fff" stroke="#7719AA" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="310" y="354" width="4"   height="54" rx="2" fill="#7719AA"/>
+    <text x="326" y="366" dominant-baseline="central"
+      fill="#7719AA" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 04</text>
+    <text x="326" y="391" dominant-baseline="central"
+      fill="#3D0074" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Microsoft PowerPoint</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════════
+       STEP 5 — Internet & New Technologies Modules
+       ════════════════════════════════════════════════ -->
+
+  <!-- d0: connector + M1 -->
+  <g class="s d0" data-step="5">
+    <line x1="750" y1="148" x2="750" y2="162" stroke="#B0BAC8" stroke-width="1" marker-end="url(#ah)"/>
+    <rect x="610" y="162" width="280" height="54" rx="4" fill="#fff" stroke="#038387" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="610" y="162" width="4"   height="54" rx="2" fill="#038387"/>
+    <text x="626" y="174" dominant-baseline="central"
+      fill="#038387" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 01</text>
+    <text x="626" y="199" dominant-baseline="central"
+      fill="#014B4D" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Navegadores e Internet</text>
+  </g>
+
+  <!-- d1: connector + M2 -->
+  <g class="s d1" data-step="5">
+    <line x1="750" y1="216" x2="750" y2="226" stroke="#B0BAC8" stroke-width="0.9"/>
+    <rect x="610" y="226" width="280" height="54" rx="4" fill="#fff" stroke="#038387" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="610" y="226" width="4"   height="54" rx="2" fill="#038387"/>
+    <text x="626" y="238" dominant-baseline="central"
+      fill="#038387" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 02</text>
+    <text x="626" y="263" dominant-baseline="central"
+      fill="#014B4D" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Segurança Digital</text>
+  </g>
+
+  <!-- d2: connector + M3 -->
+  <g class="s d2" data-step="5">
+    <line x1="750" y1="280" x2="750" y2="290" stroke="#B0BAC8" stroke-width="0.9"/>
+    <rect x="610" y="290" width="280" height="54" rx="4" fill="#fff" stroke="#038387" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="610" y="290" width="4"   height="54" rx="2" fill="#038387"/>
+    <text x="626" y="302" dominant-baseline="central"
+      fill="#038387" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 03</text>
+    <text x="626" y="327" dominant-baseline="central"
+      fill="#014B4D" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Redes Sociais</text>
+  </g>
+
+  <!-- d3: connector + M4 -->
+  <g class="s d3" data-step="5">
+    <line x1="750" y1="344" x2="750" y2="354" stroke="#B0BAC8" stroke-width="0.9"/>
+    <rect x="610" y="354" width="280" height="54" rx="4" fill="#fff" stroke="#038387" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="610" y="354" width="4"   height="54" rx="2" fill="#038387"/>
+    <text x="626" y="366" dominant-baseline="central"
+      fill="#038387" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">MÓDULO 04</text>
+    <text x="626" y="391" dominant-baseline="central"
+      fill="#014B4D" font-size="12" font-weight="600"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Inteligência Artificial</text>
+  </g>
+
+  <!-- ════════════════════════════════════════════════
+       STEP 6 — Internal lesson structure panel
+       ════════════════════════════════════════════════ -->
+
+  <!-- d0: separator + panel bg + header -->
+  <g class="s d0" data-step="6">
+    <line x1="10" y1="420" x2="890" y2="420"
+      stroke="#CBD2DC" stroke-width="0.9" stroke-dasharray="5 4"/>
+    <rect x="10" y="426" width="880" height="64" rx="4"
+      fill="#F0F4F9" stroke="#DDE3EE" stroke-width="0.8"/>
+    <text x="22" y="437" dominant-baseline="central"
+      fill="#7B8499" font-size="8.5" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">ESTRUTURA INTERNA DE CADA APRESENTAÇÃO (MODAL DE AULA)</text>
+  </g>
+
+  <!-- d1: L1 Vídeo -->
+  <g class="s d1" data-step="6">
+    <rect x="18"  y="443" width="200" height="40" rx="3" fill="#fff" stroke="#0078D4" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="18"  y="443" width="4"   height="40" rx="1.5" fill="#0078D4"/>
+    <text x="30" y="453" dominant-baseline="central"
+      fill="#0078D4" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">VÍDEO</text>
+    <text x="30" y="469" dominant-baseline="central"
+      fill="#003C72" font-size="10"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">YouTube — link por módulo</text>
+    <line x1="218" y1="463" x2="228" y2="463"
+      stroke="#B0BAC8" stroke-width="1" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- d2: L2 Apostila -->
+  <g class="s d2" data-step="6">
+    <rect x="228" y="443" width="220" height="40" rx="3" fill="#fff" stroke="#9CA3AF" stroke-width="0.6"/>
+    <rect x="228" y="443" width="4"   height="40" rx="1.5" fill="#6B7280"/>
+    <text x="240" y="453" dominant-baseline="central"
+      fill="#374151" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">APOSTILA — SLIDES</text>
+    <text x="240" y="462" dominant-baseline="central"
+      fill="#374151" font-size="9"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Introdução e Fundamentos</text>
+    <text x="240" y="475" dominant-baseline="central"
+      fill="#374151" font-size="9"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Desenvolvimento · Conclusão</text>
+    <line x1="448" y1="463" x2="458" y2="463"
+      stroke="#B0BAC8" stroke-width="1" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- d3: L3 Fechamento -->
+  <g class="s d3" data-step="6">
+    <rect x="458" y="443" width="218" height="40" rx="3" fill="#fff" stroke="#038387" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="458" y="443" width="4"   height="40" rx="1.5" fill="#038387"/>
+    <text x="470" y="453" dominant-baseline="central"
+      fill="#038387" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">FECHAMENTO</text>
+    <text x="470" y="462" dominant-baseline="central"
+      fill="#014B4D" font-size="9"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Glossário · 5 Perguntas</text>
+    <text x="470" y="475" dominant-baseline="central"
+      fill="#014B4D" font-size="9"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Mensagem Final</text>
+    <line x1="676" y1="463" x2="686" y2="463"
+      stroke="#B0BAC8" stroke-width="1" marker-end="url(#ah)"/>
+  </g>
+
+  <!-- d4: L4 Controles -->
+  <g class="s d4" data-step="6">
+    <rect x="686" y="443" width="202" height="40" rx="3" fill="#fff" stroke="#C55A00" stroke-width="0.6" stroke-opacity="0.5"/>
+    <rect x="686" y="443" width="4"   height="40" rx="1.5" fill="#C55A00"/>
+    <text x="698" y="453" dominant-baseline="central"
+      fill="#C55A00" font-size="8" font-weight="700" letter-spacing=".09em"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">CONTROLES</text>
+    <text x="698" y="462" dominant-baseline="central"
+      fill="#6B2D00" font-size="9"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">← Anterior · Próximo →</text>
+    <text x="698" y="475" dominant-baseline="central"
+      fill="#6B2D00" font-size="9"
+      font-family="'IBM Plex Sans','Segoe UI',sans-serif">Tela Cheia · ESC</text>
+  </g>
+
+  </svg>
+  </div>
+
+  <div class="bottombar">
+    <span class="hint">
+      Clique na tela &nbsp;·&nbsp; ← → para navegar &nbsp;·&nbsp; ESC para sair da tela cheia
+    </span>
+    <div class="navbtns">
+      <span class="ctr" id="ctr">Passo 1 de 6</span>
+      <button class="btn" id="bPrev" onclick="go(-1)" disabled>← Voltar</button>
+      <button class="btn btn-p" id="bNext" onclick="go(1)">Avançar →</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const TOTAL = 6;
+const LABELS = [
+  'Visão Geral do Portal',
+  'Três Cursos Disponíveis',
+  'Curso 01 — Windows 10  ·  4 Módulos',
+  'Curso 02 — Microsoft Office  ·  4 Módulos',
+  'Curso 03 — Internet e Novas Tecnologias  ·  4 Módulos',
+  'Estrutura Completa das Apresentações'
+];
+
+let cur = 1;
+
+function render() {
+  // Progress bar
+  document.getElementById('prog').style.width = (cur / TOTAL * 100) + '%';
+
+  // Step label
+  document.getElementById('lbl').textContent = LABELS[cur - 1];
+
+  // Counter
+  document.getElementById('ctr').textContent = 'Passo ' + cur + ' de ' + TOTAL;
+
+  // Dots
+  const dotsEl = document.getElementById('dots');
+  dotsEl.innerHTML = Array.from({length: TOTAL}, (_, i) => {
+    let cls = 'dot';
+    if (i + 1 < cur)  cls += ' past';
+    if (i + 1 === cur) cls += ' active';
+    return '<div class="' + cls + '"></div>';
+  }).join('');
+
+  // SVG steps
+  document.querySelectorAll('[data-step]').forEach(el => {
+    const s = parseInt(el.dataset.step);
+    if (s <= cur) el.classList.add('v');
+    else          el.classList.remove('v');
+  });
+
+  // Buttons
+  const bPrev = document.getElementById('bPrev');
+  const bNext = document.getElementById('bNext');
+  bPrev.disabled = cur <= 1;
+  bNext.disabled = cur >= TOTAL;
+  bNext.className = cur >= TOTAL ? 'btn btn-done' : 'btn btn-p';
+  bNext.textContent = cur >= TOTAL ? '✓ Concluído' : 'Avançar →';
+}
+
+function go(dir) {
+  const next = cur + dir;
+  if (next < 1 || next > TOTAL) return;
+
+  // Going backward → instant disappear (no stagger delays)
+  if (dir < 0) {
+    document.querySelectorAll('.s').forEach(el => {
+      el.style.transitionDelay = '0ms';
+    });
+  } else {
+    // Going forward → restore class-based delays
+    document.querySelectorAll('.s').forEach(el => {
+      el.style.transitionDelay = '';
+    });
+  }
+
+  cur = next;
+  render();
+}
+
+// Click SVG area to advance
+document.getElementById('wrap').addEventListener('click', () => {
+  if (cur < TOTAL) go(1);
+});
+
+// Keyboard navigation
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); go(1); }
+  if (e.key === 'ArrowLeft')                   { e.preventDefault(); go(-1); }
+  if (e.key === 'F11')                         { e.preventDefault(); toggleFS(); }
+});
+
+// Optional fullscreen toggle
+function toggleFS() {
+  if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen();
+  }
+}
+
+// Init
+render();
+</script>
+</body>
+</html>

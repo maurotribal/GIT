@@ -1,0 +1,1345 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Microsoft Office - Informática Básica</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --word-blue: #2b579a;
+            --word-blue-light: #3a7bd5;
+            --excel-green: #217346;
+            --excel-green-light: #28a745;
+            --powerpoint-orange: #d24726;
+            --powerpoint-orange-light: #ff6f42;
+            --office-purple: #744da9;
+            --office-purple-light: #9966cc;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+            --radius: 16px;
+            --radius-lg: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f8f9ff 0%, #f1f3ff 100%);
+            color: var(--dark);
+            line-height: 1.7;
+            min-height: 100vh;
+            padding: 20px;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 4rem 1rem 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .header-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .header-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 220px;
+            height: 5px;
+            background: linear-gradient(to right, var(--word-blue), var(--powerpoint-orange));
+            border-radius: 3px;
+        }
+        
+        .header-subtitle {
+            font-size: 1.3rem;
+            color: var(--dark-light);
+            max-width: 800px;
+            margin: 2rem auto 0;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        .header-note {
+            font-size: 1.05rem;
+            color: var(--office-purple);
+            margin-top: 1.5rem;
+            font-weight: 500;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+            padding: 1rem;
+            background: rgba(116, 77, 169, 0.1);
+            border-radius: 10px;
+        }
+        
+        /* Content Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0 5rem;
+        }
+        
+        /* Module Cards */
+        .module-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .module-header {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.95;
+        }
+        
+        .module-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.1) 100%);
+        }
+        
+        .module-icon {
+            font-size: 4.5rem;
+            color: white;
+            z-index: 2;
+            text-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            transition: transform 0.4s ease;
+        }
+        
+        .module-card:hover .module-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .module-content {
+            padding: 2.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .module-number {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            color: white;
+            background: rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: flex-start;
+            backdrop-filter: blur(10px);
+        }
+        
+        .module-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            line-height: 1.3;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .module-description {
+            color: var(--dark-light);
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        /* Module-specific colors */
+        .module-1 .module-header::before {
+            background: linear-gradient(135deg, var(--office-purple), var(--office-purple-light));
+        }
+        
+        .module-2 .module-header::before {
+            background: linear-gradient(135deg, var(--word-blue), var(--word-blue-light));
+        }
+        
+        .module-3 .module-header::before {
+            background: linear-gradient(135deg, var(--excel-green), var(--excel-green-light));
+        }
+        
+        .module-4 .module-header::before {
+            background: linear-gradient(135deg, var(--powerpoint-orange), var(--powerpoint-orange-light));
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.1rem 2.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            gap: 0.8rem;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            letter-spacing: 0.3px;
+        }
+        
+        .module-1 .btn {
+            background-color: var(--office-purple);
+            color: white;
+        }
+        
+        .module-2 .btn {
+            background-color: var(--word-blue);
+            color: white;
+        }
+        
+        .module-3 .btn {
+            background-color: var(--excel-green);
+            color: white;
+        }
+        
+        .module-4 .btn {
+            background-color: var(--powerpoint-orange);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Lesson Modal */
+        .lesson-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.4s ease;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .lesson-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.5s ease;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .lesson-header {
+            padding: 2.5rem 3rem;
+            position: relative;
+            color: white;
+        }
+        
+        .lesson-header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.95;
+            z-index: 1;
+        }
+        
+        .lesson-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .lesson-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .lesson-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .lesson-body {
+            padding: 3rem;
+            color: var(--dark);
+        }
+        
+        .lesson-section {
+            margin-bottom: 3rem;
+        }
+        
+        .lesson-section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray-light);
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .lesson-item {
+            margin-bottom: 1.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .lesson-item::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--word-blue);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        
+        .lesson-item-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .lesson-text {
+            color: var(--dark-light);
+            margin-bottom: 0.8rem;
+            line-height: 1.7;
+        }
+        
+        .lesson-note {
+            background: #f0f9ff;
+            border-left: 4px solid var(--word-blue);
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 1rem;
+        }
+        
+        .lesson-shortcut {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .shortcut-key {
+            background: var(--dark);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 600;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .close-lesson {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .close-lesson:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            color: var(--dark-light);
+            border-top: 1px solid var(--gray-light);
+            position: relative;
+        }
+        
+        .footer-author {
+            font-weight: 600;
+            color: var(--dark);
+            margin: 0.8rem 0;
+            font-size: 1.3rem;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .footer-title {
+            font-weight: 500;
+            margin: 0.5rem 0;
+            color: var(--office-purple);
+        }
+        
+        .footer-year {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .lesson-content {
+                max-width: 95%;
+            }
+            
+            .lesson-body {
+                padding: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2.5rem;
+            }
+            
+            .header-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .module-title {
+                font-size: 1.6rem;
+            }
+            
+            .lesson-header {
+                padding: 2rem;
+            }
+            
+            .lesson-title {
+                font-size: 2rem;
+            }
+            
+            .lesson-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .lesson-body {
+                padding: 2rem;
+            }
+            
+            .lesson-section-title {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 1rem 1.8rem;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 3rem 1rem 2rem;
+            }
+            
+            .header-title {
+                font-size: 2rem;
+            }
+            
+            .module-content {
+                padding: 2rem;
+            }
+            
+            .lesson-header {
+                padding: 1.8rem;
+            }
+            
+            .lesson-title {
+                font-size: 1.7rem;
+            }
+            
+            .lesson-body {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--word-blue);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--word-blue-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title">Curso de Microsoft Office</h1>
+            <p class="header-subtitle">Domine os principais programas de produtividade do Microsoft Office. Aprenda Word, Excel e PowerPoint de forma prática e eficiente.</p>
+            <p class="header-note"></p>
+        </header>
+        
+        <div class="modules-grid">
+            <div class="module-card module-1">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-th-large"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 01</span>
+                    <h3 class="module-title">Introdução ao Office</h3>
+                    <p class="module-description">Conheça o pacote Microsoft Office, seus principais programas e aprenda a gerenciar arquivos de forma eficiente. Fundamentos essenciais para começar.</p>
+                    <button class="btn view-lesson-btn" data-lesson="1">
+                        Ver Aula Completa <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="module-card module-2">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-file-word"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 02</span>
+                    <h3 class="module-title">Microsoft Word</h3>
+                    <p class="module-description">Domine o processamento de texto com o Word. Aprenda funções básicas, formatação, edição e atalhos essenciais para criar documentos profissionais.</p>
+                    <button class="btn view-lesson-btn" data-lesson="2">
+                        Ver Aula Completa <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="module-card module-3">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-file-excel"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 03</span>
+                    <h3 class="module-title">Microsoft Excel</h3>
+                    <p class="module-description">Crie e gerencie planilhas eletrônicas. Aprenda entrada de dados, formatação, cálculos básicos e atalhos para aumentar sua produtividade.</p>
+                    <button class="btn view-lesson-btn" data-lesson="3">
+                        Ver Aula Completa <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="module-card module-4">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-file-powerpoint"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 04</span>
+                    <h3 class="module-title">Microsoft PowerPoint</h3>
+                    <p class="module-description">Crie apresentações impactantes. Aprenda a construir slides, adicionar elementos gráficos, animações e controlar apresentações com atalhos práticos.</p>
+                    <button class="btn view-lesson-btn" data-lesson="4">
+                        Ver Aula Completa <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer class="footer-destaque">
+        <div class="footer-content">
+            <h3>Curso de Informática Básica</h3>
+            <p class="footer-author">Microsoft Office - Pacote Completo</p>
+            <p class="footer-title">Word, Excel e PowerPoint</p>
+            
+            <div class="footer-info">
+                <p>© Criado por: <span class="destaque-autor">Mauro Celso Pereira de Souza</span></p>
+                <p>Gestão da Tecnologia da Informação</p>
+                <p>Engenharia de Software</p>
+            </div>
+        </div>
+    </footer>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal1">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--office-purple), var(--office-purple-light));"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">APOSTILA: MICROSOFT OFFICE – MÓDULO 1</h2>
+                    <p class="lesson-subtitle">Tema: Introdução e Fundamentos do Pacote</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(1)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Definição do Microsoft Office</div>
+                        <p class="lesson-text">O Microsoft Office é um conjunto integrado de aplicativos de produtividade desenvolvido para ambientes profissionais e acadêmicos. Seu objetivo é fornecer ferramentas padronizadas para a criação, edição e gerenciamento de documentos digitais.</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Os Três Pilares (Principais Aplicativos)</div>
+                        <p class="lesson-text">Embora o pacote inclua diversos programas, a proficiência básica exige o domínio da "tríade clássica":</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Microsoft Word (Ícone Azul):</div>
+                        <p class="lesson-text"><strong>Classificação:</strong> Processador de Texto.</p>
+                        <p class="lesson-text"><strong>Função:</strong> Criação de documentos focados em leitura e escrita, como relatórios, cartas, contratos, currículos e trabalhos acadêmicos.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Microsoft Excel (Ícone Verde):</div>
+                        <p class="lesson-text"><strong>Classificação:</strong> Planilha Eletrônica.</p>
+                        <p class="lesson-text"><strong>Função:</strong> Manipulação de dados numéricos, criação de tabelas, execução de cálculos automáticos (fórmulas) e geração de gráficos.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Microsoft PowerPoint (Ícone Laranja):</div>
+                        <p class="lesson-text"><strong>Classificação:</strong> Software de Apresentação.</p>
+                        <p class="lesson-text"><strong>Função:</strong> Criação de sequências visuais (slides) contendo texto, imagens e animações para suporte em palestras e reuniões.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. A Lógica da Interface Unificada</div>
+                        <p class="lesson-text">A Microsoft utiliza um padrão visual chamado Faixa de Opções (a barra de ferramentas no topo). A vantagem é a consistência: os comandos básicos (Salvar, Copiar, Colar, Negrito, Cor) estão localizados exatamente no mesmo lugar em todos os três programas, facilitando o aprendizado.</p>
+                    </div>
+                </div>
+                
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (CRIAÇÃO E EDIÇÃO)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Guia Prático: Iniciando um Novo Arquivo</div>
+                        <p class="lesson-text">O procedimento para começar um trabalho é padrão para Word, Excel e PowerPoint.</p>
+                        <p class="lesson-text">1. Abra o aplicativo desejado pelo Menu Iniciar.</p>
+                        <p class="lesson-text">2. Na tela de boas-vindas, você tem duas opções principais:</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- Documento/Pasta em Branco: Cria um arquivo vazio, do zero.</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- Modelos (Templates): Usa um arquivo pré-formatado (ex: "Calendário" no Excel ou "Currículo" no Word).</p>
+                        <p class="lesson-text">3. Ação Recomendada: Clique na opção "Em Branco" para iniciar.</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Guia Prático: A Faixa de Opções (Menu Superior)</div>
+                        <p class="lesson-text">Para editar o conteúdo, utilize as abas superiores:</p>
+                        <p class="lesson-text"><strong>Página Inicial:</strong> Contém 90% das ferramentas usadas no dia a dia (Fonte, Tamanho, Alinhamento, Negrito).</p>
+                        <p class="lesson-text"><strong>Inserir:</strong> Utilizada para adicionar elementos externos (Imagens, Tabelas, Gráficos, Formas).</p>
+                        <p class="lesson-text"><strong>Arquivo:</strong> Menu para ações de "bastidores" (Salvar, Imprimir, Exportar PDF).</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Guia Prático: Formatação Básica</div>
+                        <p class="lesson-text">Para alterar a aparência de um texto ou número, siga a ordem lógica: Selecionar > Agir.</p>
+                        <p class="lesson-text"><strong>1. Seleção:</strong></p>
+                        <p class="lesson-text" style="padding-left: 20px;">- No Word: Clique e arraste o mouse sobre o texto.</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- No Excel: Clique sobre a célula (o retângulo).</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- No PowerPoint: Clique na caixa de texto.</p>
+                        <p class="lesson-text"><strong>2. Formatação (Guia Página Inicial):</strong></p>
+                        <p class="lesson-text" style="padding-left: 20px;">- N (Negrito): Destaca o texto (Ctrl + N).</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- I (Itálico): Inclina o texto (Ctrl + I).</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- S (Sublinhado): Adiciona uma linha sob o texto (Ctrl + S).</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- Fonte/Tamanho: Altere o estilo da letra (ex: Arial) e o tamanho (ex: 12) nos menus suspensos.</p>
+                    </div>
+                </div>
+                
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (GERENCIAMENTO DE ARQUIVOS)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Locais de Armazenamento</div>
+                        <p class="lesson-text">Ao salvar um arquivo, você define o destino físico ou virtual:</p>
+                        <p class="lesson-text"><strong>Localmente:</strong> Gravado no disco rígido (HD) do computador ou em um Pen Drive. O acesso é restrito àquela máquina específica.</p>
+                        <p class="lesson-text"><strong>Na Nuvem (OneDrive):</strong> Gravado nos servidores da Microsoft. Permite acesso de outros dispositivos e habilita o "Salvamento Automático".</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Guia Prático: Salvando Arquivos</div>
+                        <p class="lesson-text">Um arquivo não salvo é perdido se o computador desligar. Comando Padrão: Ctrl + B (no Office em Português).</p>
+                        <p class="lesson-text">Passo a Passo (Menu Arquivo):</p>
+                        <p class="lesson-text">1. Clique na guia Arquivo (canto superior esquerdo).</p>
+                        <p class="lesson-text">2. Clique em Salvar.</p>
+                        <p class="lesson-text">3. Se for a primeira vez, clique em Procurar.</p>
+                        <p class="lesson-text">4. Escolha a pasta de destino (ex: Documentos).</p>
+                        <p class="lesson-text">5. No campo "Nome do arquivo", digite um nome identificável.</p>
+                        <p class="lesson-text">6. Clique em Salvar.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Salvar vs. Salvar Como</div>
+                        <p class="lesson-text">Distinção fundamental para gerenciamento de versões:</p>
+                        <p class="lesson-text"><strong>Salvar:</strong> Atualiza o arquivo atual com as últimas modificações.</p>
+                        <p class="lesson-text"><strong>Salvar Como:</strong> Cria uma cópia independente do arquivo, permitindo mudar o nome, o local ou o tipo (ex: transformar Word em PDF).</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Abrir e Compartilhar</div>
+                        <p class="lesson-text"><strong>Abrir:</strong> Guia Arquivo > Abrir > Selecione na lista "Recentes" ou procure no computador.</p>
+                        <p class="lesson-text"><strong>Compartilhar:</strong> Utilize o botão "Compartilhar" (canto superior direito) para enviar o link do arquivo por e-mail, permitindo colaboração em tempo real (requer uso da Nuvem/OneDrive).</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <p class="lesson-text">• Word: Foco em texto e diagramação.</p>
+                        <p class="lesson-text">• Excel: Foco em dados, tabelas e cálculos.</p>
+                        <p class="lesson-text">• PowerPoint: Foco em visualização e apresentações.</p>
+                        <p class="lesson-text">• Interface: A guia "Página Inicial" concentra as ferramentas essenciais de formatação.</p>
+                        <p class="lesson-text">• Segurança: Use "Salvar Como" para criar backups ou versões diferentes do mesmo documento.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Glossário Técnico</div>
+                        <p class="lesson-text">• Faixa de Opções (Ribbon): O painel de ferramentas na parte superior da janela.</p>
+                        <p class="lesson-text">• Célula: A interseção de uma linha e uma coluna no Excel (o retângulo onde se digita).</p>
+                        <p class="lesson-text">• Slide: Cada "página" de uma apresentação do PowerPoint.</p>
+                        <p class="lesson-text">• PDF: Formato de arquivo "fechado" para leitura, que pode ser gerado através do comando "Salvar Como" ou "Exportar".</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas de Fixação</div>
+                        <p class="lesson-text">1. Qual aplicativo devo usar para criar um currículo profissional? <strong>Resposta: Microsoft Word.</strong></p>
+                        <p class="lesson-text">2. Onde encontro as opções de mudar a cor e o tamanho da letra? <strong>Resposta: Na guia "Página Inicial".</strong></p>
+                        <p class="lesson-text">3. Qual a função do comando "Salvar Como"? <strong>Resposta: Criar uma cópia do arquivo com novo nome ou formato.</strong></p>
+                        <p class="lesson-text">4. Qual o atalho de teclado para salvar um documento na versão em português? <strong>Resposta: Ctrl + B.</strong></p>
+                        <p class="lesson-text">5. O que preciso fazer antes de aplicar Negrito em um texto? <strong>Resposta: Selecionar o texto desejado.</strong></p>
+                    </div>
+
+                    <div class="lesson-note">
+                        <p class="lesson-text"><strong>Mensagem Final:</strong> O Microsoft Office é a linguagem universal dos escritórios. A chave para a fluência é entender que os três programas operam sob a mesma lógica: se você sabe salvar e formatar no Word, já sabe fazer o mesmo no Excel e no PowerPoint. Pratique a criação de arquivos e a navegação pelas abas superiores para fixar a localização das ferramentas.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal2">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--word-blue), var(--word-blue-light));"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">APOSTILA: MICROSOFT WORD – MÓDULO 2</h2>
+                    <p class="lesson-subtitle">Tema: Edição de Texto e Comandos Essenciais</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(2)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Definição do Microsoft Word</div>
+                        <p class="lesson-text">O Microsoft Word é um processador de texto utilizado para a produção de documentos digitais e impressos. Diferente de um editor simples, ele permite manipulação complexa de layout, inserção de elementos gráficos e revisão profissional.</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Interface de Edição</div>
+                        <p class="lesson-text">Ao abrir o programa, você encontrará:</p>
+                        <p class="lesson-text">• A Página em Branco: A área branca simula uma folha de papel A4.</p>
+                        <p class="lesson-text">• O Cursor: A barra vertical piscante (|) indica onde o texto digitado aparecerá.</p>
+                        <p class="lesson-text">• Margens: O espaço vazio nas bordas da página onde não é possível digitar (ajustável na aba Layout).</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Objetivo da Aula</div>
+                        <p class="lesson-text">Neste módulo, o foco é a manipulação de texto: escrever, selecionar, corrigir, formatar e salvar. O domínio dessas funções básicas é o pré-requisito para criar desde cartas simples até relatórios corporativos complexos.</p>
+                    </div>
+                </div>
+                
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (OPERAÇÕES BÁSICAS)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Gerenciamento de Documentos (Menu Arquivo)</div>
+                        <p class="lesson-text">As operações fundamentais para lidar com o arquivo como um todo.</p>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + O</span> <span>Criar Novo (Guia Arquivo > Novo > Documento em Branco).</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + A</span> <span>Abrir Existente (Guia Arquivo > Abrir).</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + B</span> <span>Salvar (Guia Arquivo > Salvar). Nota: Em inglês seria Ctrl+S.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + P</span> <span>Imprimir (Guia Arquivo > Imprimir).</span></div>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Técnicas de Seleção de Texto</div>
+                        <p class="lesson-text">Para formatar ou editar, o computador precisa saber o que você quer alterar. Não se edita sem selecionar.</p>
+                        <p class="lesson-text"><strong>Com Mouse:</strong></p>
+                        <p class="lesson-text">• Clique e arraste: Seleciona trechos específicos.</p>
+                        <p class="lesson-text">• Duplo clique: Seleciona a palavra.</p>
+                        <p class="lesson-text">• Triplo clique: Seleciona o parágrafo inteiro.</p>
+                        <p class="lesson-text"><strong>Com Teclado:</strong></p>
+                        <p class="lesson-text">• Shift + Setas: Seleciona caractere por caractere.</p>
+                        <p class="lesson-text">• Ctrl + T: Seleciona Todo o texto do documento.</p>
+                    </div>
+                </div>
+                
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (EDIÇÃO E ATALHOS)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Área de Transferência (Copiar e Mover)</div>
+                        <p class="lesson-text">A base da edição é a capacidade de duplicar ou reposicionar textos sem precisar redigitar.</p>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + C</span> <span>Copiar: Cria uma duplicata do texto selecionado na memória do computador.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + X</span> <span>Recortar: Remove o texto da posição original para movê-lo para outro lugar.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + V</span> <span>Colar: Insere o conteúdo copiado ou recortado na posição onde o cursor estiver piscando.</span></div>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Formatação de Texto (Estilo)</div>
+                        <p class="lesson-text">Alterações visuais para dar ênfase ou estrutura ao documento. Use a guia Página Inicial ou os atalhos abaixo (selecione o texto antes):</p>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + N</span> <span>Negrito: Torna o traço da letra mais grosso. Usado para títulos e destaques fortes.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + I</span> <span>Itálico: Inclina o texto para a direita. Usado para citações, termos estrangeiros ou ênfase leve.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + S</span> <span>Sublinhado: Adiciona uma linha sob o texto. Usado para links ou destaques tradicionais.</span></div>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Correção de Erros (O "Poder do Tempo")</div>
+                        <p class="lesson-text">Não tenha medo de errar. O Word permite voltar no tempo.</p>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + Z</span> <span>Desfazer: O comando mais importante. Cancela a última ação realizada.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + Y</span> <span>Refazer: Se você desfez algo por engano, este comando refaz a ação.</span></div>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <p class="lesson-text">• Fluxo de Trabalho: Selecionar > Copiar/Recortar > Posicionar Cursor > Colar.</p>
+                        <p class="lesson-text">• Segurança: Use Ctrl + B frequentemente para salvar seu progresso.</p>
+                        <p class="lesson-text">• Formatação: Use Negrito e Itálico com moderação para não poluir o visual do documento.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Tabela de Atalhos Essenciais (Português-BR)</div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + B</span> <span>Salvar (Backup)</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + A</span> <span>Abrir</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + T</span> <span>Selecionar Tudo</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + N</span> <span>Negrito</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + I</span> <span>Itálico</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + S</span> <span>Sublinhado</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + C</span> <span>Copiar (Copy)</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + V</span> <span>Colar (Visualizar colagem)</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + P</span> <span>Imprimir (Print)</span></div>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas de Fixação</div>
+                        <p class="lesson-text">1. Qual a diferença entre Copiar e Recortar? <strong>Resposta: Copiar duplica o texto; Recortar move o texto (retira da origem).</strong></p>
+                        <p class="lesson-text">2. Cometi um erro e apaguei um parágrafo sem querer. O que faço? <strong>Resposta: Pressione Ctrl + Z (Desfazer) imediatamente.</strong></p>
+                        <p class="lesson-text">3. Qual o atalho para selecionar todo o texto do documento de uma vez? <strong>Resposta: Ctrl + T.</strong></p>
+                        <p class="lesson-text">4. Para que serve o comando Ctrl + N? <strong>Resposta: Aplicar Negrito ao texto selecionado.</strong></p>
+                        <p class="lesson-text">5. No Word em português, qual o atalho para Salvar? <strong>Resposta: Ctrl + B.</strong></p>
+                    </div>
+
+                    <div class="lesson-note">
+                        <p class="lesson-text"><strong>Mensagem Final:</strong> A agilidade no Word vem da combinação entre o uso do mouse (para selecionar) e do teclado (para comandar). Tente escrever um pequeno parágrafo e formatá-lo usando apenas os atalhos aprendidos hoje. Lembre-se: Ctrl + Z é seu melhor amigo; ele permite que você experimente sem medo de estragar o documento.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal3">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--excel-green), var(--excel-green-light));"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">APOSTILA: MICROSOFT EXCEL – MÓDULO 3</h2>
+                    <p class="lesson-subtitle">Tema: Criação de Planilhas e Cálculos Básicos</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(3)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Definição do Microsoft Excel</div>
+                        <p class="lesson-text">O Excel é um software de planilhas eletrônicas. Diferente do Word (que é uma folha em branco), o Excel é uma grade gigante projetada para organizar dados, realizar cálculos matemáticos automatizados e gerar gráficos visuais.</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Anatomia da Tela (A Grade)</div>
+                        <p class="lesson-text">Para dominar o Excel, é preciso entender como ele mapeia a informação. A tela é dividida em:</p>
+                        <p class="lesson-text">• Colunas: São verticais e identificadas por LETRAS (A, B, C...).</p>
+                        <p class="lesson-text">• Linhas: São horizontais e identificadas por NÚMEROS (1, 2, 3...).</p>
+                        <p class="lesson-text">• Célula: É o retângulo formado pelo encontro de uma coluna com uma linha. Cada célula tem um "Endereço" único (ex: A1, B5, C10).</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. A Lógica de Seleção</div>
+                        <p class="lesson-text">No Excel, você não clica "na página", você clica na Célula.</p>
+                        <p class="lesson-text">• Célula Ativa: É o retângulo com borda verde mais grossa. Tudo o que você digitar aparecerá ali.</p>
+                        <p class="lesson-text">• Barra de Fórmulas: A barra branca longa acima das colunas (ao lado do símbolo $f_x$). Ela mostra o conteúdo real da célula ativa, seja um texto ou uma fórmula matemática.</p>
+                    </div>
+                </div>
+                
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (ENTRADA DE DADOS)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Criando e Abrindo</div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + O</span> <span>Novo Arquivo: Guia Arquivo > Novo > Pasta de Trabalho em Branco.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + A</span> <span>Abrir Arquivo: Guia Arquivo > Abrir.</span></div>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Guia Prático: Digitação e Navegação</div>
+                        <p class="lesson-text">A forma como você tecla define para onde o cursor vai.</p>
+                        <p class="lesson-text">1. Clique em uma célula (ex: A1).</p>
+                        <p class="lesson-text">2. Digite o dado (texto ou número).</p>
+                        <p class="lesson-text">3. Para confirmar:</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- Pressione Enter: O cursor desce para a linha de baixo (A2).</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- Pressione Tab: O cursor vai para a coluna da direita (B1).</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- Pressione Esc: Cancela o que estava escrevendo antes de confirmar.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Ajuste de Colunas e Linhas</div>
+                        <p class="lesson-text">Frequentemente, o texto é maior que a largura da coluna.</p>
+                        <p class="lesson-text"><strong>O Problema:</strong> O texto parece cortado ou aparecem símbolos como ##### (indica que o número não cabe).</p>
+                        <p class="lesson-text"><strong>A Solução:</strong> Posicione o mouse na linha divisória entre as letras das colunas (ex: entre A e B) até o cursor virar uma cruz preta.</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- Clique e arraste: Para definir a largura manualmente.</p>
+                        <p class="lesson-text" style="padding-left: 20px;">- Duplo Clique: Para Ajuste Automático (a coluna se adapta exatamente ao tamanho do maior texto).</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Formatação de Números</div>
+                        <p class="lesson-text">O Excel precisa saber se o número é dinheiro, data ou porcentagem.</p>
+                        <p class="lesson-text">1. Selecione a célula com o número.</p>
+                        <p class="lesson-text">2. Na guia Página Inicial, grupo Número, clique no menu suspenso "Geral".</p>
+                        <p class="lesson-text">3. Escolha: Moeda (R$), Data Abreviada ou Porcentagem (%).</p>
+                    </div>
+                </div>
+                
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (CÁLCULOS E ATALHOS)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. O Princípio da Fórmula (Regra de Ouro)</div>
+                        <p class="lesson-text">Para o Excel fazer uma conta, você DEVE começar digitando o sinal de igual (=).</p>
+                        <p class="lesson-text">• Se digitar 2+2, o Excel entende como texto.</p>
+                        <p class="lesson-text">• Se digitar =2+2, o Excel calcula e mostra 4.</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Operadores Matemáticos Básicos</div>
+                        <p class="lesson-text">No Excel, os símbolos de matemática são adaptados ao teclado:</p>
+                        <p class="lesson-text">• Soma: + (Mais)</p>
+                        <p class="lesson-text">• Subtração: - (Menos)</p>
+                        <p class="lesson-text">• Multiplicação: * (Asterisco)</p>
+                        <p class="lesson-text">• Divisão: / (Barra)</p>
+                        <p class="lesson-text"><strong>Exemplo Prático:</strong> Para somar o valor da célula A1 com a B1.</p>
+                        <p class="lesson-text">1. Clique na célula de resultado (C1).</p>
+                        <p class="lesson-text">2. Digite =.</p>
+                        <p class="lesson-text">3. Clique no A1, digite +, clique no B1.</p>
+                        <p class="lesson-text">4. Pressione Enter.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Atalhos de Teclado Essenciais (Padrão BR)</div>
+                        <p class="lesson-text">Aumente a velocidade ignorando o mouse para ações repetitivas.</p>
+                        <p class="lesson-text"><strong>Gerenciamento:</strong></p>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + B</span> <span>Salvar (Vital!).</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + P</span> <span>Imprimir.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Shift + F11</span> <span>Nova Planilha (Aba).</span></div>
+                        
+                        <p class="lesson-text"><strong>Edição e Movimento:</strong></p>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Setas</span> <span>Movem a seleção célula por célula.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + Setas</span> <span>"Salta" para o último dado preenchido naquela direção.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + C</span> <span>Copiar.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + V</span> <span>Colar.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Delete</span> <span>Apaga o conteúdo da célula (o texto), mas mantém a formatação.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + Z</span> <span>Desfazer (funciona igual ao Word).</span></div>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <p class="lesson-text">• Estrutura: Letras são Colunas, Números são Linhas.</p>
+                        <p class="lesson-text">• Cálculo: Toda fórmula começa obrigatoriamente com =.</p>
+                        <p class="lesson-text">• Visual: Se aparecer #####, alargue a coluna clicando duas vezes na divisória das letras.</p>
+                        <p class="lesson-text">• Separação Decimal: No Brasil, usamos vírgula para centavos (ex: 10,50). O ponto geralmente separa milhares ou datas, dependendo da configuração.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Glossário Técnico</div>
+                        <p class="lesson-text">• Pasta de Trabalho: É o arquivo do Excel em si (o todo).</p>
+                        <p class="lesson-text">• Planilha: São as abas na parte inferior da tela (Planilha1, Planilha2). Uma pasta pode ter várias planilhas.</p>
+                        <p class="lesson-text">• Intervalo: Um conjunto de células selecionadas (ex: de A1 até A10).</p>
+                        <p class="lesson-text">• Fórmula: Uma instrução matemática criada pelo usuário.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas de Fixação</div>
+                        <p class="lesson-text">1. Qual o primeiro caractere que devo digitar para iniciar qualquer cálculo? <strong>Resposta: O sinal de igual (=).</strong></p>
+                        <p class="lesson-text">2. Qual tecla devo apertar para confirmar um dado e ir para a célula da direita? <strong>Resposta: Tecla Tab.</strong></p>
+                        <p class="lesson-text">3. O que significam os símbolos ##### dentro de uma célula? <strong>Resposta: A coluna está muito estreita para exibir o número. É necessário alargá-la.</strong></p>
+                        <p class="lesson-text">4. Qual o atalho para Salvar a planilha no Excel em português? <strong>Resposta: Ctrl + B.</strong></p>
+                        <p class="lesson-text">5. Qual o operador matemático usado para multiplicação? <strong>Resposta: O asterisco (*).</strong></p>
+                    </div>
+
+                    <div class="lesson-note">
+                        <p class="lesson-text"><strong>Mensagem Final:</strong> O Excel intimida muitos iniciantes por parecer complexo, mas sua lógica é simples: Entrada, Processamento e Saída. Seu foco inicial deve ser aprender a navegar pelas células com o teclado e realizar as 4 operações básicas (+ - * /) iniciando com o sinal de igual. Pratique criar uma lista de compras simples, multiplicando a quantidade pelo preço.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal4">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--powerpoint-orange), var(--powerpoint-orange-light));"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">APOSTILA: MICROSOFT POWERPOINT – MÓDULO 4</h2>
+                    <p class="lesson-subtitle">Tema: Apresentações Visuais e Dinâmicas</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(4)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Definição do Microsoft PowerPoint</div>
+                        <p class="lesson-text">O PowerPoint é um software de apresentação gráfica. Sua função não é criar documentos de leitura (como o Word), mas sim criar suporte visual (Slides) para acompanhar a fala de um orador em reuniões, aulas ou palestras.</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. A Estrutura do Slide</div>
+                        <p class="lesson-text">Diferente do Word, você não pode simplesmente clicar na tela branca e digitar. O PowerPoint funciona à base de Caixas de Conteúdo.</p>
+                        <p class="lesson-text">• Slide: É a "página" da apresentação.</p>
+                        <p class="lesson-text">• Layout: É a estrutura pré-definida do slide. Ex: "Título e Conteúdo", "Duas Partes", "Somente Título".</p>
+                        <p class="lesson-text">• Caixa de Texto/Placeholder: São os retângulos pontilhados onde você insere textos, imagens ou gráficos.</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Princípios de Criação</div>
+                        <p class="lesson-text">Uma apresentação profissional equilibra informação e visual.</p>
+                        <p class="lesson-text">• Visual: O slide deve ser limpo. Evite "paredes de texto".</p>
+                        <p class="lesson-text">• Hierarquia: Títulos grandes, tópicos curtos. O slide deve lembrar a plateia do assunto, não ser o roteiro de leitura do apresentador.</p>
+                    </div>
+                </div>
+                
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (CONSTRUÇÃO)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Iniciando o Arquivo</div>
+                        <p class="lesson-text">1. Abra o PowerPoint.</p>
+                        <p class="lesson-text">2. Escolha "Apresentação em Branco" para começar do zero ou selecione um Tema (design colorido pronto) na tela inicial.</p>
+                        <p class="lesson-text">3. O Primeiro Slide: Automaticamente, o programa cria um "Slide de Título" (com espaço para Título e Subtítulo).</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Guia Prático: Adicionando Novos Slides</div>
+                        <p class="lesson-text">Você precisará de mais páginas para desenvolver o assunto.</p>
+                        <p class="lesson-text">• Caminho (Menu): Guia Página Inicial > Botão Novo Slide. (Dica: Clique na setinha abaixo do botão para escolher o Layout).</p>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + M</span> <span>Atalho: (M de "Mais" slide).</span></div>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Inserindo Elementos (Guia Inserir)</div>
+                        <p class="lesson-text">Enriqueça o slide além do texto simples. Vá na guia Inserir:</p>
+                        <p class="lesson-text">• Imagens: Clique em Imagens > Este Dispositivo para colocar fotos salvas no PC.</p>
+                        <p class="lesson-text">• Formas: Quadrados, setas e balões para criar diagramas.</p>
+                        <p class="lesson-text">• Gráficos/Tabelas: Para mostrar dados numéricos importados do Excel ou criados na hora.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Design e Aparência</div>
+                        <p class="lesson-text">Se começou com um slide branco e quer adicionar cor depois:</p>
+                        <p class="lesson-text">1. Vá na guia Design.</p>
+                        <p class="lesson-text">2. Passe o mouse sobre os Temas para ver uma prévia.</p>
+                        <p class="lesson-text">3. Clique no tema escolhido para aplicar a todos os slides automaticamente.</p>
+                    </div>
+                </div>
+                
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (MOVIMENTO E APRESENTAÇÃO)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Transições vs. Animações (Diferença Crítica)</div>
+                        <p class="lesson-text">Entender essa distinção é vital para controlar o fluxo da apresentação.</p>
+                        <p class="lesson-text"><strong>Transições (Entre Slides):</strong></p>
+                        <p class="lesson-text">• O que é: O efeito visual quando você passa de uma página para a outra (ex: o Slide 1 "empurra" o Slide 2).</p>
+                        <p class="lesson-text">• Como aplicar: Guia Transições > Escolha o efeito (ex: Desmaecer, Empurrão).</p>
+                        <p class="lesson-text"><strong>Animações (Dentro do Slide):</strong></p>
+                        <p class="lesson-text">• O que é: O movimento de um objeto específico (ex: uma foto que entra voando ou um texto que aparece linha por linha).</p>
+                        <p class="lesson-text">• Como aplicar: Clique no objeto (texto/imagem) > Guia Animações > Escolha o efeito (ex: Aparecer, Flutuar).</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Executando a Apresentação</div>
+                        <p class="lesson-text">Para projetar em tela cheia:</p>
+                        <div class="lesson-shortcut"><span class="shortcut-key">F5</span> <span>Do Início: A apresentação começa do Slide 1.</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Shift + F5</span> <span>Do Slide Atual: A apresentação começa da página que você está editando agora.</span></div>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Durante a Apresentação (Controles)</div>
+                        <p class="lesson-text">Quando a tela estiver cheia:</p>
+                        <p class="lesson-text">• Avançar: Use a Seta para a Direita, Seta para Baixo, Espaço ou Enter.</p>
+                        <p class="lesson-text">• Voltar: Use a Seta para a Esquerda, Seta para Cima ou Backspace.</p>
+                        <p class="lesson-text">• Encerrar: Pressione Esc a qualquer momento para voltar à edição.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <p class="lesson-text">• Novo Slide: Atalho Ctrl + M.</p>
+                        <p class="lesson-text">• Visual: Use a guia Design para padronizar cores e fontes.</p>
+                        <p class="lesson-text">• Movimento: Use Transições para mudar de página e Animações para mover itens na página.</p>
+                        <p class="lesson-text">• Apresentar: Tecla F5 para tela cheia.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Tabela de Atalhos Específicos (PowerPoint)</div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + M</span> <span>Novo Slide (Cria uma nova página imediatamente)</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">F5</span> <span>Iniciar Show (Começa a apresentação do primeiro slide)</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Esc</span> <span>Sair do Show (Fecha a tela cheia e volta à edição)</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Page Down</span> <span>Próximo (Avança para o próximo slide/animação)</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Page Up</span> <span>Anterior (Volta para o slide/animação anterior)</span></div>
+                        <div class="lesson-shortcut"><span class="shortcut-key">Ctrl + D</span> <span>Duplicar (Duplica o slide ou objeto selecionado)</span></div>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas de Fixação</div>
+                        <p class="lesson-text">1. Qual a tecla de atalho para iniciar a apresentação do começo (Slide 1)? <strong>Resposta: F5.</strong></p>
+                        <p class="lesson-text">2. Qual a diferença entre Transição e Animação? <strong>Resposta: Transição é o efeito entre slides (páginas); Animação é o efeito nos objetos (texto/imagem).</strong></p>
+                        <p class="lesson-text">3. Como faço para adicionar um novo slide usando o teclado? <strong>Resposta: Pressione Ctrl + M.</strong></p>
+                        <p class="lesson-text">4. Se eu quiser encerrar a apresentação antes do fim, que tecla aperto? <strong>Resposta: Esc.</strong></p>
+                        <p class="lesson-text">5. Onde devo ir para alterar o visual (cores e estilo) de todos os slides de uma vez? <strong>Resposta: Na guia "Design".</strong></p>
+                    </div>
+
+                    <div class="lesson-note">
+                        <p class="lesson-text"><strong>Mensagem Final:</strong> O PowerPoint é uma ferramenta de apoio. Lembre-se que "menos é mais": slides com muito texto cansam a audiência e competem com a sua fala. Use tópicos curtos, imagens de alta qualidade e pratique usar o modo de apresentação (F5) para ganhar confiança na troca de slides antes da reunião oficial.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funções para abrir e fechar as aulas
+        function openLesson(lessonNumber) {
+            // Fechar todas as aulas primeiro
+            for (let i = 1; i <= 4; i++) {
+                document.getElementById(`lessonModal${i}`).style.display = 'none';
+            }
+            
+            // Abrir a aula específica
+            document.getElementById(`lessonModal${lessonNumber}`).style.display = 'flex';
+            document.body.style.overflow = 'hidden'; // Impede scroll da página principal
+        }
+        
+        function closeLesson(lessonNumber) {
+            document.getElementById(`lessonModal${lessonNumber}`).style.display = 'none';
+            document.body.style.overflow = 'auto'; // Restaura scroll
+        }
+        
+        // Configurar eventos para os botões
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.view-lesson-btn');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lessonNumber = this.getAttribute('data-lesson');
+                    openLesson(lessonNumber);
+                });
+            });
+            
+            // Fechar modal ao clicar fora do conteúdo
+            const modals = document.querySelectorAll('.lesson-modal');
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+            
+            // Fechar com tecla ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    for (let i = 1; i <= 4; i++) {
+                        document.getElementById(`lessonModal${i}`).style.display = 'none';
+                    }
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Efeito de carregamento suave
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // Animar os cartões ao aparecer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observar os cartões
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.module-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>

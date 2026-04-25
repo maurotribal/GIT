@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard de Frequência — Telecentros 2026</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Sora',Helvetica,Arial,sans-serif;background:#F4F6FB;color:#334155;-webkit-font-smoothing:antialiased}
+
+.deck{position:relative;width:100vw;height:100vh}
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;z-index:1}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0)}
+.slide.exit-left{opacity:0;transform:translateY(-14px)}
+
+/* ════ CORES FLAT — sem gradiente ════ */
+:root{
+  --blue:#2563EB;
+  --amber:#D97706;
+  --green:#16A34A;
+  --dark:#111827;
+  --text:#334155;
+  --dim:#94A3B8;
+  --border:#E5E9F2;
+  --bg:#F4F6FB;
+  --card:#F8F9FE;
+  --white:#FFFFFF;
+}
+
+/* ════ TELA 1 — CAPA ════ */
+.cover{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5vh 5vw 10vh;background:var(--white)}
+.cover-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 24px;border-radius:50px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.12);font-size:clamp(.66rem,.9vw,.85rem);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:3vh}
+.cover h1{font-size:clamp(2.4rem,5.5vw,5rem);font-weight:800;line-height:1.08;letter-spacing:-.04em;color:var(--dark);margin-bottom:1.5vh}
+.cover .periodo{font-size:clamp(1rem,1.6vw,1.4rem);font-weight:600;color:var(--dim);margin-bottom:3vh}
+.cover .big-num{font-size:clamp(5rem,12vw,10rem);font-weight:800;letter-spacing:-.04em;color:var(--blue);line-height:1;margin-bottom:1vh}
+.cover .big-label{font-size:clamp(.85rem,1.2vw,1.1rem);font-weight:700;color:var(--dim);letter-spacing:.15em;text-transform:uppercase;margin-bottom:4vh}
+
+.cover-stats{display:flex;gap:clamp(16px,3vw,40px);flex-wrap:wrap;justify-content:center}
+.cstat{display:flex;flex-direction:column;align-items:center;padding:clamp(18px,2.5vh,32px) clamp(28px,3.5vw,56px);border-radius:20px;background:var(--card);border:1px solid var(--border)}
+.cstat-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:var(--white);margin-bottom:1.5vh}
+.cstat-num{font-size:clamp(2rem,3.5vw,2.8rem);font-weight:800;color:var(--dark);letter-spacing:-.03em}
+.cstat-name{font-size:clamp(.65rem,.85vw,.78rem);font-weight:700;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-top:.5vh}
+
+.cover-hint{position:absolute;bottom:3vh;font-size:clamp(.7rem,.82vw,.78rem);color:var(--dim);font-weight:500}
+.cover-hint kbd{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:3px 10px;font-weight:700;font-size:.78em;color:var(--dark)}
+
+/* ════ TELAS DE UNIDADE (2, 3, 4) ════ */
+.unit{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:5vh 5vw 10vh;background:var(--white)}
+
+.unit-header{display:flex;align-items:center;gap:clamp(14px,2vw,24px);margin-bottom:4vh}
+.unit-icon{width:clamp(60px,7vw,80px);height:clamp(60px,7vw,80px);border-radius:20px;display:flex;align-items:center;justify-content:center;font-size:clamp(1.6rem,2.8vw,2.4rem);color:var(--white);flex-shrink:0}
+.unit-info h2{font-size:clamp(1.8rem,3.5vw,3rem);font-weight:800;color:var(--dark);letter-spacing:-.03em}
+.unit-info p{font-size:clamp(.72rem,.95vw,.9rem);font-weight:600;color:var(--dim);letter-spacing:.06em;margin-top:.3vh}
+
+.unit-total{display:flex;align-items:baseline;gap:clamp(8px,1vw,16px);margin-bottom:4vh}
+.unit-total .ut-num{font-size:clamp(3.5rem,7vw,6rem);font-weight:800;letter-spacing:-.04em}
+.unit-total .ut-label{font-size:clamp(.78rem,1vw,.95rem);font-weight:700;color:var(--dim);letter-spacing:.1em;text-transform:uppercase}
+
+.unit-bars{display:flex;flex-direction:column;gap:clamp(16px,2.5vh,28px);width:100%;max-width:800px}
+
+.ubar{display:flex;align-items:center;gap:clamp(12px,1.5vw,20px)}
+.ubar-month{font-size:clamp(.85rem,1.1vw,1.05rem);font-weight:800;color:var(--dark);min-width:clamp(70px,8vw,100px);text-align:right}
+.ubar-track{flex:1;height:clamp(48px,6vh,68px);background:var(--bg);border-radius:14px;overflow:hidden;position:relative}
+.ubar-fill{height:100%;border-radius:14px;display:flex;align-items:center;padding-left:clamp(14px,1.5vw,24px);transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+.ubar-fill span{font-size:clamp(1.1rem,1.8vw,1.6rem);font-weight:800;color:var(--white)}
+.ubar-val{font-size:clamp(1.1rem,1.6vw,1.4rem);font-weight:800;color:var(--dark);min-width:clamp(40px,4vw,60px);text-align:right}
+
+.unit-months{display:flex;gap:clamp(12px,2vw,24px);margin-top:1vh}
+.um-card{flex:1;background:var(--card);border:1px solid var(--border);border-radius:16px;padding:clamp(14px,2vh,24px) clamp(12px,1.5vw,20px);text-align:center}
+.um-card-label{font-size:clamp(.58rem,.72vw,.68rem);font-weight:700;color:var(--dim);letter-spacing:.15em;text-transform:uppercase;margin-bottom:.6vh}
+.um-card-num{font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:800;color:var(--dark)}
+.um-card-pct{font-size:clamp(.6rem,.78vw,.72rem);font-weight:700;color:var(--dim);margin-top:.3vh}
+
+/* ════ TELA 5 — RANKING FINAL ════ */
+.final{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5vh 5vw 10vh;background:var(--white)}
+.final h2{font-size:clamp(1.8rem,3.5vw,3rem);font-weight:800;letter-spacing:-.03em;color:var(--dark);margin-bottom:4vh}
+
+.rank{display:flex;flex-direction:column;gap:clamp(14px,2vh,24px);width:100%;max-width:720px;margin-bottom:4vh}
+.rank-item{display:flex;align-items:center;gap:clamp(14px,2vw,24px);padding:clamp(16px,2.5vh,28px) clamp(20px,2.5vw,32px);border-radius:20px;background:var(--card);border:1px solid var(--border)}
+.rank-pos{font-size:clamp(1.5rem,2.5vw,2.2rem);font-weight:800;color:#D1D5E0;min-width:44px}
+.rank-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.3rem;color:var(--white);flex-shrink:0}
+.rank-info{flex:1;text-align:left}
+.rank-name{font-size:clamp(1rem,1.5vw,1.3rem);font-weight:800;color:var(--dark);letter-spacing:-.01em}
+.rank-sub{font-size:clamp(.6rem,.78vw,.72rem);font-weight:600;color:var(--dim)}
+.rank-val{font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;letter-spacing:-.03em}
+
+.final-total{margin-top:2vh}
+.final-total small{font-size:clamp(.62rem,.8vw,.75rem);font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:1vh}
+.final-total .ft-num{font-size:clamp(3.5rem,7vw,6rem);font-weight:800;letter-spacing:-.04em;color:var(--blue)}
+
+/* ════ NAV ════ */
+.nav{position:fixed;bottom:0;left:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:center;gap:14px;padding:14px 24px;background:linear-gradient(transparent,rgba(255,255,255,.95) 50%)}
+.nbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--border);background:var(--white);color:var(--dim);font-size:.85rem;cursor:pointer;display:grid;place-items:center;transition:all .3s ease;font-weight:700;box-shadow:0 1px 4px rgba(0,0,0,.04)}
+.nbtn:hover:not(:disabled){background:var(--blue);color:#fff;border-color:var(--blue);transform:translateY(-2px)}
+.nbtn:disabled{opacity:.25;cursor:not-allowed}
+.dots{display:flex;gap:8px;align-items:center}
+.dot{width:10px;height:10px;border-radius:50%;background:#D1D5E0;cursor:pointer;border:none;transition:all .3s ease}
+.dot.active{background:var(--blue);transform:scale(1.35);box-shadow:0 0 10px rgba(37,99,235,.3)}
+.dot:hover:not(.active){background:#A0A8BA}
+.pgc{font-size:.72rem;font-weight:700;color:var(--dim);letter-spacing:.12em;min-width:50px;text-align:center}
+
+/* ════ RESPONSIVE ════ */
+@media(max-width:768px){
+  .cover h1{font-size:clamp(1.8rem,6vw,3rem)}
+  .cover .big-num{font-size:clamp(4rem,14vw,7rem)}
+  .cover-stats{flex-direction:column;align-items:center}
+  .unit-header{flex-direction:column;text-align:center}
+  .unit-total{flex-direction:column;align-items:center;gap:4px}
+  .unit-bars{max-width:100%}
+  .ubar{flex-wrap:wrap}
+  .ubar-month{min-width:70px;text-align:center}
+  .unit-months{flex-direction:column;gap:10px}
+  .rank-item{flex-wrap:wrap}
+}
+@media(max-width:480px){
+  .cover h1{font-size:1.6rem}
+  .cover .big-num{font-size:3.5rem}
+  .unit-info h2{font-size:1.5rem}
+  .unit-total .ut-num{font-size:3rem}
+  .ubar-track{height:40px}
+  .ubar-fill span{font-size:.9rem}
+  .ubar-val{font-size:.95rem}
+  .final h2{font-size:1.4rem}
+  .rank-val{font-size:1.5rem}
+  .final-total .ft-num{font-size:3rem}
+  .nbtn{width:34px;height:34px;font-size:.78rem}
+  .dot{width:8px;height:8px}
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<!-- ═══ TELA 1 — CAPA ═══ -->
+<div class="slide active cover" id="s0">
+  <div class="cover-badge"><i class="fas fa-chart-line"></i> Relatório de Frequência</div>
+  <h1>Telecentros 2026</h1>
+  <div class="periodo"><i class="fas fa-calendar-days"></i> &nbsp;1º Trimestre — Janeiro a Março</div>
+  <div class="big-num">1.281</div>
+  <div class="big-label">Atendimentos Registrados</div>
+  <div class="cover-stats">
+    <div class="cstat">
+      <div class="cstat-icon" style="background:#D97706"><i class="fas fa-building-columns"></i></div>
+      <div class="cstat-num">453</div>
+      <div class="cstat-name">Independência</div>
+    </div>
+    <div class="cstat">
+      <div class="cstat-icon" style="background:#2563EB"><i class="fas fa-building-columns"></i></div>
+      <div class="cstat-num">567</div>
+      <div class="cstat-name">Saltense</div>
+    </div>
+    <div class="cstat">
+      <div class="cstat-icon" style="background:#16A34A"><i class="fas fa-building-columns"></i></div>
+      <div class="cstat-num">261</div>
+      <div class="cstat-name">Nações</div>
+    </div>
+  </div>
+  <div class="cover-hint"><kbd>←</kbd> <kbd>→</kbd> para navegar</div>
+</div>
+
+<!-- ═══ TELA 2 — INDEPENDÊNCIA ═══ -->
+<div class="slide unit" id="s1">
+  <div class="unit-header">
+    <div class="unit-icon" style="background:#D97706"><i class="fas fa-building-columns"></i></div>
+    <div class="unit-info">
+      <h2>Telecentro Independência</h2>
+      <p>Desempenho no 1º Trimestre 2026</p>
+    </div>
+  </div>
+  <div class="unit-total">
+    <div class="ut-num" style="color:#D97706">453</div>
+    <div class="ut-label">atendimentos</div>
+  </div>
+  <div class="unit-bars">
+    <div class="ubar">
+      <div class="ubar-month">Janeiro</div>
+      <div class="ubar-track"><div class="ubar-fill" style="width:100%;background:#D97706"><span>182</span></div></div>
+      <div class="ubar-val">182</div>
+    </div>
+    <div class="ubar">
+      <div class="ubar-month">Fevereiro</div>
+      <div class="ubar-track"><div class="ubar-fill" style="width:75%;background:#D97706"><span>137</span></div></div>
+      <div class="ubar-val">137</div>
+    </div>
+    <div class="ubar">
+      <div class="ubar-month">Março</div>
+      <div class="ubar-track"><div class="ubar-fill" style="width:74%;background:#D97706"><span>134</span></div></div>
+      <div class="ubar-val">134</div>
+    </div>
+  </div>
+  <div class="unit-months" style="margin-top:4vh;width:100%;max-width:800px">
+    <div class="um-card">
+      <div class="um-card-label">Janeiro</div>
+      <div class="um-card-num">182</div>
+      <div class="um-card-pct">40% do total</div>
+    </div>
+    <div class="um-card">
+      <div class="um-card-label">Fevereiro</div>
+      <div class="um-card-num">137</div>
+      <div class="um-card-pct">30% do total</div>
+    </div>
+    <div class="um-card">
+      <div class="um-card-label">Março</div>
+      <div class="um-card-num">134</div>
+      <div class="um-card-pct">30% do total</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TELA 3 — SALTENSE ═══ -->
+<div class="slide unit" id="s2">
+  <div class="unit-header">
+    <div class="unit-icon" style="background:#2563EB"><i class="fas fa-building-columns"></i></div>
+    <div class="unit-info">
+      <h2>Telecentro Saltense</h2>
+      <p>Desempenho no 1º Trimestre 2026</p>
+    </div>
+  </div>
+  <div class="unit-total">
+    <div class="ut-num" style="color:#2563EB">567</div>
+    <div class="ut-label">atendimentos</div>
+  </div>
+  <div class="unit-bars">
+    <div class="ubar">
+      <div class="ubar-month">Janeiro</div>
+      <div class="ubar-track"><div class="ubar-fill" style="width:97%;background:#2563EB"><span>196</span></div></div>
+      <div class="ubar-val">196</div>
+    </div>
+    <div class="ubar">
+      <div class="ubar-month">Fevereiro</div>
+      <div class="ubar-track"><div class="ubar-fill" style="width:100%;background:#2563EB"><span>202</span></div></div>
+      <div class="ubar-val">202</div>
+    </div>
+    <div class="ubar">
+      <div class="ubar-month">Março</div>
+      <div class="ubar-track"><div class="ubar-fill" style="width:84%;background:#2563EB"><span>169</span></div></div>
+      <div class="ubar-val">169</div>
+    </div>
+  </div>
+  <div class="unit-months" style="margin-top:4vh;width:100%;max-width:800px">
+    <div class="um-card">
+      <div class="um-card-label">Janeiro</div>
+      <div class="um-card-num">196</div>
+      <div class="um-card-pct">35% do total</div>
+    </div>
+    <div class="um-card">
+      <div class="um-card-label">Fevereiro</div>
+      <div class="um-card-num">202</div>
+      <div class="um-card-pct">36% do total</div>
+    </div>
+    <div class="um-card">
+      <div class="um-card-label">Março</div>
+      <div class="um-card-num">169</div>
+      <div class="um-card-pct">30% do total</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TELA 4 — NAÇÕES ═══ -->
+<div class="slide unit" id="s3">
+  <div class="unit-header">
+    <div class="unit-icon" style="background:#16A34A"><i class="fas fa-building-columns"></i></div>
+    <div class="unit-info">
+      <h2>Telecentro Nações</h2>
+      <p>Desempenho no 1º Trimestre 2026</p>
+    </div>
+  </div>
+  <div class="unit-total">
+    <div class="ut-num" style="color:#16A34A">261</div>
+    <div class="ut-label">atendimentos</div>
+  </div>
+  <div class="unit-bars">
+    <div class="ubar">
+      <div class="ubar-month">Janeiro</div>
+      <div class="ubar-track"><div class="ubar-fill" style="width:100%;background:#16A34A"><span>148</span></div></div>
+      <div class="ubar-val">148</div>
+    </div>
+    <div class="ubar">
+      <div class="ubar-month">Fevereiro</div>
+      <div class="ubar-track"><div class="ubar-fill" style="width:69%;background:#16A34A"><span>102</span></div></div>
+      <div class="ubar-val">102</div>
+    </div>
+    <div class="ubar">
+      <div class="ubar-month">Março</div>
+      <div class="ubar-track"><div class="ubar-fill" style="width:7%;background:#16A34A"></div></div>
+      <div class="ubar-val">11</div>
+    </div>
+  </div>
+  <div class="unit-months" style="margin-top:4vh;width:100%;max-width:800px">
+    <div class="um-card">
+      <div class="um-card-label">Janeiro</div>
+      <div class="um-card-num">148</div>
+      <div class="um-card-pct">57% do total</div>
+    </div>
+    <div class="um-card">
+      <div class="um-card-label">Fevereiro</div>
+      <div class="um-card-num">102</div>
+      <div class="um-card-pct">39% do total</div>
+    </div>
+    <div class="um-card">
+      <div class="um-card-label">Março</div>
+      <div class="um-card-num">11</div>
+      <div class="um-card-pct">4% do total</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TELA 5 — RANKING FINAL ═══ -->
+<div class="slide final" id="s4">
+  <div style="margin-bottom:3vh">
+    <div style="font-size:clamp(.62rem,.8vw,.75rem);font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:#94A3B8;margin-bottom:1vh"><i class="fas fa-trophy"></i> &nbsp;Resultado Consolidado</div>
+    <h2>Ranking — 1º Trimestre 2026</h2>
+  </div>
+  <div class="rank">
+    <div class="rank-item">
+      <div class="rank-pos">1º</div>
+      <div class="rank-icon" style="background:#2563EB"><i class="fas fa-building-columns"></i></div>
+      <div class="rank-info"><div class="rank-name">Telecentro Saltense</div><div class="rank-sub">Jan 196 · Fev 202 · Mar 169</div></div>
+      <div class="rank-val" style="color:#2563EB">567</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-pos">2º</div>
+      <div class="rank-icon" style="background:#D97706"><i class="fas fa-building-columns"></i></div>
+      <div class="rank-info"><div class="rank-name">Telecentro Independência</div><div class="rank-sub">Jan 182 · Fev 137 · Mar 134</div></div>
+      <div class="rank-val" style="color:#D97706">453</div>
+    </div>
+    <div class="rank-item">
+      <div class="rank-pos">3º</div>
+      <div class="rank-icon" style="background:#16A34A"><i class="fas fa-building-columns"></i></div>
+      <div class="rank-info"><div class="rank-name">Telecentro Nações</div><div class="rank-sub">Jan 148 · Fev 102 · Mar 11</div></div>
+      <div class="rank-val" style="color:#16A34A">261</div>
+    </div>
+  </div>
+  <div class="final-total">
+    <small>Total geral — 3 unidades</small>
+    <div class="ft-num">1.281</div>
+  </div>
+</div>
+
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="navBar">
+  <button class="nbtn" id="btnPrev" aria-label="Anterior">◀</button>
+  <div class="dots" id="dots"></div>
+  <span class="pgc" id="counter">1 / 5</span>
+  <button class="nbtn" id="btnNext" aria-label="Próximo">▶</button>
+</nav>
+
+<script>
+var slides=document.querySelectorAll('.slide');
+var total=slides.length;
+var cur=0,busy=false;
+var btnP=document.getElementById('btnPrev');
+var btnN=document.getElementById('btnNext');
+var dotsE=document.getElementById('dots');
+var ctr=document.getElementById('counter');
+
+for(var i=0;i<total;i++){
+  var d=document.createElement('button');
+  d.className='dot'+(i===0?' active':'');
+  d.setAttribute('aria-label','Página '+(i+1));
+  (function(idx){d.addEventListener('click',function(){goTo(idx)})})(i);
+  dotsE.appendChild(d);
+}
+
+function goTo(n){
+  if(busy||n<0||n>=total||n===cur)return;
+  busy=true;
+  slides[cur].classList.add('exit-left');
+  slides[cur].classList.remove('active');
+  cur=n;
+  slides[cur].classList.remove('exit-left');
+  slides[cur].classList.add('active');
+  setTimeout(function(){
+    var exs=document.querySelectorAll('.exit-left');
+    for(var j=0;j<exs.length;j++)exs[j].classList.remove('exit-left');
+    busy=false;
+  },600);
+  updateUI();
+}
+
+function updateUI(){
+  ctr.textContent=(cur+1)+' / '+total;
+  btnP.disabled=cur===0;
+  btnN.disabled=cur===total-1;
+  var ds=dotsE.querySelectorAll('.dot');
+  for(var i=0;i<ds.length;i++)ds[i].classList.toggle('active',i===cur);
+}
+
+btnP.addEventListener('click',function(){goTo(cur-1)});
+btnN.addEventListener('click',function(){goTo(cur+1)});
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();goTo(cur+1)}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(cur-1)}
+});
+var tx=0,ty=0;
+document.addEventListener('touchstart',function(e){tx=e.changedTouches[0].screenX;ty=e.changedTouches[0].screenY},{passive:true});
+document.addEventListener('touchend',function(e){
+  var dx=e.changedTouches[0].screenX-tx,dy=e.changedTouches[0].screenY-ty;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){dx<0?goTo(cur+1):goTo(cur-1)}
+},{passive:true});
+updateUI();
+</script>
+</body>
+</html>

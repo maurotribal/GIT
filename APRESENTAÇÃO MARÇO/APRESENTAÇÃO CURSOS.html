@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursos Intensivos de Informática Básica — Telecentros 2026</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@300;400;600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap");
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg:     #eef2f7;
+  --white:  #ffffff;
+  --dark:   #0d1520;
+  --muted:  #3d4f63;
+  --win:    #0078d7;
+  --win-dk: #005ba1;
+  --off:    #744da9;
+  --off-dk: #5b3d87;
+  --net:    #217346;
+  --net-dk: #155230;
+  --dur:    0.52s;
+}
+
+html, body {
+  width:100%; height:100%;
+  overflow:hidden;
+  font-family:'Raleway', sans-serif;
+  background:var(--bg);
+}
+
+/* grid texture */
+body::before {
+  content:'';
+  position:fixed; inset:0;
+  background-image:
+    linear-gradient(rgba(0,120,215,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,120,215,0.05) 1px, transparent 1px);
+  background-size:48px 48px;
+  pointer-events:none; z-index:0;
+}
+
+/* ══════════════════════════════════════
+   SLIDE ENGINE
+══════════════════════════════════════ */
+.deck { position:relative; width:100vw; height:100vh; }
+
+.slide {
+  position:absolute; inset:0;
+  width:100%; height:100%;
+  opacity:0; pointer-events:none;
+  transform:translateX(90px);
+  transition: opacity var(--dur) cubic-bezier(.4,0,.2,1),
+              transform var(--dur) cubic-bezier(.4,0,.2,1);
+  z-index:1;
+}
+.slide.active    { opacity:1; pointer-events:all; transform:translateX(0); }
+.slide.exit-left { opacity:0; transform:translateX(-90px); }
+
+/* ══════════════════════════════════════
+   SLIDE 1 — CAPA
+══════════════════════════════════════ */
+.cover-slide {
+  display:grid;
+  grid-template-columns: 35% 65%;
+  height:100%;
+}
+
+.cover-left {
+  background:linear-gradient(165deg, #0d1520 0%, #1a2e47 100%);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding: 5vh 2.5vw;
+  position:relative; overflow:hidden;
+  text-align:center;
+}
+.cover-left::before {
+  content:'';
+  position:absolute; width:360px; height:360px; border-radius:50%;
+  background:radial-gradient(circle, rgba(0,120,215,0.22) 0%, transparent 70%);
+  top:-100px; left:50%; transform:translateX(-50%);
+  pointer-events:none;
+}
+.cover-left::after {
+  content:'';
+  position:absolute; width:300px; height:300px; border-radius:50%;
+  background:radial-gradient(circle, rgba(116,77,169,0.18) 0%, transparent 70%);
+  bottom:-80px; left:50%; transform:translateX(-50%);
+  pointer-events:none;
+}
+
+.cover-logo {
+  width:88px; height:88px; border-radius:22px;
+  background:linear-gradient(135deg,var(--win),var(--off));
+  display:flex; align-items:center; justify-content:center;
+  font-size:2.5rem; color:#fff;
+  box-shadow:0 12px 36px rgba(0,120,215,0.4);
+  margin-bottom:4vh; z-index:1; flex-shrink:0;
+}
+.cover-eyebrow {
+  font-size:clamp(0.7rem,0.88vw,0.98rem); font-weight:800;
+  letter-spacing:0.28em; text-transform:uppercase;
+  color:rgba(255,255,255,0.45); margin-bottom:2vh; z-index:1;
+  line-height:1.5;
+}
+.cover-title {
+  font-size:clamp(2.1rem,3vw,3.6rem);
+  font-weight:900; line-height:1.05; color:#fff;
+  z-index:1; margin-bottom:1.2vh;
+}
+.cover-year {
+  font-size:clamp(1.8rem,2.5vw,3.2rem); font-weight:900;
+  background:linear-gradient(135deg,#4da6ff,#9966cc);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text; z-index:1; margin-bottom:3vh;
+}
+.cover-sub {
+  font-size:clamp(0.9rem,1.15vw,1.2rem);
+  color:rgba(255,255,255,0.55); font-family:'Open Sans',sans-serif;
+  font-weight:400; line-height:1.75;
+  z-index:1;
+}
+.cover-divider {
+  width:50px; height:5px; border-radius:3px;
+  background:linear-gradient(90deg,var(--win),var(--off),var(--net));
+  margin: 3vh auto; z-index:1;
+}
+
+.cover-right {
+  background:#fff;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:8vh 10vw;
+  gap: 3vh;
+}
+.cover-right-title {
+  font-size:clamp(1.3rem,1.8vw,1.85rem); font-weight:800;
+  color:var(--muted); letter-spacing:0.2em;
+  text-transform:uppercase; text-align:center;
+  margin-bottom:1vh;
+}
+.cover-btns {
+  display:flex; flex-direction:column;
+  gap:clamp(16px,2.2vh,28px); width:100%; max-width:620px;
+}
+
+.btn-flat-neon {
+  position:relative;
+  display:inline-flex; align-items:center; justify-content:flex-start;
+  width:100%; height:clamp(72px,10vh,96px);
+  padding-left:clamp(90px,9vw,120px);
+  color:#fff;
+  text-decoration:none; text-transform:uppercase;
+  font-family:'Raleway',sans-serif;
+  font-weight:900; font-size:clamp(1.15rem,1.7vw,1.55rem);
+  letter-spacing:3px;
+  overflow:hidden; transition:transform 0.3s ease, box-shadow 0.3s ease;
+  border-radius:8px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.18);
+  border:none; cursor:pointer;
+}
+.btn-flat-neon i {
+  position:absolute; left:0; top:0;
+  width:clamp(78px,8vw,104px); height:100%;
+  background:rgba(0,0,0,0.16);
+  display:flex; align-items:center; justify-content:center;
+  font-size:clamp(1.8rem,2.5vw,2.4rem); transition:0.3s;
+}
+.btn-win { background-color:var(--win); }
+.btn-off { background-color:var(--off); }
+.btn-net { background-color:var(--net); }
+
+.btn-flat-neon:hover {
+  transform:translateY(-4px) scale(1.01);
+  box-shadow:0 12px 32px rgba(0,0,0,0.22);
+}
+
+.cover-hint {
+  font-size:clamp(0.85rem,1.1vw,1.05rem);
+  color:#b0bec5; font-weight:600; letter-spacing:0.12em;
+  text-align:center; margin-top:1vh;
+}
+.cover-hint kbd {
+  background:#f0f4f8; border:1.5px solid #cdd5df;
+  border-radius:5px; padding:3px 10px;
+  font-family:'Raleway',sans-serif; font-weight:800;
+  font-size:0.88rem; color:var(--dark);
+}
+
+/* ══════════════════════════════════════
+   COURSE SLIDES — split layout
+══════════════════════════════════════ */
+.course-slide {
+  display:grid;
+  grid-template-columns: 35% 65%;
+  height:100%;
+}
+
+.panel-visual {
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:5vh 2vw;
+  position:relative; overflow:hidden;
+  text-align:center;
+}
+.panel-visual::after {
+  content:'';
+  position:absolute; inset:0;
+  background:linear-gradient(135deg,rgba(255,255,255,0.07) 0%,rgba(0,0,0,0.12) 100%);
+  pointer-events:none;
+}
+.pv-win { background:linear-gradient(165deg, var(--win) 0%, var(--win-dk) 100%); }
+.pv-off { background:linear-gradient(165deg, var(--off) 0%, var(--off-dk) 100%); }
+.pv-net { background:linear-gradient(165deg, var(--net) 0%, var(--net-dk) 100%); }
+
+.img-composition {
+  position:relative;
+  width:clamp(140px,14vw,200px);
+  height:clamp(140px,14vw,200px);
+  display:flex; align-items:center; justify-content:center;
+  z-index:1;
+}
+.img-circle-bg {
+  position:absolute; inset:0; border-radius:50%;
+  background:rgba(255,255,255,0.12);
+  border:2px solid rgba(255,255,255,0.22);
+}
+.img-circle-md {
+  position:absolute; width:76%; height:76%; border-radius:50%;
+  background:rgba(255,255,255,0.09);
+  border:2px solid rgba(255,255,255,0.16);
+}
+.main-icon {
+  font-size:clamp(3.5rem,5.5vw,6.5rem);
+  color:#fff; z-index:2;
+  filter:drop-shadow(0 8px 28px rgba(0,0,0,0.3));
+}
+.float-icon {
+  position:absolute;
+  width:clamp(36px,3.5vw,50px);
+  height:clamp(36px,3.5vw,50px);
+  border-radius:12px;
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.32);
+  display:flex; align-items:center; justify-content:center;
+  font-size:clamp(0.9rem,1.3vw,1.4rem); color:#fff;
+  box-shadow:0 4px 16px rgba(0,0,0,0.18);
+  z-index:3;
+}
+.fi-1 { top:8%;  right:4%;  animation:float1 3s ease-in-out infinite; }
+.fi-2 { bottom:12%; right:2%; animation:float2 3.5s ease-in-out infinite; }
+.fi-3 { bottom:8%;  left:4%;  animation:float1 4s ease-in-out infinite .5s; }
+.fi-4 { top:12%;  left:2%;  animation:float2 3.2s ease-in-out infinite 1s; }
+@keyframes float1 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+@keyframes float2 { 0%,100%{transform:translateY(0)} 50%{transform:translateY(10px)} }
+
+.visual-label { margin-top:3vh; z-index:2; text-align:center; }
+.visual-course-num {
+  display:block;
+  font-size:clamp(0.72rem,0.95vw,1rem); font-weight:800;
+  letter-spacing:0.28em; text-transform:uppercase;
+  color:rgba(255,255,255,0.7); margin-bottom:8px;
+}
+.visual-course-name {
+  font-size:clamp(1.3rem,1.85vw,2.2rem);
+  font-weight:900; color:#fff; line-height:1.15;
+  text-shadow:0 3px 14px rgba(0,0,0,0.25);
+}
+
+.panel-content {
+  background:#fff;
+  display:flex; flex-direction:column;
+  justify-content:center;
+  padding:7vh 6vw 7vh 5.5vw;
+}
+
+.content-tag {
+  display:inline-flex; align-items:center; gap:12px;
+  padding:10px 26px; border-radius:50px;
+  font-size:clamp(0.95rem,1.25vw,1.25rem);
+  font-weight:900; letter-spacing:0.2em; text-transform:uppercase;
+  margin-bottom:3vh; align-self:flex-start;
+}
+.tag-win { background:rgba(0,120,215,0.1); color:var(--win); }
+.tag-off { background:rgba(116,77,169,0.1); color:var(--off); }
+.tag-net { background:rgba(33,115,70,0.1);  color:var(--net); }
+
+.content-title {
+  font-size:clamp(3.2rem,5.5vw,6.2rem);
+  font-weight:900; line-height:1.05;
+  color:var(--dark); margin-bottom:2vh;
+}
+.divider-accent {
+  width:60px; height:6px; border-radius:3px; margin-bottom:2.5vh;
+}
+.da-win { background:var(--win); }
+.da-off { background:var(--off); }
+.da-net { background:var(--net); }
+
+.mod-list { display:flex; flex-direction:column; gap:clamp(10px,1.4vh,18px); }
+.mod-row {
+  display:flex; align-items:center;
+  gap:clamp(16px,2vw,28px);
+  padding:clamp(14px,2vh,22px) clamp(20px,2.5vw,32px);
+  border-radius:16px;
+  background:#f4f7fb;
+  border:2px solid #dde4ee;
+  transition:border-color .2s, transform .2s, background .2s;
+}
+.mod-row:hover { transform:translateX(10px); }
+.mod-row-win:hover { border-color:var(--win); background:rgba(0,120,215,0.05); }
+.mod-row-off:hover { border-color:var(--off); background:rgba(116,77,169,0.05); }
+.mod-row-net:hover { border-color:var(--net); background:rgba(33,115,70,0.05); }
+
+.mod-badge {
+  font-size:clamp(0.9rem,1.15vw,1.15rem);
+  font-weight:900; letter-spacing:0.15em;
+  text-transform:uppercase;
+  padding:clamp(5px,0.7vh,9px) clamp(14px,1.5vw,22px);
+  border-radius:50px; white-space:nowrap; flex-shrink:0;
+}
+.mb-win { background:rgba(0,120,215,0.12); color:var(--win); }
+.mb-off { background:rgba(116,77,169,0.12); color:var(--off); }
+.mb-net { background:rgba(33,115,70,0.12);  color:var(--net); }
+
+.mod-text {
+  font-size:clamp(1.3rem,2vw,2rem);
+  font-weight:800; color:var(--dark); line-height:1.2;
+}
+
+/* ══════════════════════════════════════
+   TEXT SLIDES — full-screen colored
+══════════════════════════════════════ */
+.text-slide {
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+}
+
+.ts-win { background: #0078d7; }
+.ts-off { background: #744da9; }
+.ts-net { background: #217346; }
+
+.ts-shape {
+  position:absolute;
+  border-radius:50%;
+  pointer-events:none;
+}
+.ts-win .ts-shape-1 { width:520px; height:520px; background:rgba(255,255,255,0.06); top:-160px; right:-160px; }
+.ts-win .ts-shape-2 { width:320px; height:320px; background:rgba(255,255,255,0.04); bottom:-80px; left:-80px; }
+.ts-off .ts-shape-1 { width:520px; height:520px; background:rgba(255,255,255,0.06); top:-160px; left:-160px; }
+.ts-off .ts-shape-2 { width:320px; height:320px; background:rgba(255,255,255,0.04); bottom:-80px; right:-80px; }
+.ts-net .ts-shape-1 { width:600px; height:600px; background:rgba(255,255,255,0.05); bottom:-200px; right:-120px; }
+.ts-net .ts-shape-2 { width:280px; height:280px; background:rgba(255,255,255,0.05); top:-60px; left:-60px; }
+
+.ts-content {
+  position:absolute;
+  inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding:8vh 10vw 16vh;
+  z-index:2;
+}
+
+.ts-eyebrow {
+  font-size:clamp(0.78rem,1.05vw,1.1rem);
+  font-weight:800;
+  letter-spacing:0.38em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.5);
+  margin-bottom:4.5vh;
+}
+
+.ts-divider {
+  width:52px; height:4px;
+  border-radius:2px;
+  background:rgba(255,255,255,0.38);
+  margin:0 auto 5vh;
+}
+
+.ts-text {
+  font-family:'Raleway', sans-serif;
+  font-size:clamp(2.2rem,3.8vw,4.8rem);
+  font-weight:700;
+  color:#fff;
+  line-height:1.5;
+  max-width:min(1100px, 82vw);
+  letter-spacing:-0.01em;
+}
+
+.ts-logo {
+  position:absolute;
+  bottom:5vh;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:10px;
+  z-index:3;
+  animation:tsFloat 3.5s ease-in-out infinite;
+}
+@keyframes tsFloat {
+  0%,100% { transform:translateX(-50%) translateY(0); }
+  50%      { transform:translateX(-50%) translateY(-12px); }
+}
+
+.ts-logo-icon {
+  width:58px; height:58px;
+  border-radius:16px;
+  background:rgba(255,255,255,0.15);
+  border:2px solid rgba(255,255,255,0.28);
+  display:flex; align-items:center; justify-content:center;
+  font-size:1.8rem; color:#fff;
+}
+
+.ts-logo-name {
+  font-family:'Raleway', sans-serif;
+  font-size:clamp(0.7rem,0.9vw,0.95rem);
+  font-weight:900;
+  letter-spacing:0.32em;
+  text-transform:uppercase;
+  color:rgba(255,255,255,0.55);
+  white-space:nowrap;
+}
+
+.ts-portal {
+  position:absolute;
+  bottom:5vh; right:4vw;
+  display:flex; align-items:center; gap:10px;
+  z-index:3; opacity:0.4;
+}
+.ts-portal i { font-size:1.1rem; color:#fff; }
+.ts-portal span {
+  font-size:0.78rem; font-weight:800;
+  letter-spacing:0.2em; text-transform:uppercase;
+  color:#fff;
+}
+
+/* ══════════════════════════════════════
+   SLIDE FINAL — dark split (invertido)
+══════════════════════════════════════ */
+.final-slide {
+  display:grid;
+  grid-template-columns: 65% 35%;
+  height:100%;
+}
+.final-left {
+  background:linear-gradient(165deg, #0d1520 0%, #1a2e47 100%);
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:8vh 6vw;
+  position:relative; overflow:hidden;
+  text-align:center;
+}
+.final-left::before {
+  content:'';
+  position:absolute; width:500px; height:500px; border-radius:50%;
+  background:radial-gradient(circle, rgba(0,120,215,0.15) 0%, transparent 70%);
+  top:-120px; right:-100px;
+  pointer-events:none;
+}
+.final-left::after {
+  content:'';
+  position:absolute; width:400px; height:400px; border-radius:50%;
+  background:radial-gradient(circle, rgba(116,77,169,0.12) 0%, transparent 70%);
+  bottom:-100px; left:-80px;
+  pointer-events:none;
+}
+.final-icon-big {
+  font-size:clamp(3.5rem,5vw,5.5rem);
+  margin-bottom:4vh; z-index:1;
+  animation:rocketPulse 2.5s ease-in-out infinite;
+}
+@keyframes rocketPulse {
+  0%,100% { transform:scale(1) translateY(0); }
+  50%     { transform:scale(1.08) translateY(-8px); }
+}
+.final-title {
+  font-size:clamp(2.4rem,3.8vw,4.5rem);
+  font-weight:900; line-height:1.1;
+  color:#fff; z-index:1;
+  margin-bottom:3vh;
+}
+.final-title span {
+  background:linear-gradient(135deg,#4da6ff,#9966cc);
+  -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.final-desc {
+  font-size:clamp(1.05rem,1.5vw,1.4rem);
+  color:rgba(255,255,255,0.55);
+  font-family:'Open Sans',sans-serif;
+  font-weight:400; line-height:1.85;
+  z-index:1; max-width:560px;
+}
+.final-divider {
+  width:50px; height:5px; border-radius:3px;
+  background:linear-gradient(90deg,var(--win),var(--off),var(--net));
+  margin:3.5vh auto; z-index:1;
+}
+
+.final-right {
+  background:#fff;
+  display:flex; flex-direction:column;
+  align-items:center; justify-content:center;
+  padding:8vh 4vw;
+  gap:3.5vh;
+}
+.final-stat { text-align:center; }
+.final-stat-num {
+  font-size:clamp(3rem,4.5vw,5rem);
+  font-weight:900; line-height:1;
+  margin-bottom:0.8vh;
+}
+.final-stat-num.c-win { color:var(--win); }
+.final-stat-num.c-off { color:var(--off); }
+.final-stat-num.c-net { color:var(--net); }
+.final-stat-label {
+  font-size:clamp(0.85rem,1.1vw,1.1rem);
+  font-weight:800; letter-spacing:0.2em;
+  text-transform:uppercase; color:var(--muted);
+}
+.final-stat-divider {
+  width:40px; height:3px; border-radius:2px;
+  background:#dde4ee; margin:0 auto;
+}
+.final-brand {
+  font-size:clamp(0.72rem,0.9vw,0.88rem);
+  font-weight:800; letter-spacing:0.28em;
+  text-transform:uppercase; color:#b0bec5;
+  display:flex; align-items:center; gap:10px;
+}
+.final-brand i { font-size:1.1rem; }
+
+/* ══════════════════════════════════════
+   NAV BAR
+══════════════════════════════════════ */
+.nav-bar {
+  position:fixed;
+  bottom:0; left:0; width:100%;
+  z-index:100;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  padding:14px 24px;
+  background:linear-gradient(transparent, rgba(238,242,247,0.95) 40%);
+  transition:background .4s;
+}
+.nav-btn {
+  width:42px; height:42px;
+  border-radius:10px;
+  border:2px solid #cdd5df;
+  background:#fff;
+  color:var(--muted);
+  font-size:1rem;
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  transition:all .25s;
+  font-family:'Raleway',sans-serif; font-weight:800;
+}
+.nav-btn:hover:not(:disabled) {
+  background:var(--win);
+  color:#fff;
+  border-color:var(--win);
+  transform:translateY(-2px);
+}
+.nav-btn:disabled {
+  opacity:.3;
+  cursor:not-allowed;
+}
+
+.dots {
+  display:flex;
+  gap:8px;
+  align-items:center;
+}
+.dot {
+  width:11px; height:11px;
+  border-radius:50%;
+  background:#cdd5df;
+  cursor:pointer;
+  transition:background .3s, transform .3s, box-shadow .3s;
+  border:none;
+}
+.dot.active {
+  background:var(--win);
+  transform:scale(1.35);
+  box-shadow:0 0 10px rgba(0,120,215,0.4);
+}
+.dot:hover:not(.active) {
+  background:#9aa5b4;
+}
+
+.page-counter {
+  font-family:'Raleway',sans-serif;
+  font-size:.78rem;
+  font-weight:800;
+  color:var(--muted);
+  letter-spacing:0.1em;
+  min-width:52px;
+  text-align:center;
+  transition:color .4s;
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<!-- ══════════════════════════════════
+  SLIDE 1 — CAPA
+══════════════════════════════════ -->
+<div class="slide active cover-slide" id="s0">
+
+  <div class="cover-left">
+    <div class="cover-logo"><i class="fas fa-laptop-code"></i></div>
+    <div class="cover-eyebrow">Telecentros 2026</div>
+    <h1 class="cover-title">Cursos Intensivos<br>de Informática<br>Básica</h1>
+    <div class="cover-year">2026</div>
+    <div class="cover-divider"></div>
+    <p class="cover-sub">Domine as ferramentas digitais essenciais.<br>3 cursos · 12 módulos · Um novo começo.</p>
+  </div>
+
+  <div class="cover-right">
+    <div class="cover-right-title">Selecione um curso</div>
+    <div class="cover-btns">
+      <button class="btn-flat-neon btn-win" onclick="goTo(1)">
+        <i class="fab fa-windows"></i> Windows 10
+      </button>
+      <button class="btn-flat-neon btn-off" onclick="goTo(3)">
+        <i class="fas fa-file-invoice"></i> Pacote Office
+      </button>
+      <button class="btn-flat-neon btn-net" onclick="goTo(5)">
+        <i class="fas fa-globe"></i> Internet e IA
+      </button>
+    </div>
+    <div class="cover-hint"><kbd>←</kbd> &nbsp; <kbd>→</kbd> &nbsp; para navegar entre as páginas</div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+  SLIDE 2 — WINDOWS 10 (módulos)
+══════════════════════════════════ -->
+<div class="slide course-slide" id="s1">
+
+  <div class="panel-visual pv-win">
+    <div class="img-composition">
+      <div class="img-circle-bg"></div>
+      <div class="img-circle-md"></div>
+      <i class="fab fa-windows main-icon"></i>
+      <div class="float-icon fi-1"><i class="fas fa-desktop"></i></div>
+      <div class="float-icon fi-2"><i class="fas fa-shield-alt"></i></div>
+      <div class="float-icon fi-3"><i class="fas fa-folder-open"></i></div>
+      <div class="float-icon fi-4"><i class="fas fa-cog"></i></div>
+    </div>
+    <div class="visual-label">
+      <span class="visual-course-num">Curso 01 de 03</span>
+      <span class="visual-course-name">Windows 10</span>
+    </div>
+  </div>
+
+  <div class="panel-content">
+    <div class="content-tag tag-win"><i class="fab fa-windows"></i> Sistema Operacional</div>
+    <h2 class="content-title">Windows 10</h2>
+    <div class="divider-accent da-win"></div>
+    <div class="mod-list">
+      <div class="mod-row mod-row-win">
+        <span class="mod-badge mb-win">Módulo 01</span>
+        <span class="mod-text">O Windows 10 no Cenário de 2026</span>
+      </div>
+      <div class="mod-row mod-row-win">
+        <span class="mod-badge mb-win">Módulo 02</span>
+        <span class="mod-text">Gerenciamento de Arquivos e Pastas</span>
+      </div>
+      <div class="mod-row mod-row-win">
+        <span class="mod-badge mb-win">Módulo 03</span>
+        <span class="mod-text">Multimídia e Transferência de Dados</span>
+      </div>
+      <div class="mod-row mod-row-win">
+        <span class="mod-badge mb-win">Módulo 04</span>
+        <span class="mod-text">Manutenção, Segurança e Solução</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+  SLIDE 3 — TEXTO WINDOWS 10
+══════════════════════════════════ -->
+<div class="slide text-slide ts-win" id="s2">
+
+  <div class="ts-shape ts-shape-1"></div>
+  <div class="ts-shape ts-shape-2"></div>
+
+  <div class="ts-content">
+    <div class="ts-eyebrow">Curso 01 &nbsp;·&nbsp; Sistema Operacional &nbsp;·&nbsp; Windows 10</div>
+    <div class="ts-divider"></div>
+    <p class="ts-text">
+      Foco em configurações, arquivos, multimídia e segurança no contexto de 2026.
+    </p>
+  </div>
+
+  <div class="ts-logo">
+    <div class="ts-logo-icon"><i class="fab fa-windows"></i></div>
+    <span class="ts-logo-name">Windows 10</span>
+  </div>
+
+  <div class="ts-portal">
+    <i class="fas fa-laptop-code"></i>
+    <span>Telecentros 2026</span>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+  SLIDE 4 — MICROSOFT OFFICE (módulos)
+══════════════════════════════════ -->
+<div class="slide course-slide" id="s3">
+
+  <div class="panel-visual pv-off">
+    <div class="img-composition">
+      <div class="img-circle-bg"></div>
+      <div class="img-circle-md"></div>
+      <i class="fas fa-file-invoice main-icon"></i>
+      <div class="float-icon fi-1"><i class="fas fa-file-word"></i></div>
+      <div class="float-icon fi-2"><i class="fas fa-file-excel"></i></div>
+      <div class="float-icon fi-3"><i class="fas fa-file-powerpoint"></i></div>
+      <div class="float-icon fi-4"><i class="fas fa-save"></i></div>
+    </div>
+    <div class="visual-label">
+      <span class="visual-course-num">Curso 02 de 03</span>
+      <span class="visual-course-name">Microsoft Office</span>
+    </div>
+  </div>
+
+  <div class="panel-content">
+    <div class="content-tag tag-off"><i class="fas fa-briefcase"></i> Produtividade</div>
+    <h2 class="content-title">Microsoft Office</h2>
+    <div class="divider-accent da-off"></div>
+    <div class="mod-list">
+      <div class="mod-row mod-row-off">
+        <span class="mod-badge mb-off">Módulo 01</span>
+        <span class="mod-text">Introdução ao Office</span>
+      </div>
+      <div class="mod-row mod-row-off">
+        <span class="mod-badge mb-off">Módulo 02</span>
+        <span class="mod-text">Microsoft Word</span>
+      </div>
+      <div class="mod-row mod-row-off">
+        <span class="mod-badge mb-off">Módulo 03</span>
+        <span class="mod-text">Microsoft Excel</span>
+      </div>
+      <div class="mod-row mod-row-off">
+        <span class="mod-badge mb-off">Módulo 04</span>
+        <span class="mod-text">Microsoft PowerPoint</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+  SLIDE 5 — TEXTO MICROSOFT OFFICE
+══════════════════════════════════ -->
+<div class="slide text-slide ts-off" id="s4">
+
+  <div class="ts-shape ts-shape-1"></div>
+  <div class="ts-shape ts-shape-2"></div>
+
+  <div class="ts-content">
+    <div class="ts-eyebrow">Curso 02 &nbsp;·&nbsp; Produtividade &nbsp;·&nbsp; Microsoft Office</div>
+    <div class="ts-divider"></div>
+    <p class="ts-text">
+      Aprendizado de criação de documentos, planilhas e apresentações profissionais com foco em atalhos e técnicas práticas.
+    </p>
+  </div>
+
+  <div class="ts-logo">
+    <div class="ts-logo-icon"><i class="fas fa-file-invoice"></i></div>
+    <span class="ts-logo-name">Microsoft Office</span>
+  </div>
+
+  <div class="ts-portal">
+    <i class="fas fa-laptop-code"></i>
+    <span>Telecentros 2026</span>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+  SLIDE 6 — INTERNET E IA (módulos)
+══════════════════════════════════ -->
+<div class="slide course-slide" id="s5">
+
+  <div class="panel-visual pv-net">
+    <div class="img-composition">
+      <div class="img-circle-bg"></div>
+      <div class="img-circle-md"></div>
+      <i class="fas fa-globe main-icon"></i>
+      <div class="float-icon fi-1"><i class="fas fa-lock"></i></div>
+      <div class="float-icon fi-2"><i class="fas fa-robot"></i></div>
+      <div class="float-icon fi-3"><i class="fas fa-users"></i></div>
+      <div class="float-icon fi-4"><i class="fas fa-wifi"></i></div>
+    </div>
+    <div class="visual-label">
+      <span class="visual-course-num">Curso 03 de 03</span>
+      <span class="visual-course-name">Internet e IA</span>
+    </div>
+  </div>
+
+  <div class="panel-content">
+    <div class="content-tag tag-net"><i class="fas fa-globe"></i> Mundo Digital</div>
+    <h2 class="content-title">Internet e Novas<br>Tecnologias</h2>
+    <div class="divider-accent da-net"></div>
+    <div class="mod-list">
+      <div class="mod-row mod-row-net">
+        <span class="mod-badge mb-net">Módulo 01</span>
+        <span class="mod-text">Internet e Navegadores</span>
+      </div>
+      <div class="mod-row mod-row-net">
+        <span class="mod-badge mb-net">Módulo 02</span>
+        <span class="mod-text">Segurança Online</span>
+      </div>
+      <div class="mod-row mod-row-net">
+        <span class="mod-badge mb-net">Módulo 03</span>
+        <span class="mod-text">Redes Sociais</span>
+      </div>
+      <div class="mod-row mod-row-net">
+        <span class="mod-badge mb-net">Módulo 04</span>
+        <span class="mod-text">Inteligência Artificial</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+  SLIDE 7 — TEXTO INTERNET E IA
+══════════════════════════════════ -->
+<div class="slide text-slide ts-net" id="s6">
+
+  <div class="ts-shape ts-shape-1"></div>
+  <div class="ts-shape ts-shape-2"></div>
+
+  <div class="ts-content">
+    <div class="ts-eyebrow">Curso 03 &nbsp;·&nbsp; Mundo Digital &nbsp;·&nbsp; Internet e IA</div>
+    <div class="ts-divider"></div>
+    <p class="ts-text">
+      Foco em navegação segura, uso consciente de redes sociais e o potencial da Inteligência Artificial no cotidiano e no trabalho.
+    </p>
+  </div>
+
+  <div class="ts-logo">
+    <div class="ts-logo-icon"><i class="fas fa-globe"></i></div>
+    <span class="ts-logo-name">Internet e IA</span>
+  </div>
+
+  <div class="ts-portal">
+    <i class="fas fa-laptop-code"></i>
+    <span>Telecentros 2026</span>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════
+  SLIDE 8 — MENSAGEM FINAL
+══════════════════════════════════ -->
+<div class="slide final-slide" id="s7">
+
+  <div class="final-left">
+    <div class="final-icon-big">🚀</div>
+    <h2 class="final-title">Sua Jornada Digital<br><span>Começa Aqui</span></h2>
+    <div class="final-divider"></div>
+    <p class="final-desc">
+      O futuro pertence a quem domina a tecnologia. Nos Telecentros 2026, você terá acesso gratuito a conhecimento prático e atualizado — do sistema operacional ao universo da Inteligência Artificial.<br><br>
+      Não espere o futuro chegar. <strong style="color:#fff;">Construa-o com suas próprias mãos.</strong>
+    </p>
+  </div>
+
+  <div class="final-right">
+    <div class="final-stat">
+      <div class="final-stat-num c-win">03</div>
+      <div class="final-stat-label">Cursos Completos</div>
+    </div>
+    <div class="final-stat-divider"></div>
+    <div class="final-stat">
+      <div class="final-stat-num c-off">12</div>
+      <div class="final-stat-label">Módulos Práticos</div>
+    </div>
+    <div class="final-stat-divider"></div>
+    <div class="final-stat">
+      <div class="final-stat-num c-net">∞</div>
+      <div class="final-stat-label">Possibilidades</div>
+    </div>
+    <div class="final-stat-divider"></div>
+    <div class="final-brand">
+      <i class="fas fa-laptop-code"></i>
+      <span>Telecentros 2026</span>
+    </div>
+  </div>
+
+</div>
+
+</div><!-- /deck -->
+
+<!-- NAV BAR -->
+<nav class="nav-bar" id="navBar">
+  <button class="nav-btn" id="btnPrev" aria-label="Anterior">◀</button>
+  <div class="dots" id="dots"></div>
+  <span class="page-counter" id="counter">1 / 8</span>
+  <button class="nav-btn" id="btnNext" aria-label="Próximo">▶</button>
+</nav>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const total  = slides.length;
+let cur = 0, busy = false;
+
+const btnPrev = document.getElementById('btnPrev');
+const btnNext = document.getElementById('btnNext');
+const dotsEl  = document.getElementById('dots');
+const counter = document.getElementById('counter');
+const navBar  = document.getElementById('navBar');
+
+// Build dots
+for(let i = 0; i < total; i++){
+  const d = document.createElement('button');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.setAttribute('aria-label', 'Página ' + (i+1));
+  d.addEventListener('click', () => goTo(i));
+  dotsEl.appendChild(d);
+}
+
+function goTo(n) {
+  if (busy || n < 0 || n >= total || n === cur) return;
+  busy = true;
+  slides[cur].classList.add('exit-left');
+  slides[cur].classList.remove('active');
+  cur = n;
+  slides[cur].classList.remove('exit-left');
+  slides[cur].classList.add('active');
+  setTimeout(() => {
+    document.querySelectorAll('.exit-left').forEach(s => s.classList.remove('exit-left'));
+    busy = false;
+  }, 600);
+  updateUI();
+}
+
+function updateUI(){
+  counter.textContent = (cur+1) + ' / ' + total;
+  btnPrev.disabled = cur === 0;
+  btnNext.disabled = cur === total - 1;
+  dotsEl.querySelectorAll('.dot').forEach((d,i) => d.classList.toggle('active', i === cur));
+
+  // Adapt nav for dark/colored slides
+  const isDark = slides[cur].classList.contains('text-slide') || slides[cur].classList.contains('final-slide');
+  navBar.style.background = isDark
+    ? 'linear-gradient(transparent, rgba(0,0,0,0.6) 40%)'
+    : 'linear-gradient(transparent, rgba(238,242,247,0.95) 40%)';
+
+  [btnPrev, btnNext].forEach(btn => {
+    btn.style.background = isDark ? 'rgba(255,255,255,0.12)' : '#fff';
+    btn.style.borderColor = isDark ? 'rgba(255,255,255,0.2)' : '#cdd5df';
+    btn.style.color = isDark ? '#fff' : '';
+  });
+  counter.style.color = isDark ? 'rgba(255,255,255,0.6)' : '';
+
+  dotsEl.querySelectorAll('.dot').forEach(d => {
+    if(!d.classList.contains('active')){
+      d.style.background = isDark ? 'rgba(255,255,255,0.2)' : '';
+    } else {
+      d.style.background = '';
+    }
+  });
+}
+
+btnPrev.addEventListener('click', () => goTo(cur - 1));
+btnNext.addEventListener('click', () => goTo(cur + 1));
+
+// Keyboard
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); goTo(cur + 1); }
+  if (e.key === 'ArrowLeft')                   { e.preventDefault(); goTo(cur - 1); }
+});
+
+// Touch/swipe
+let tx = 0, ty = 0;
+document.addEventListener('touchstart', e => {
+  tx = e.changedTouches[0].screenX;
+  ty = e.changedTouches[0].screenY;
+}, {passive:true});
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].screenX - tx;
+  const dy = e.changedTouches[0].screenY - ty;
+  if(Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > 50){
+    dx < 0 ? goTo(cur+1) : goTo(cur-1);
+  }
+}, {passive:true});
+
+updateUI();
+</script>
+</body>
+</html>

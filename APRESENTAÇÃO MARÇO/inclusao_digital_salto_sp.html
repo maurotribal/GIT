@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Inclusão Digital — Salto/SP — Dados Oficiais</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&display=swap">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;font-family:'Sora',Helvetica,Arial,sans-serif;background:#F4F6FB;color:#334155;-webkit-font-smoothing:antialiased}
+
+.deck{position:relative;width:100vw;height:100vh}
+.slide{position:absolute;inset:0;opacity:0;pointer-events:none;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease;z-index:1;overflow-y:auto}
+.slide.active{opacity:1;pointer-events:all;transform:translateY(0)}
+.slide.exit-left{opacity:0;transform:translateY(-14px)}
+
+:root{
+  --blue:#2563EB;
+  --dark:#111827;
+  --text:#334155;
+  --dim:#94A3B8;
+  --border:#E5E9F2;
+  --bg:#F4F6FB;
+  --card:#F8F9FE;
+  --white:#FFFFFF;
+  --amber:#D97706;
+  --green:#16A34A;
+  --red:#DC2626;
+}
+
+/* ════ TELA 1 — CAPA ════ */
+.cover{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:4vh 5vw 10vh;background:var(--white)}
+.cover-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 24px;border-radius:50px;background:rgba(37,99,235,.06);border:1px solid rgba(37,99,235,.12);font-size:clamp(.62rem,.85vw,.8rem);font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--blue);margin-bottom:2.5vh}
+.cover h1{font-size:clamp(2.2rem,5vw,4.5rem);font-weight:800;line-height:1.08;letter-spacing:-.04em;color:var(--dark);margin-bottom:1vh}
+.cover .subtitle{font-size:clamp(1rem,1.6vw,1.4rem);font-weight:600;color:var(--dim);margin-bottom:3vh;line-height:1.5}
+.cover .fonte{font-size:clamp(.6rem,.75vw,.72rem);font-weight:600;color:var(--dim);letter-spacing:.08em;margin-bottom:3vh}
+.cover .fonte i{color:var(--blue);margin-right:4px}
+
+.cover-data{display:flex;gap:clamp(12px,2vw,28px);flex-wrap:wrap;justify-content:center;margin-bottom:3vh}
+.cd-item{display:flex;flex-direction:column;align-items:center;padding:clamp(16px,2.2vh,28px) clamp(20px,2.5vw,40px);border-radius:18px;background:var(--card);border:1px solid var(--border);min-width:140px}
+.cd-num{font-size:clamp(1.8rem,3vw,2.6rem);font-weight:800;letter-spacing:-.03em;color:var(--dark)}
+.cd-label{font-size:clamp(.55rem,.72vw,.68rem);font-weight:700;color:var(--dim);letter-spacing:.12em;text-transform:uppercase;margin-top:.5vh;text-align:center}
+.cover-hint{position:absolute;bottom:3vh;font-size:clamp(.68rem,.8vw,.75rem);color:var(--dim);font-weight:500}
+.cover-hint kbd{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:3px 10px;font-weight:700;font-size:.78em;color:var(--dark)}
+
+/* ════ SLIDES GENÉRICOS ════ */
+.info-slide{display:flex;flex-direction:column;padding:4vh 5vw 10vh;background:var(--white)}
+.sh{margin-bottom:3vh}
+.sh small{font-size:clamp(.58rem,.75vw,.7rem);font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--dim);display:block;margin-bottom:.8vh}
+.sh small i{color:var(--blue);margin-right:6px}
+.sh h2{font-size:clamp(1.6rem,3.2vw,2.8rem);font-weight:800;letter-spacing:-.03em;color:var(--dark);line-height:1.12}
+
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:clamp(14px,2vw,24px)}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:clamp(14px,2vw,24px)}
+.grid-5{display:grid;grid-template-columns:repeat(5,1fr);gap:clamp(10px,1.5vw,20px)}
+
+/* Cards */
+.kcard{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:clamp(18px,2.5vh,30px) clamp(16px,2vw,28px)}
+.kcard-icon{width:clamp(48px,5.5vw,64px);height:clamp(48px,5.5vw,64px);border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:clamp(1.2rem,2vw,1.8rem);color:var(--white);margin-bottom:2vh}
+.kcard-num{font-size:clamp(1.6rem,2.8vw,2.4rem);font-weight:800;letter-spacing:-.02em;color:var(--dark);margin-bottom:.5vh}
+.kcard-label{font-size:clamp(.62rem,.82vw,.78rem);font-weight:600;color:var(--dim);line-height:1.5}
+
+/* Telecentro cards */
+.tc-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:clamp(14px,2vh,24px) clamp(14px,1.8vw,22px);display:flex;align-items:center;gap:clamp(10px,1.2vw,16px)}
+.tc-dot{width:clamp(40px,4.5vw,52px);height:clamp(40px,4.5vw,52px);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:clamp(1rem,1.5vw,1.3rem);color:var(--white);flex-shrink:0;background:var(--blue)}
+.tc-info{display:flex;flex-direction:column;gap:2px}
+.tc-name{font-size:clamp(.82rem,1.1vw,1.05rem);font-weight:800;color:var(--dark)}
+.tc-addr{font-size:clamp(.55rem,.72vw,.68rem);font-weight:500;color:var(--dim)}
+
+/* Barras horizontais */
+.hbar-group{display:flex;flex-direction:column;gap:clamp(14px,2vh,22px)}
+.hbar{display:flex;align-items:center;gap:clamp(10px,1.2vw,16px)}
+.hbar-label{font-size:clamp(.72rem,.95vw,.9rem);font-weight:700;color:var(--dark);min-width:clamp(50px,5vw,70px);text-align:right}
+.hbar-track{flex:1;height:clamp(36px,4.5vh,52px);background:var(--bg);border-radius:12px;overflow:hidden;position:relative}
+.hbar-fill{height:100%;border-radius:12px;display:flex;align-items:center;padding-left:clamp(12px,1.2vw,18px)}
+.hbar-fill span{font-size:clamp(.82rem,1.2vw,1.1rem);font-weight:800;color:var(--white)}
+.hbar-val{font-size:clamp(.9rem,1.2vw,1.1rem);font-weight:800;color:var(--dark);min-width:clamp(40px,4vw,60px)}
+
+/* Texto destaque */
+.highlight-box{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:clamp(20px,3vh,36px) clamp(20px,3vw,40px)}
+.highlight-box p{font-size:clamp(.88rem,1.2vw,1.15rem);font-weight:500;color:var(--text);line-height:1.75}
+.highlight-box strong{color:var(--dark);font-weight:800}
+
+/* Frase slide */
+.phrase-slide{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5vh 6vw 10vh;background:var(--white)}
+.phrase-icon{width:clamp(64px,7vw,88px);height:clamp(64px,7vw,88px);border-radius:22px;display:flex;align-items:center;justify-content:center;font-size:clamp(1.8rem,3vw,2.6rem);color:var(--white);margin-bottom:3vh}
+.phrase-text{font-size:clamp(1.8rem,3.8vw,3.8rem);font-weight:800;color:var(--dark);line-height:1.3;letter-spacing:-.03em;max-width:1000px}
+.phrase-fonte{font-size:clamp(.58rem,.75vw,.7rem);font-weight:600;color:var(--dim);margin-top:3vh;letter-spacing:.08em}
+
+/* ════ NAV ════ */
+.nav{position:fixed;bottom:0;left:0;width:100%;z-index:100;display:flex;align-items:center;justify-content:center;gap:14px;padding:14px 24px;background:linear-gradient(transparent,rgba(255,255,255,.95) 50%)}
+.nbtn{width:40px;height:40px;border-radius:12px;border:1px solid var(--border);background:var(--white);color:var(--dim);font-size:.85rem;cursor:pointer;display:grid;place-items:center;transition:all .3s ease;font-weight:700}
+.nbtn:hover:not(:disabled){background:var(--blue);color:#fff;border-color:var(--blue);transform:translateY(-2px)}
+.nbtn:disabled{opacity:.25;cursor:not-allowed}
+.dots{display:flex;gap:7px;align-items:center}
+.dot{width:9px;height:9px;border-radius:50%;background:#D1D5E0;cursor:pointer;border:none;transition:all .3s ease}
+.dot.active{background:var(--blue);transform:scale(1.35);box-shadow:0 0 10px rgba(37,99,235,.3)}
+.dot:hover:not(.active){background:#A0A8BA}
+.pgc{font-size:.7rem;font-weight:700;color:var(--dim);letter-spacing:.12em;min-width:50px;text-align:center}
+
+/* ════ RESPONSIVE ════ */
+@media(max-width:768px){
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .grid-5{grid-template-columns:1fr 1fr}
+  .cover h1{font-size:clamp(1.7rem,6vw,2.8rem)}
+  .cover-data{flex-direction:column;align-items:center}
+  .sh h2{font-size:clamp(1.3rem,5vw,2rem)}
+  .phrase-text{font-size:clamp(1.4rem,5vw,2.4rem)}
+  .hbar-label{min-width:50px;font-size:.7rem}
+}
+@media(max-width:480px){
+  .cover h1{font-size:1.5rem}
+  .cd-num{font-size:1.5rem}
+  .kcard-num{font-size:1.4rem}
+  .grid-5{grid-template-columns:1fr}
+  .nbtn{width:34px;height:34px;font-size:.78rem}
+  .dot{width:7px;height:7px}
+}
+</style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+<!-- ═══ TELA 1 — CAPA ═══ -->
+<div class="slide active cover" id="s0">
+  <div class="cover-badge"><i class="fas fa-city"></i> Estância Turística de Salto — SP</div>
+  <h1>Inclusão Digital<br>e Educação Tecnológica</h1>
+  <div class="subtitle">Panorama municipal com dados oficiais — 2010 a 2026</div>
+  <div class="fonte"><i class="fas fa-database"></i> Fontes: IBGE (Censo 2022, PNAD Contínua TIC), Prefeitura de Salto, Diário Oficial Municipal</div>
+
+  <div class="cover-data">
+    <div class="cd-item">
+      <div class="cd-num">134.319</div>
+      <div class="cd-label">População<br>Censo 2022</div>
+    </div>
+    <div class="cd-item">
+      <div class="cd-num">0,780</div>
+      <div class="cd-label">IDHM<br>2010</div>
+    </div>
+    <div class="cd-item">
+      <div class="cd-num">97,86%</div>
+      <div class="cd-label">Escolarização<br>6 a 14 anos</div>
+    </div>
+    <div class="cd-item">
+      <div class="cd-num">R$ 85.609</div>
+      <div class="cd-label">PIB per capita<br>2023</div>
+    </div>
+  </div>
+
+  <div class="cover-hint"><kbd>←</kbd> <kbd>→</kbd> para navegar entre as telas</div>
+</div>
+
+<!-- ═══ TELA 2 — SALTO EM NÚMEROS ═══ -->
+<div class="slide info-slide" id="s1">
+  <div class="sh">
+    <small><i class="fas fa-chart-bar"></i> IBGE — Cidades e Estados</small>
+    <h2>Salto/SP em números</h2>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:3vh">
+    <div class="kcard">
+      <div class="kcard-icon" style="background:var(--blue)"><i class="fas fa-users"></i></div>
+      <div class="kcard-num">141.111</div>
+      <div class="kcard-label">População estimada em 2025 pelo IBGE, crescimento de 5% sobre o Censo 2022</div>
+    </div>
+    <div class="kcard">
+      <div class="kcard-icon" style="background:var(--green)"><i class="fas fa-graduation-cap"></i></div>
+      <div class="kcard-num">97,86%</div>
+      <div class="kcard-label">Taxa de escolarização de crianças entre 6 e 14 anos — Censo 2022</div>
+    </div>
+    <div class="kcard">
+      <div class="kcard-icon" style="background:var(--amber)"><i class="fas fa-coins"></i></div>
+      <div class="kcard-num">R$ 85.609</div>
+      <div class="kcard-label">PIB per capita em 2023, acima da média estadual paulista</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="kcard">
+      <div class="kcard-icon" style="background:#6366F1"><i class="fas fa-map-location-dot"></i></div>
+      <div class="kcard-num">133 km²</div>
+      <div class="kcard-label">Área territorial do município com densidade de 1.009 hab/km²</div>
+    </div>
+    <div class="kcard">
+      <div class="kcard-icon" style="background:#EC4899"><i class="fas fa-landmark"></i></div>
+      <div class="kcard-num">326 anos</div>
+      <div class="kcard-label">Fundada em 1698 — Estância Turística desde 1997. Prefeito: José Geraldo Garcia (2025)</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ TELA 3 — TELECENTROS DE SALTO ═══ -->
+<div class="slide info-slide" id="s2">
+  <div class="sh">
+    <small><i class="fas fa-building-columns"></i> Prefeitura de Salto — SDETT</small>
+    <h2>Rede de Telecentros Municipais</h2>
+  </div>
+
+  <div class="highlight-box" style="margin-bottom:3vh">
+    <p>Os Telecentros de Salto são <strong>centros de acesso público à informática</strong>, equipados com microcomputadores conectados à Internet. Oferecem <strong>inclusão digital, qualificação profissional e cultura digital</strong> por meio de cursos e oficinas gratuitos. Vinculados à <strong>Divisão de Inclusão Digital</strong> da Secretaria do Desenvolvimento Econômico, Trabalho e Turismo (SDETT).</p>
+  </div>
+
+  <div class="grid-5">
+    <div class="tc-card">
+      <div class="tc-dot"><i class="fas fa-laptop-code"></i></div>
+      <div class="tc-info">
+        <div class="tc-name">Centro</div>
+        <div class="tc-addr">Região Central</div>
+      </div>
+    </div>
+    <div class="tc-card">
+      <div class="tc-dot" style="background:var(--amber)"><i class="fas fa-laptop-code"></i></div>
+      <div class="tc-info">
+        <div class="tc-name">Independência</div>
+        <div class="tc-addr">Região Independência</div>
+      </div>
+    </div>
+    <div class="tc-card">
+      <div class="tc-dot" style="background:var(--green)"><i class="fas fa-laptop-code"></i></div>
+      <div class="tc-info">
+        <div class="tc-name">Nações</div>
+        <div class="tc-addr">Rua Finlândia, 130</div>
+      </div>
+    </div>
+    <div class="tc-card">
+      <div class="tc-dot" style="background:#6366F1"><i class="fas fa-laptop-code"></i></div>
+      <div class="tc-info">
+        <div class="tc-name">Saltense</div>
+        <div class="tc-addr">Região Saltense</div>
+      </div>
+    </div>
+    <div class="tc-card">
+      <div class="tc-dot" style="background:#EC4899"><i class="fas fa-laptop-code"></i></div>
+      <div class="tc-info">
+        <div class="tc-name">Santa Cruz</div>
+        <div class="tc-addr">R. Pe. Oliveira Rolim</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-box" style="margin-top:3vh">
+    <p><strong>5 unidades</strong> distribuídas estrategicamente pelo município, cobrindo bairros periféricos e região central. Inscrições abertas a partir de <strong>16 anos</strong>. Cursos de <strong>informática básica, internet, segurança digital e produtividade</strong> com materiais gratuitos.</p>
+  </div>
+</div>
+
+<!-- ═══ TELA 4 — O QUE OFERECEM ═══ -->
+<div class="slide info-slide" id="s3">
+  <div class="sh">
+    <small><i class="fas fa-chalkboard-user"></i> Programa de Capacitação</small>
+    <h2>O que os Telecentros oferecem</h2>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:3vh">
+    <div class="kcard">
+      <div class="kcard-icon" style="background:var(--blue)"><i class="fas fa-desktop"></i></div>
+      <div class="kcard-num" style="font-size:clamp(1.2rem,2vw,1.8rem)">Acesso Livre</div>
+      <div class="kcard-label">Computadores com Internet para pesquisas, produção de documentos, estudos, envio de e-mails e acesso a serviços públicos online</div>
+    </div>
+    <div class="kcard">
+      <div class="kcard-icon" style="background:var(--green)"><i class="fas fa-book-open"></i></div>
+      <div class="kcard-num" style="font-size:clamp(1.2rem,2vw,1.8rem)">Cursos Gratuitos</div>
+      <div class="kcard-label">Oficinas de inclusão digital, informática básica, segurança online e ferramentas de produtividade — abertas a maiores de 16 anos</div>
+    </div>
+    <div class="kcard">
+      <div class="kcard-icon" style="background:var(--amber)"><i class="fas fa-briefcase"></i></div>
+      <div class="kcard-num" style="font-size:clamp(1.2rem,2vw,1.8rem)">Empregabilidade</div>
+      <div class="kcard-label">Parceria com o PAT (Posto de Atendimento ao Trabalhador) e programa Time do Emprego para recolocação profissional</div>
+    </div>
+    <div class="kcard">
+      <div class="kcard-icon" style="background:#6366F1"><i class="fas fa-users-gear"></i></div>
+      <div class="kcard-num" style="font-size:clamp(1.2rem,2vw,1.8rem)">Inclusão Social</div>
+      <div class="kcard-label">Atendimento a todas as faixas etárias e perfis socioeconômicos, contribuindo para a redução da desigualdade digital</div>
+    </div>
+  </div>
+
+  <div style="font-size:clamp(.58rem,.72vw,.68rem);font-weight:600;color:var(--dim);letter-spacing:.06em">
+    <i class="fas fa-circle-info" style="color:var(--blue)"></i> &nbsp;Fonte: Prefeitura de Salto — salto.sp.gov.br — Estrutura da SDETT
+  </div>
+</div>
+
+<!-- ═══ TELA 5 — CONTEXTO NACIONAL ═══ -->
+<div class="slide info-slide" id="s4">
+  <div class="sh">
+    <small><i class="fas fa-globe"></i> IBGE — PNAD Contínua TIC &amp; Censo 2022</small>
+    <h2>Acesso à Internet no Brasil</h2>
+  </div>
+
+  <div class="hbar-group" style="max-width:800px;margin-bottom:3vh">
+    <div class="hbar">
+      <div class="hbar-label">2016</div>
+      <div class="hbar-track"><div class="hbar-fill" style="width:56%;background:var(--blue)"><span>56%</span></div></div>
+      <div class="hbar-val">56%</div>
+    </div>
+    <div class="hbar">
+      <div class="hbar-label">2019</div>
+      <div class="hbar-track"><div class="hbar-fill" style="width:82%;background:var(--blue)"><span>82,7%</span></div></div>
+      <div class="hbar-val">82,7%</div>
+    </div>
+    <div class="hbar">
+      <div class="hbar-label">2022</div>
+      <div class="hbar-track"><div class="hbar-fill" style="width:90%;background:var(--blue)"><span>89,4%</span></div></div>
+      <div class="hbar-val">89,4%</div>
+    </div>
+    <div class="hbar">
+      <div class="hbar-label">2023</div>
+      <div class="hbar-track"><div class="hbar-fill" style="width:93%;background:var(--blue)"><span>92,5%</span></div></div>
+      <div class="hbar-val">92,5%</div>
+    </div>
+    <div class="hbar">
+      <div class="hbar-label">2024</div>
+      <div class="hbar-track"><div class="hbar-fill" style="width:94%;background:var(--green)"><span>93,6%</span></div></div>
+      <div class="hbar-val">93,6%</div>
+    </div>
+  </div>
+
+  <div class="grid-2">
+    <div class="highlight-box">
+      <p><strong>Área Urbana vs Rural (2024):</strong><br>A diferença caiu de <strong>40 p.p.</strong> em 2016 para apenas <strong>9,9 p.p.</strong> em 2024 — urbano 94,7% vs rural 84,8%.</p>
+    </div>
+    <div class="highlight-box">
+      <p><strong>Quem ainda não tem acesso:</strong><br>32,6% não sabem usar a internet; 27,6% consideram o serviço caro; o restante alega falta de necessidade.</p>
+    </div>
+  </div>
+
+  <div style="margin-top:2vh;font-size:clamp(.56rem,.7vw,.66rem);font-weight:600;color:var(--dim);letter-spacing:.06em">
+    <i class="fas fa-circle-info" style="color:var(--blue)"></i> &nbsp;Fonte: IBGE — PNAD Contínua TIC 2024, divulgada em julho/2025 · Censo Demográfico 2022
+  </div>
+</div>
+
+<!-- ═══ TELA 6 — POR QUE TELECENTROS IMPORTAM ═══ -->
+<div class="slide info-slide" id="s5">
+  <div class="sh">
+    <small><i class="fas fa-lightbulb"></i> Análise de Contexto</small>
+    <h2>Por que os Telecentros ainda são essenciais</h2>
+  </div>
+
+  <div class="grid-2" style="margin-bottom:3vh">
+    <div class="kcard" style="border-left:4px solid var(--red)">
+      <div class="kcard-num" style="color:var(--red);font-size:clamp(1.4rem,2.4vw,2rem)">5,1 milhões</div>
+      <div class="kcard-label">Domicílios brasileiros ainda <strong>sem Internet</strong> em 2024. O principal motivo: nenhum morador sabe usar (32,6%) — IBGE PNAD TIC 2024</div>
+    </div>
+    <div class="kcard" style="border-left:4px solid var(--blue)">
+      <div class="kcard-num" style="color:var(--blue);font-size:clamp(1.4rem,2.4vw,2rem)">Letramento Digital</div>
+      <div class="kcard-label">Os Telecentros atacam diretamente a principal barreira: <strong>ensinar a usar</strong> a tecnologia, não apenas fornecer o acesso</div>
+    </div>
+    <div class="kcard" style="border-left:4px solid var(--amber)">
+      <div class="kcard-num" style="color:var(--amber);font-size:clamp(1.4rem,2.4vw,2rem)">Empregabilidade</div>
+      <div class="kcard-label">Parceria com o PAT de Salto e o programa Time do Emprego para capacitar e recolocar trabalhadores no mercado</div>
+    </div>
+    <div class="kcard" style="border-left:4px solid var(--green)">
+      <div class="kcard-num" style="color:var(--green);font-size:clamp(1.4rem,2.4vw,2rem)">5 Unidades</div>
+      <div class="kcard-label">Salto mantém Telecentros em <strong>5 regiões</strong> com atendimento gratuito, cursos estruturados e acompanhamento profissional</div>
+    </div>
+  </div>
+
+  <div class="highlight-box">
+    <p>Em 2026, Salto oferece nos Telecentros <strong>3 cursos intensivos</strong> (Windows 10, Pacote Office e Internet/IA) com <strong>12 módulos práticos</strong>, com foco em formação completa para o cidadão que busca autonomia digital e oportunidades de trabalho.</p>
+  </div>
+</div>
+
+<!-- ═══ TELA 7 — FREQUÊNCIA 2026 ═══ -->
+<div class="slide info-slide" id="s6">
+  <div class="sh">
+    <small><i class="fas fa-chart-line"></i> Dados Internos — 1º Trimestre 2026</small>
+    <h2>Frequência nos Telecentros</h2>
+  </div>
+
+  <div class="grid-3" style="margin-bottom:3vh">
+    <div class="kcard" style="text-align:center">
+      <div class="kcard-icon" style="background:var(--amber);margin:0 auto 2vh"><i class="fas fa-building-columns"></i></div>
+      <div class="kcard-num" style="color:var(--amber)">453</div>
+      <div class="kcard-label"><strong>Independência</strong><br>Jan 182 · Fev 137 · Mar 134</div>
+    </div>
+    <div class="kcard" style="text-align:center">
+      <div class="kcard-icon" style="background:var(--blue);margin:0 auto 2vh"><i class="fas fa-building-columns"></i></div>
+      <div class="kcard-num" style="color:var(--blue)">567</div>
+      <div class="kcard-label"><strong>Saltense</strong><br>Jan 196 · Fev 202 · Mar 169</div>
+    </div>
+    <div class="kcard" style="text-align:center">
+      <div class="kcard-icon" style="background:var(--green);margin:0 auto 2vh"><i class="fas fa-building-columns"></i></div>
+      <div class="kcard-num" style="color:var(--green)">261</div>
+      <div class="kcard-label"><strong>Nações</strong><br>Jan 148 · Fev 102 · Mar 11</div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:2vh">
+    <div style="font-size:clamp(.6rem,.78vw,.72rem);font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:var(--dim);margin-bottom:1vh">Total — 3 Unidades — 1º Trimestre</div>
+    <div style="font-size:clamp(3rem,6vw,5rem);font-weight:800;letter-spacing:-.04em;color:var(--blue)">1.281</div>
+    <div style="font-size:clamp(.7rem,.9vw,.85rem);font-weight:700;color:var(--dim)">atendimentos registrados</div>
+  </div>
+</div>
+
+<!-- ═══ TELA 8 — FRASE FINAL ═══ -->
+<div class="slide phrase-slide" id="s7">
+  <div class="phrase-icon" style="background:var(--blue)"><i class="fas fa-laptop-code"></i></div>
+  <p class="phrase-text" style="color:#111827;font-weight:800">Inclusão digital é inclusão social.<br>Nos Telecentros de Salto, tecnologia transforma vidas.</p>
+  <div class="phrase-fonte"><i class="fas fa-database"></i> Dados: IBGE Censo 2022 · PNAD Contínua TIC 2024 · Prefeitura de Salto · Diário Oficial Municipal</div>
+</div>
+
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="navBar">
+  <button class="nbtn" id="btnPrev" aria-label="Anterior">◀</button>
+  <div class="dots" id="dots"></div>
+  <span class="pgc" id="counter">1 / 8</span>
+  <button class="nbtn" id="btnNext" aria-label="Próximo">▶</button>
+</nav>
+
+<script>
+var slides=document.querySelectorAll('.slide');
+var total=slides.length;
+var cur=0,busy=false;
+var btnP=document.getElementById('btnPrev');
+var btnN=document.getElementById('btnNext');
+var dotsE=document.getElementById('dots');
+var ctr=document.getElementById('counter');
+
+for(var i=0;i<total;i++){
+  var d=document.createElement('button');
+  d.className='dot'+(i===0?' active':'');
+  d.setAttribute('aria-label','Página '+(i+1));
+  (function(idx){d.addEventListener('click',function(){goTo(idx)})})(i);
+  dotsE.appendChild(d);
+}
+
+function goTo(n){
+  if(busy||n<0||n>=total||n===cur)return;
+  busy=true;
+  slides[cur].classList.add('exit-left');
+  slides[cur].classList.remove('active');
+  cur=n;
+  slides[cur].classList.remove('exit-left');
+  slides[cur].classList.add('active');
+  setTimeout(function(){
+    var exs=document.querySelectorAll('.exit-left');
+    for(var j=0;j<exs.length;j++)exs[j].classList.remove('exit-left');
+    busy=false;
+  },600);
+  updateUI();
+}
+
+function updateUI(){
+  ctr.textContent=(cur+1)+' / '+total;
+  btnP.disabled=cur===0;
+  btnN.disabled=cur===total-1;
+  var ds=dotsE.querySelectorAll('.dot');
+  for(var i=0;i<ds.length;i++)ds[i].classList.toggle('active',i===cur);
+}
+
+btnP.addEventListener('click',function(){goTo(cur-1)});
+btnN.addEventListener('click',function(){goTo(cur+1)});
+document.addEventListener('keydown',function(e){
+  if(e.key==='ArrowRight'||e.key===' '){e.preventDefault();goTo(cur+1)}
+  if(e.key==='ArrowLeft'){e.preventDefault();goTo(cur-1)}
+});
+var tx=0,ty=0;
+document.addEventListener('touchstart',function(e){tx=e.changedTouches[0].screenX;ty=e.changedTouches[0].screenY},{passive:true});
+document.addEventListener('touchend',function(e){
+  var dx=e.changedTouches[0].screenX-tx,dy=e.changedTouches[0].screenY-ty;
+  if(Math.abs(dx)>Math.abs(dy)&&Math.abs(dx)>50){dx<0?goTo(cur+1):goTo(cur-1)}
+},{passive:true});
+updateUI();
+</script>
+</body>
+</html>

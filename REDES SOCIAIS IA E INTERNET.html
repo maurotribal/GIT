@@ -1,0 +1,1463 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curso de Internet e Novas Tecnologias</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Source+Serif+Pro:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --internet-blue: #0078d7;
+            --internet-blue-light: #00a4ef;
+            --security-green: #10b981;
+            --security-green-light: #34d399;
+            --social-purple: #8b5cf6;
+            --social-purple-light: #a78bfa;
+            --ai-orange: #f59e0b;
+            --ai-orange-light: #fbbf24;
+            --dark: #1e293b;
+            --dark-light: #334155;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --gray-light: #e2e8f0;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 20px 40px rgba(0, 0, 0, 0.12);
+            --radius: 16px;
+            --radius-lg: 24px;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #f0f9ff 0%, #f1f5f9 100%);
+            color: var(--dark);
+            line-height: 1.7;
+            min-height: 100vh;
+            padding: 20px;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 4rem 1rem 3rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        
+        .header-title {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            position: relative;
+            display: inline-block;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .header-title::after {
+            content: '';
+            position: absolute;
+            bottom: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 280px;
+            height: 5px;
+            background: linear-gradient(to right, var(--internet-blue), var(--ai-orange));
+            border-radius: 3px;
+        }
+        
+        .header-subtitle {
+            font-size: 1.3rem;
+            color: var(--dark-light);
+            max-width: 800px;
+            margin: 2rem auto 0;
+            font-weight: 400;
+            line-height: 1.6;
+        }
+        
+        /* Content Grid */
+        .modules-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin: 3rem 0 5rem;
+        }
+        
+        /* Module Cards */
+        .module-card {
+            background: white;
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            position: relative;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+        
+        .module-card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-hover);
+        }
+        
+        .module-header {
+            height: 180px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .module-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.95;
+        }
+        
+        .module-header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(0,0,0,0.1) 100%);
+        }
+        
+        .module-icon {
+            font-size: 4.5rem;
+            color: white;
+            z-index: 2;
+            text-shadow: 0 6px 15px rgba(0,0,0,0.2);
+            transition: transform 0.4s ease;
+        }
+        
+        .module-card:hover .module-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+        
+        .module-content {
+            padding: 2.5rem;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .module-number {
+            display: inline-block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 1.5rem;
+            color: white;
+            background: rgba(0,0,0,0.2);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            align-self: flex-start;
+            backdrop-filter: blur(10px);
+        }
+        
+        .module-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--dark);
+            line-height: 1.3;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .module-description {
+            color: var(--dark-light);
+            margin-bottom: 2rem;
+            flex-grow: 1;
+            font-size: 1.05rem;
+            line-height: 1.6;
+        }
+        
+        /* Module-specific colors */
+        .module-1 .module-header::before {
+            background: linear-gradient(135deg, var(--internet-blue), var(--internet-blue-light));
+        }
+        
+        .module-2 .module-header::before {
+            background: linear-gradient(135deg, var(--security-green), var(--security-green-light));
+        }
+        
+        .module-3 .module-header::before {
+            background: linear-gradient(135deg, var(--social-purple), var(--social-purple-light));
+        }
+        
+        .module-4 .module-header::before {
+            background: linear-gradient(135deg, var(--ai-orange), var(--ai-orange-light));
+        }
+        
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1.1rem 2.2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            gap: 0.8rem;
+            width: 100%;
+            text-align: center;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+            letter-spacing: 0.3px;
+        }
+        
+        .module-1 .btn {
+            background-color: var(--internet-blue);
+            color: white;
+        }
+        
+        .module-2 .btn {
+            background-color: var(--security-green);
+            color: white;
+        }
+        
+        .module-3 .btn {
+            background-color: var(--social-purple);
+            color: white;
+        }
+        
+        .module-4 .btn {
+            background-color: var(--ai-orange);
+            color: white;
+        }
+        
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+        
+        .btn i {
+            transition: transform 0.3s ease;
+        }
+        
+        .btn:hover i {
+            transform: translateX(5px);
+        }
+        
+        /* Lesson Modal */
+        .lesson-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(8px);
+            animation: fadeIn 0.4s ease;
+            padding: 20px;
+            overflow-y: auto;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .lesson-content {
+            background: white;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            animation: slideUp 0.5s ease;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .lesson-header {
+            padding: 2.5rem 3rem;
+            position: relative;
+            color: white;
+        }
+        
+        .lesson-header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.95;
+            z-index: 1;
+        }
+        
+        .lesson-header-content {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .lesson-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .lesson-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            font-weight: 400;
+        }
+        
+        .lesson-body {
+            padding: 3rem;
+            color: var(--dark);
+        }
+        
+        .lesson-section {
+            margin-bottom: 3rem;
+        }
+        
+        .lesson-section-title {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--dark);
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--gray-light);
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .lesson-item {
+            margin-bottom: 1.8rem;
+            padding-left: 1.5rem;
+            position: relative;
+        }
+        
+        .lesson-item::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: var(--internet-blue);
+            font-size: 1.5rem;
+            line-height: 1;
+        }
+        
+        .lesson-item-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+            font-size: 1.2rem;
+        }
+        
+        .lesson-text {
+            color: var(--dark-light);
+            margin-bottom: 0.8rem;
+            line-height: 1.7;
+        }
+        
+        .lesson-warning {
+            background: #fef2f2;
+            border-left: 4px solid #ef4444;
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 1rem;
+        }
+        
+        .lesson-tip {
+            background: #f0f9ff;
+            border-left: 4px solid var(--internet-blue);
+            padding: 1.2rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 8px 8px 0;
+            font-size: 1rem;
+        }
+        
+        .lesson-shortcut {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 1.2rem 1.5rem;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        
+        .shortcut-key {
+            background: var(--dark);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 4px;
+            font-weight: 600;
+            min-width: 50px;
+            text-align: center;
+        }
+        
+        .platform-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 8px;
+            border-left: 4px solid var(--social-purple);
+        }
+        
+        .platform-icon {
+            font-size: 1.5rem;
+            color: var(--social-purple);
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .close-lesson {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 10;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+        }
+        
+        .close-lesson:hover {
+            background: rgba(255,255,255,0.3);
+            transform: rotate(90deg);
+        }
+        
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 1rem;
+            margin-top: 4rem;
+            color: var(--dark-light);
+            border-top: 1px solid var(--gray-light);
+            position: relative;
+        }
+        
+        .footer-author {
+            font-weight: 600;
+            color: var(--dark);
+            margin: 0.8rem 0;
+            font-size: 1.3rem;
+            font-family: 'Source Serif Pro', serif;
+        }
+        
+        .footer-title {
+            font-weight: 500;
+            margin: 0.5rem 0;
+            color: var(--internet-blue);
+        }
+        
+        .footer-year {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-top: 1rem;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .lesson-content {
+                max-width: 95%;
+            }
+            
+            .lesson-body {
+                padding: 2.5rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-title {
+                font-size: 2.5rem;
+            }
+            
+            .header-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .modules-grid {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+            }
+            
+            .module-title {
+                font-size: 1.6rem;
+            }
+            
+            .lesson-header {
+                padding: 2rem;
+            }
+            
+            .lesson-title {
+                font-size: 2rem;
+            }
+            
+            .lesson-subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .lesson-body {
+                padding: 2rem;
+            }
+            
+            .lesson-section-title {
+                font-size: 1.5rem;
+            }
+            
+            .btn {
+                padding: 1rem 1.8rem;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .header {
+                padding: 3rem 1rem 2rem;
+            }
+            
+            .header-title {
+                font-size: 2rem;
+            }
+            
+            .module-content {
+                padding: 2rem;
+            }
+            
+            .lesson-header {
+                padding: 1.8rem;
+            }
+            
+            .lesson-title {
+                font-size: 1.7rem;
+            }
+            
+            .lesson-body {
+                padding: 1.5rem;
+            }
+        }
+        
+        /* Scrollbar styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--internet-blue);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--internet-blue-light);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="header-title">Internet e Novas Tecnologias</h1>
+            <p class="header-subtitle">Domine a internet com segurança, explore redes sociais e descubra o poder da inteligência artificial. Conteúdo moderno e essencial para o mundo digital.</p>
+            
+        </header>
+        
+        <div class="modules-grid">
+            <div class="module-card module-1">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-globe"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 01</span>
+                    <h3 class="module-title">Navegadores e Internet</h3>
+                    <p class="module-description">Aprenda a usar os principais navegadores web, personalizar configurações e utilizar atalhos para navegar na internet de forma eficiente.</p>
+                    <button class="btn view-lesson-btn" data-lesson="1">
+                        Ver Apostila <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="module-card module-2">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 02</span>
+                    <h3 class="module-title">Segurança Digital</h3>
+                    <p class="module-description">Proteja seus dados online, identifique riscos como Phishing, crie senhas seguras e aprenda a navegar com segurança.</p>
+                    <button class="btn view-lesson-btn" data-lesson="2">
+                        Ver Apostila <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="module-card module-3">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 03</span>
+                    <h3 class="module-title">Redes Sociais</h3>
+                    <p class="module-description">Conheça as principais redes (WhatsApp, Instagram, Facebook), aprenda sobre etiqueta digital e combate às Fake News.</p>
+                    <button class="btn view-lesson-btn" data-lesson="3">
+                        Ver Apostila <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="module-card module-4">
+                <div class="module-header">
+                    <div class="module-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                </div>
+                <div class="module-content">
+                    <span class="module-number">Módulo 04</span>
+                    <h3 class="module-title">Inteligência Artificial</h3>
+                    <p class="module-description">Descubra o que é IA, como usar ferramentas como ChatGPT e Copilot, e entenda conceitos como Prompts e Alucinação.</p>
+                    <button class="btn view-lesson-btn" data-lesson="4">
+                        Ver Apostila <i class="fas fa-book-open"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Curso de Informática Básica - Internet e Novas Tecnologias</p>
+            <p class="footer-author">Conteúdo Digital Atualizado</p>
+            <p class="footer-title">Navegação Segura e Tecnologias Emergentes</p>
+            <p class="footer-year">© 2026 - Para o Mundo Digital Atual</p>
+        </footer>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal1">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--internet-blue), var(--internet-blue-light));"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">MÓDULO 1: Navegadores e o Uso da Internet</h2>
+                    <p class="lesson-subtitle">APOSTILA: REDES SOCIAIS, IA E INTERNET</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(1)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Definição de Navegador (Browser)</div>
+                        <p class="lesson-text">O Navegador Web é o software essencial que serve como "ponte" entre o usuário e a internet. Ele traduz os códigos dos sites para exibir textos, imagens e vídeos na sua tela. Sem um navegador, não é possível acessar páginas web.</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Os Três Principais Navegadores</div>
+                        <p class="lesson-text">No ambiente Windows, você provavelmente encontrará um destes três:</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <strong>Microsoft Edge:</strong>
+                        <p class="lesson-text">Status: Navegador nativo do Windows 10/11.<br>Características: Rápido, integrado ao sistema e, em 2026, vem com inteligência artificial (Copilot) embutida na barra lateral.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <strong>Google Chrome:</strong>
+                        <p class="lesson-text">Status: O navegador mais popular do mundo.<br>Características: Sincronização perfeita com contas Google (Gmail, Drive) e vasta loja de extensões.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <strong>Mozilla Firefox:</strong>
+                        <p class="lesson-text">Status: Alternativa focada em privacidade.<br>Características: Código aberto e alto controle sobre rastreamento de dados.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. A Barra de Endereço (Omnibox)</div>
+                        <p class="lesson-text">Localizada no topo da janela, é o comando principal do navegador. Ela possui dupla função:</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Digitar Endereços (URLs):</strong> Se você sabe o site exato (ex: www.google.com.br).</li>
+                            <li><strong>Fazer Pesquisas:</strong> Se você digitar apenas um termo (ex: "Receita de bolo"), o navegador buscará automaticamente no Google ou Bing.</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (OPERAÇÃO BÁSICA)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Como Iniciar a Navegação</div>
+                        <p class="lesson-text">Localize o ícone do navegador na Barra de Tarefas ou Área de Trabalho. Clique para abrir. Clique na Barra de Endereço no topo. Digite o site ou o assunto desejado e pressione Enter.</p>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Controles de Navegação</div>
+                        <p class="lesson-text">Ao lado da barra de endereço, existem botões universais:</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Seta para Esquerda (Voltar):</strong> Retorna para a página que você visitou imediatamente antes.</li>
+                            <li><strong>Seta para Direita (Avançar):</strong> Se você voltou, este botão leva novamente para a página da frente.</li>
+                            <li><strong>Seta Circular (Atualizar/Recarregar):</strong> Recarrega a página atual. Útil se o site travar ou não carregar as imagens. <br><em>Atalho: Tecla F5.</em></li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Sistema de Abas (Guias)</div>
+                        <p class="lesson-text">Os navegadores permitem abrir vários sites na mesma janela.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Nova Aba:</strong> Clique no sinal de + ao lado da aba atual.</li>
+                            <li><strong>Fechar Aba:</strong> Clique no X na ponta da aba.</li>
+                            <li><strong>Alternar:</strong> Clique sobre o título da aba para visualizá-la.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Zoom e Visualização</div>
+                        <p class="lesson-text">Se o texto estiver muito pequeno: Vá ao Menu de Configurações (os 3 pontinhos no canto superior direito). Procure a opção Zoom. Clique no + para aumentar ou - para diminuir. <br><em>Atalho Rápido: Segure Ctrl e gire a rodinha do mouse (scroll).</em></p>
+                    </div>
+                </div>
+                
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (FERRAMENTAS E PRIVACIDADE)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. O Menu "Três Pontinhos" (Configurações)</div>
+                        <p class="lesson-text">No canto superior direito (Edge e Chrome) ou ícone de três linhas (Firefox), encontra-se o menu principal. As ferramentas essenciais são:</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Histórico:</strong> Lista cronológica de todos os sites visitados.</li>
+                            <li><strong>Downloads:</strong> Lista de arquivos baixados para o computador.</li>
+                            <li><strong>Favoritos/Marcadores:</strong> Permite salvar sites importantes para acesso rápido (ícone de Estrela).</li>
+                            <li><strong>Imprimir:</strong> Prepara a página atual para impressão física ou salvar como PDF.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Navegação Privada (Anônima)</div>
+                        <p class="lesson-text">Um recurso de segurança importante.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>O que faz:</strong> Abre uma janela onde o navegador não salva o histórico, cookies ou senhas digitadas.</li>
+                            <li><strong>O que NÃO faz:</strong> Não torna você invisível para o seu provedor de internet ou para o site visitado.</li>
+                            <li><strong>Uso Recomendado:</strong> Ao usar computadores públicos ou de terceiros, para garantir que seus dados não fiquem salvos na máquina.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Limpeza de Dados de Navegação</div>
+                        <p class="lesson-text">Periodicamente, é saudável limpar os rastros para corrigir erros de carregamento ou liberar espaço. Pressione Ctrl + Shift + Del. Uma janela abrirá perguntando o que apagar. Selecione Imagens e arquivos em cache e Histórico de navegação. Clique em Limpar dados.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Gerenciamento de Downloads</div>
+                        <p class="lesson-text">Ao baixar um arquivo, ele vai para uma pasta específica.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Acesso Rápido:</strong> Pressione Ctrl + J para ver a lista de transferências recentes dentro do navegador.</li>
+                            <li><strong>Localização no PC:</strong> Geralmente, os arquivos ficam na pasta "Downloads" do Explorador de Arquivos (Win + E).</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Acesso:</strong> Use a barra superior tanto para sites (.com) quanto para perguntas (Google).</li>
+                            <li><strong>Privacidade:</strong> Use Ctrl + Shift + N para abrir janelas anônimas em computadores que não são seus.</li>
+                            <li><strong>Manutenção:</strong> Use Ctrl + Shift + Del se um site apresentar erros constantes de carregamento.</li>
+                            <li><strong>Organização:</strong> Use Favoritos (Estrela) para não perder sites importantes.</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Tabela de Atalhos de Navegação</div>
+                    </div>
+
+                    <div class="lesson-shortcut">
+                        <span class="shortcut-key">Ctrl + N</span>
+                        <span><strong>Nova Janela:</strong> Abre uma nova janela padrão do navegador.</span>
+                    </div>
+                    <div class="lesson-shortcut">
+                        <span class="shortcut-key">Ctrl + Shift + N</span>
+                        <span><strong>Janela Anônima:</strong> Abre o modo privado (Chrome/Edge).</span>
+                    </div>
+                    <div class="lesson-shortcut">
+                        <span class="shortcut-key">Ctrl + T</span>
+                        <span><strong>Nova Aba:</strong> Abre uma nova guia na mesma janela.</span>
+                    </div>
+                    <div class="lesson-shortcut">
+                        <span class="shortcut-key">Ctrl + W</span>
+                        <span><strong>Fechar Aba:</strong> Fecha a guia que você está vendo.</span>
+                    </div>
+                    <div class="lesson-shortcut">
+                        <span class="shortcut-key">Ctrl + H</span>
+                        <span><strong>Histórico:</strong> Exibe a lista de sites visitados.</span>
+                    </div>
+                    <div class="lesson-shortcut">
+                        <span class="shortcut-key">Ctrl + J</span>
+                        <span><strong>Downloads:</strong> Exibe a lista de arquivos baixados.</span>
+                    </div>
+                    <div class="lesson-shortcut">
+                        <span class="shortcut-key">Ctrl + P</span>
+                        <span><strong>Imprimir:</strong> Imprime a página atual.</span>
+                    </div>
+                    <div class="lesson-shortcut">
+                        <span class="shortcut-key">Ctrl + Shift + Del</span>
+                        <span><strong>Limpar Dados:</strong> Atalho para limpar cache e histórico.</span>
+                    </div>
+
+                    <div class="lesson-tip">
+                        <div class="lesson-item-title" style="margin-top:0;">5 Perguntas de Fixação</div>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>Qual a função do atalho Ctrl + J dentro do navegador?</strong><br>Resposta: Abrir a lista de Downloads (arquivos baixados).</li>
+                            <li><strong>O que acontece quando uso a Navegação Anônima?</strong><br>Resposta: O navegador não salva o histórico de sites nem senhas digitadas.</li>
+                            <li><strong>Como faço para aumentar o tamanho da letra (Zoom) usando o teclado?</strong><br>Resposta: Ctrl + (sinal de mais) ou Ctrl + Rodinha do Mouse.</li>
+                            <li><strong>Onde devo clicar para acessar o menu de configurações da maioria dos navegadores?</strong><br>Resposta: Nos três pontinhos (ou linhas) no canto superior direito.</li>
+                            <li><strong>Qual tecla serve para recarregar (atualizar) uma página travada?</strong><br>Resposta: Tecla F5.</li>
+                        </ol>
+                    </div>
+
+                    <div class="lesson-warning">
+                        <strong>Mensagem Final:</strong> O navegador é a sua janela para o mundo digital. Dominar o uso de abas e atalhos como Ctrl + T e Ctrl + W transformará sua experiência de lenta e confusa para ágil e produtiva. Lembre-se: em computadores públicos, a segurança vem em primeiro lugar – utilize sempre a Navegação Anônima.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal2">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--security-green), var(--security-green-light));"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">AULA 2: Uso Seguro da Internet</h2>
+                    <p class="lesson-subtitle">APOSTILA: REDES SOCIAIS, IA E INTERNET</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(2)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: Introdução e Fundamentos</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. O que é Segurança Online?</div>
+                        <p class="lesson-text">Segurança online é o conjunto de hábitos e ferramentas que utilizamos para proteger nossas informações pessoais (como nome, CPF, senhas) e nossos equipamentos (computador e celular) enquanto navegamos na rede. Pense na internet como uma grande avenida movimentada: ela nos leva a lugares incríveis, mas precisamos saber "olhar para os dois lados" antes de atravessar para evitar acidentes.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Por que este tema é importante?</div>
+                        <p class="lesson-text">A internet oferece oportunidades maravilhosas, mas também esconde riscos. A segurança não é apenas tarefa de técnicos de informática; é uma responsabilidade compartilhada por todos que usam a rede.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Proteção do seu dinheiro:</strong> Evitar golpes bancários e fraudes.</li>
+                            <li><strong>Proteção da sua identidade:</strong> Impedir que estranhos se passem por você.</li>
+                            <li><strong>Saúde do seu computador:</strong> Evitar vírus que deixam o PC lento ou inutilizável.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Os 3 Pilares da Navegação Segura</div>
+                        <p class="lesson-text">Para navegar com tranquilidade, precisamos equilibrar três conceitos básicos que exploraremos nesta aula:</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Conscientização:</strong> Entender que nem tudo o que vemos na tela é verdade ou seguro (Cuidado com o "clique rápido").</li>
+                            <li><strong>Senhas Fortes:</strong> Criar chaves digitais que sejam difíceis de serem copiadas por criminosos.</li>
+                            <li><strong>Proteção Técnica:</strong> Manter as "vacinas" (antivírus e atualizações) do seu computador em dia.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: Aprofundamento e Prática</h3>
+                    <p class="lesson-text"><strong>Como Funciona na Prática: Identificando Riscos</strong><br>A melhor defesa é saber identificar o ataque antes que ele aconteça. Vamos focar nos problemas mais comuns do dia a dia.</p>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Phishing (A "Pescaria" Digital)</div>
+                        <p class="lesson-text">O termo vem de "fishing" (pescar). É quando criminosos jogam uma "isca" para ver se você morde.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Como acontece:</strong> Você recebe um e-mail ou mensagem dizendo que "Sua conta vai ser bloqueada" ou "Você ganhou um prêmio".</li>
+                            <li><strong>O perigo:</strong> Eles pedem para você clicar em um link suspeito e digitar seus dados.</li>
+                            <li><strong>A Regra de Ouro:</strong> Bancos e órgãos oficiais nunca pedem senhas por e-mail. Na dúvida, não clique.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Senhas: A Chave da sua Casa Digital</div>
+                        <p class="lesson-text">Muitas pessoas usam senhas como "123456" ou datas de aniversário. Isso é como deixar a porta de casa destrancada.</p>
+                        <div class="lesson-tip">
+                            <strong>Como criar uma Senha Forte:</strong>
+                            <br>• Complexidade: Misture letras maiúsculas, minúsculas, números e símbolos.
+                            <br>• Exemplo Ruim: mariasilva1960
+                            <br>• Exemplo Bom: M@ria#Silva_60!
+                            <br>• Dica Prática: Use frases que façam sentido só para você.
+                        </div>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Autenticação de Dois Fatores (2FA)</div>
+                        <p class="lesson-text">Sempre que possível, ative essa opção. Ela funciona como uma segunda fechadura. Além da senha, o site pede um código que chega no seu celular. Mesmo que descubram sua senha, não conseguirão entrar sem o seu telefone.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. SaferNet</div>
+                        <p class="lesson-text">Saiba que você não está sozinho. A SaferNet é uma organização referência no Brasil. Ela oferece orientações e recebe denúncias anônimas sobre crimes online e conteúdo impróprio (como pornografia infantil ou discurso de ódio).</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: Nuances e Pontos de Atenção</h3>
+                    <p class="lesson-text"><strong>Proteção Técnica e Erros Comuns</strong><br>Além do comportamento, precisamos cuidar da "saúde" do dispositivo (computador ou celular).</p>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Pontos de Atenção Técnica</div>
+                        <p class="lesson-text">Não é necessário ser um expert, basta seguir este checklist de manutenção:</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Atualizações:</strong> Quando o computador pedir para atualizar o sistema, aceite. As atualizações corrigem falhas de segurança antigas.</li>
+                            <li><strong>Firewall (Parede de Fogo):</strong> É uma barreira de segurança que já vem no Windows. Verifique se ele está ativo. Ele bloqueia conexões não autorizadas.</li>
+                            <li><strong>Antivírus:</strong> Mantenha sempre um antivírus instalado e atualizado.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Limpeza e Privacidade</div>
+                        <p class="lesson-text">Ao navegar, deixamos "rastros" digitais.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Cookies e Cache:</strong> São pequenos arquivos que sites salvam no seu computador para "lembrar" de você. O excesso disso pode deixar o PC lento e expor sua privacidade.</li>
+                            <li><strong>O que fazer:</strong> Crie o hábito de limpar o histórico de navegação regularmente (geralmente nas configurações do navegador).</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. O Grande Erro: Repetição de Senhas</div>
+                        <p class="lesson-text">Este é o erro mais comum e perigoso.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>O Erro:</strong> Usar a mesma senha para o Facebook, e-mail e banco.</li>
+                            <li><strong>O Risco:</strong> Se um site falhar e vazar sua senha, todas as suas outras contas estarão em perigo.</li>
+                            <li><strong>Solução:</strong> Use senhas únicas. Se for difícil lembrar de todas, considere usar um Gerenciador de Senhas (um programa cofre que guarda todas as senhas para você).</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Redes Sociais e Exposição</div>
+                        <p class="lesson-text">Cuidado com o excesso de compartilhamento (over-sharing). Ajuste as configurações de privacidade para que apenas amigos vejam suas fotos. Evite postar fotos que mostrem o interior da sua casa, placas de carro ou uniformes de escola das crianças em modo público.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: Conclusão e Aplicação Prática</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Recapitulando e Fixando o Conteúdo</div>
+                        <p class="lesson-text"><strong>Resumo Esquemático:</strong></p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Desconfie:</strong> Não clique em links de prêmios ou ameaças urgentes (Phishing).</li>
+                            <li><strong>Proteja:</strong> Crie senhas longas, misturando símbolos e números. Nunca repita senhas.</li>
+                            <li><strong>Atualize:</strong> Mantenha o sistema operacional e antivírus em dia.</li>
+                            <li><strong>Limpe:</strong> Remova histórico e cookies periodicamente.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-tip">
+                        <strong>Glossário Rápido:</strong>
+                        <br>• <strong>Phishing:</strong> Golpe online que tenta enganar o usuário para roubar dados.
+                        <br>• <strong>Firewall:</strong> Sistema de defesa que bloqueia acessos indesejados ao computador.
+                        <br>• <strong>Cache/Cookies:</strong> Dados salvos pelo navegador para carregar sites mais rápido ou rastrear preferências.
+                        <br>• <strong>Autenticação de 2 Fatores:</strong> Camada extra de segurança (senha + código no celular).
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas para Fixação</div>
+                        <ol style="margin-left: 20px; margin-top: 10px; color: var(--dark-light);">
+                            <li style="margin-bottom: 10px;"><strong>O banco enviou um e-mail pedindo para clicar em um link e trocar a senha imediatamente. O que você faz?</strong><br>( ) Clico logo para não perder a conta.<br>(X) Ignoro o link e ligo para o gerente ou acesso o aplicativo oficial.</li>
+                            <li style="margin-bottom: 10px;"><strong>Qual destas é a senha mais segura?</strong><br>( ) 123456<br>( ) data de nascimento<br>(X) C@fe_Com_Leit3!</li>
+                            <li style="margin-bottom: 10px;"><strong>Para que serve o Firewall?</strong><br>( ) Para deixar a internet mais rápida.<br>(X) Para funcionar como um escudo contra ameaças e conexões invasoras.</li>
+                            <li style="margin-bottom: 10px;"><strong>Por que não devo usar a mesma senha em tudo?</strong><br>( ) Porque é difícil de decorar.<br>(X) Porque se descobrirem uma, descobrem todas.</li>
+                            <li style="margin-bottom: 10px;"><strong>O que a SaferNet faz?</strong><br>( ) Vende antivírus.<br>(X) Oferece orientação e recebe denúncias sobre crimes na internet.</li>
+                        </ol>
+                    </div>
+
+                    <div class="lesson-warning">
+                        <strong>Mensagem Final:</strong> A segurança na internet não é sobre ter medo de usar a tecnologia, mas sim sobre usá-la com inteligência. Adotando esses pequenos hábitos—como criar uma senha melhor hoje ou pensar duas vezes antes de clicar amanhã—você garante que sua experiência digital seja produtiva e livre de dores de cabeça. Navegue com atenção!
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal3">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--social-purple), var(--social-purple-light));"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">MÓDULO 3: Redes Sociais</h2>
+                    <p class="lesson-subtitle">APOSTILA: Tema Introdução e Convivência nas Redes Sociais</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(3)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. O que são Redes Sociais?</div>
+                        <p class="lesson-text">São plataformas digitais (aplicativos ou sites) projetadas para conectar pessoas. Elas funcionam como uma "praça pública digital" onde você encontra amigos, consome notícias, assiste a vídeos e participa de grupos de interesse. Em 2026, as redes não servem apenas para lazer; são ferramentas essenciais para trabalho, aprendizado e cidadania.</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. O Conceito de "Perfil" (Sua Identidade Digital)</div>
+                        <p class="lesson-text">Ao entrar em uma rede, você cria um Perfil.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Público vs. Privado:</strong> Esta é a decisão mais importante.</li>
+                            <li><strong>Perfil Público:</strong> Qualquer pessoa no mundo pode ver suas fotos e postagens.</li>
+                            <li><strong>Perfil Privado (Recomendado):</strong> Apenas pessoas que você autorizar podem ver seu conteúdo.</li>
+                            <li><strong>A regra da vitrine:</strong> Lembre-se que seu perfil é sua vitrine pessoal. Empresas e recrutadores costumam olhar redes sociais antes de contratar.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Como funciona o "Feed" (Linha do Tempo)</div>
+                        <p class="lesson-text">Ao abrir o aplicativo, você vê uma lista de postagens. Isso se chama Feed.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>O Algoritmo:</strong> O computador da rede social decide o que mostrar para você baseando-se no que você curte ou comenta. Se você curte muitas fotos de gatos, o sistema mostrará mais gatos.</li>
+                            <li><strong>Cuidado (Bolha Social):</strong> O algoritmo tende a mostrar apenas opiniões com as quais você concorda, criando uma ilusão de que "todo mundo pensa igual a você". É importante buscar fontes variadas.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (AS 4 GIGANTES)</h3>
+                    
+                    <div class="platform-item">
+                        <div class="platform-icon"><i class="fab fa-whatsapp"></i></div>
+                        <div>
+                            <div class="lesson-item-title">1. WhatsApp (Comunicação Imediata)</div>
+                            <p class="lesson-text">Mais que um mensageiro, é uma ferramenta de vida.</p>
+                            <ul style="margin-left: 20px; color: var(--dark-light); font-size: 0.95rem;">
+                                <li><strong>Foco:</strong> Troca de mensagens de texto, áudio e vídeo em tempo real.</li>
+                                <li><strong>Status:</strong> Postagens que duram apenas 24 horas (similar aos Stories).</li>
+                                <li><strong>Grupos e Comunidades:</strong> Espaços coletivos (família, trabalho, condomínio).</li>
+                                <li><strong>Atenção:</strong> O WhatsApp é o principal vetor de golpes e Fake News. Se receber uma mensagem de "promoção imperdível" ou "repasse para 10 amigos", desconfie.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="platform-item">
+                        <div class="platform-icon"><i class="fab fa-instagram"></i></div>
+                        <div>
+                            <div class="lesson-item-title">2. Instagram (Visual e Estilo de Vida)</div>
+                            <p class="lesson-text">A rede da imagem. Tudo aqui é visual.</p>
+                            <ul style="margin-left: 20px; color: var(--dark-light); font-size: 0.95rem;">
+                                <li><strong>Feed:</strong> Fotos e vídeos permanentes que ficam no seu perfil.</li>
+                                <li><strong>Stories (Histórias):</strong> Fotos/vídeos verticais que somem em 24h. Usado para mostrar o "dia a dia" sem poluir o perfil.</li>
+                                <li><strong>Reels:</strong> Vídeos curtos e dinâmicos (estilo TikTok), feitos para entretenimento rápido.</li>
+                                <li><strong>Saúde Mental:</strong> Lembre-se que no Instagram as pessoas postam os "melhores momentos". Não compare seus bastidores com o palco dos outros.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="platform-item">
+                        <div class="platform-icon"><i class="fab fa-facebook"></i></div>
+                        <div>
+                            <div class="lesson-item-title">3. Facebook (Comunidade e Memória)</div>
+                            <p class="lesson-text">Ainda muito relevante para conexões familiares e grupos de interesse.</p>
+                            <ul style="margin-left: 20px; color: var(--dark-light); font-size: 0.95rem;">
+                                <li><strong>Grupos:</strong> O ponto forte. Existem grupos para tudo: "Dicas de Jardinagem", "Venda de Carros no Bairro", etc.</li>
+                                <li><strong>Marketplace:</strong> Uma área de classificados para compra e venda de produtos usados.</li>
+                                <li><strong>Lembranças:</strong> A rede avisa o que você postou há 1, 5 ou 10 anos.</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="platform-item">
+                        <div class="platform-icon"><i class="fab fa-youtube"></i></div>
+                        <div>
+                            <div class="lesson-item-title">4. YouTube (A Biblioteca de Vídeos)</div>
+                            <p class="lesson-text">A maior plataforma de vídeos do mundo.</p>
+                            <ul style="margin-left: 20px; color: var(--dark-light); font-size: 0.95rem;">
+                                <li><strong>Uso:</strong> Entretenimento, mas principalmente Educação. É o melhor lugar para aprender a consertar coisas, cozinhar ou estudar (tutoriais).</li>
+                                <li><strong>Shorts:</strong> Vídeos curtos verticais (concorrente do Reels/TikTok).</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (NETIQUETA E VERDADE)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Netiqueta (Etiqueta na Internet)</div>
+                        <p class="lesson-text">Assim como na vida real, existem regras de boa convivência no digital.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>NÃO GRITE:</strong> Escrever tudo em LETRAS MAIÚSCULAS (Caixa Alta) é interpretado como um grito na linguagem da internet. Use apenas para siglas.</li>
+                            <li><strong>Áudios:</strong> Pergunte se a pessoa pode ouvir antes de enviar áudios muito longos (mais de 1 minuto).</li>
+                            <li><strong>Marcação:</strong> Não marque (tagueie) amigos em fotos constrangedoras ou em promoções de vendas sem a permissão deles.</li>
+                            <li><strong>Respeito nos Comentários:</strong> Não escreva algo que você não teria coragem de dizer na cara da pessoa.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Fake News (Desinformação)</div>
+                        <p class="lesson-text">Notícias falsas são criadas para manipular emoções (raiva ou medo) e ganhar cliques. Como identificar antes de compartilhar:</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>A Fonte:</strong> O site é conhecido (G1, UOL, BBC) ou é um site estranho cheio de anúncios (ex: "https://www.google.com/search?q=verdade-secreta.com")?</li>
+                            <li><strong>A Data:</strong> Muitas vezes a notícia é real, mas aconteceu há 5 anos e está sendo usada fora de contexto.</li>
+                            <li><strong>O Tom:</strong> A manchete é alarmista? Usa MUITOS pontos de exclamação (!!!) ou diz "A Mídia não quer que você saiba"? Provavelmente é falso.</li>
+                            <li><strong>Regra de Ouro:</strong> Na dúvida, não compartilhe.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Direito de Imagem e Privacidade Alheia</div>
+                        <p class="lesson-text">O fato de você ter tirado a foto não te dá o direito absoluto de publicá-la.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Crianças:</strong> Tenha cuidado redobrado ao postar fotos de netos ou filhos de amigos. Criminosos monitoram uniformes escolares e locais frequentados.</li>
+                            <li><strong>Consentimento:</strong> Se for postar uma foto em grupo, é educado avisar ou enviar no grupo privado antes de jogar na rede pública.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Privacidade:</strong> Comece sempre configurando seu perfil como "Privado" ou "Apenas para Amigos".</li>
+                            <li><strong>Interação:</strong> O algoritmo mostra o que você curte. Se quiser ver coisas diferentes, busque por assuntos novos.</li>
+                            <li><strong>Convivência:</strong> Evite letras maiúsculas (gritos) e verifique a veracidade de notícias antes de repassar.</li>
+                            <li><strong>Plataformas:</strong> Instagram é para ver fotos; YouTube é para assistir vídeos; WhatsApp é para conversar; Facebook é para grupos.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-tip">
+                        <div class="lesson-item-title" style="margin-top:0;">Glossário de Redes Sociais</div>
+                        <br>• <strong>Direct/DM:</strong> Mensagem Direta. Conversa privada entre duas pessoas dentro do Instagram ou Facebook.
+                        <br>• <strong>Feed:</strong> A lista de rolagem onde aparecem as postagens dos seus amigos.
+                        <br>• <strong>Stories:</strong> Publicações temporárias que duram 24 horas.
+                        <br>• <strong>Seguir/Adicionar:</strong> Ação de se inscrever para receber as atualizações de alguém.
+                        <br>• <strong>Viralizar:</strong> Quando um conteúdo se espalha muito rápido e é visto por milhões de pessoas.
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas de Fixação</div>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>O que significa escrever uma mensagem inteira com LETRAS MAIÚSCULAS?</strong><br>Resposta: Significa que você está gritando.</li>
+                            <li><strong>Qual a diferença principal entre o Feed e os Stories no Instagram?</strong><br>Resposta: O Feed é permanente (fica no perfil); os Stories somem após 24 horas.</li>
+                            <li><strong>Como posso evitar cair em Fake News?</strong><br>Resposta: Verificando a fonte, a data e desconfiando de títulos sensacionalistas.</li>
+                            <li><strong>Para que serve o "Cadeado" ou perfil "Privado"?</strong><br>Resposta: Para garantir que apenas pessoas autorizadas vejam suas fotos e postagens.</li>
+                            <li><strong>O YouTube é uma rede social focada em quê?</strong><br>Resposta: Em vídeos (educação e entretenimento).</li>
+                        </ol>
+                    </div>
+
+                    <div class="lesson-warning">
+                        <strong>Mensagem Final:</strong> As redes sociais são ferramentas poderosas de conexão, mas você deve controlá-las, e não o contrário. Use-as para se aproximar de quem está longe, mas não deixe que elas te afastem de quem está perto (na mesma sala). Pratique o "detox digital": desconecte-se um pouco todos os dias para viver o mundo real.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="lesson-modal" id="lessonModal4">
+        <div class="lesson-content">
+            <div class="lesson-header">
+                <div class="lesson-header-bg" style="background: linear-gradient(135deg, var(--ai-orange), var(--ai-orange-light));"></div>
+                <div class="lesson-header-content">
+                    <h2 class="lesson-title">MÓDULO 4: Inteligência Artificial</h2>
+                    <p class="lesson-subtitle">APOSTILA: Inteligência Artificial para Iniciantes</p>
+                </div>
+                <button class="close-lesson" onclick="closeLesson(4)">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            
+            <div class="lesson-body">
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 1: INTRODUÇÃO E FUNDAMENTOS</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. O que é Inteligência Artificial (IA)?</div>
+                        <p class="lesson-text">Em termos simples, a IA é um ramo da tecnologia que treina computadores para identificar padrões e realizar tarefas que antes exigiam o cérebro humano. Isso inclui entender a fala, reconhecer rostos em fotos, traduzir idiomas e, mais recentemente, criar conteúdo (textos e imagens).</p>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. A IA "Invisível" (Você já usa)</div>
+                        <p class="lesson-text">Antes de falar dos robôs que conversam, saiba que a IA já faz parte da sua rotina há anos:</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Recomendações:</strong> Quando a Netflix sugere um filme ou o YouTube indica um vídeo, é uma IA analisando seu gosto.</li>
+                            <li><strong>GPS (Waze/Maps):</strong> O cálculo da rota mais rápida considerando o trânsito em tempo real é feito por IA.</li>
+                            <li><strong>Corretor Automático:</strong> Quando o celular corrige sua digitação ou completa a frase no e-mail.</li>
+                            <li><strong>Bancos:</strong> Sistemas que bloqueiam seu cartão automaticamente ao suspeitar de uma compra fora do seu padrão.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. A Nova Era: IA Generativa (Chatbots)</div>
+                        <p class="lesson-text">O grande salto recente são as ferramentas que geram conteúdo novo. Elas funcionam como assistentes virtuais superinteligentes com quem você conversa por texto ou voz. Os principais nomes do mercado:</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>ChatGPT (OpenAI):</strong> O pioneiro e mais famoso.</li>
+                            <li><strong>Copilot (Microsoft):</strong> Integrado ao Windows e ao navegador Edge.</li>
+                            <li><strong>Gemini (Google):</strong> Integrado às pesquisas Google e celulares Android.</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 2: DESENVOLVIMENTO (COMO USAR NA PRÁTICA)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. Acesso às Ferramentas</div>
+                        <p class="lesson-text">Você não precisa de um supercomputador.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>No Celular:</strong> Baixe os aplicativos oficiais (ChatGPT, Google Gemini ou Microsoft Copilot) na loja de apps.</li>
+                            <li><strong>No Computador:</strong> Acesse via navegador (ex: chatgpt.com ou copilot.microsoft.com).</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. O Conceito de "Prompt" (O Comando)</div>
+                        <p class="lesson-text">A qualidade da resposta da IA depende da qualidade da sua pergunta. O comando que você digita chama-se Prompt.<br>Exemplo de Evolução do Prompt:</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Ruim (Genérico):</strong> "Escreva uma mensagem de aniversário."<br><em>Resultado: A IA fará algo genérico e sem graça.</em></li>
+                            <li><strong>Bom (Específico):</strong> "Escreva uma mensagem de aniversário para meu neto Lucas, que faz 10 anos. Ele gosta de dinossauros e futebol. Use um tom carinhoso e curto."<br><em>Resultado: A IA criará um texto personalizado e emocionante.</em></li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Aplicações Práticas do Dia a Dia</div>
+                        <p class="lesson-text">Use a IA como seu "estagiário" pessoal:</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Culinária:</strong> "Tenho apenas ovos, batata e cebola na geladeira. Me dê uma receita simples usando esses ingredientes."</li>
+                            <li><strong>Redação:</strong> "Melhore este texto que escrevi para parecer mais profissional e corrija os erros de português."</li>
+                            <li><strong>Resumos:</strong> Cole um texto longo de notícia e peça: "Resuma os pontos principais em tópicos simples."</li>
+                            <li><strong>Tradução:</strong> "Como se pede um café com leite e sem açúcar em italiano?"</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 3: DESENVOLVIMENTO (LIMITES E SEGURANÇA)</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">1. O Fenômeno da "Alucinação"</div>
+                        <p class="lesson-text">As IAs não "pensam", elas calculam qual é a próxima palavra provável de uma frase. Por isso, elas podem mentir com total confiança.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>O Risco:</strong> A IA pode inventar datas, fatos históricos ou leis que não existem.</li>
+                            <li><strong>A Regra:</strong> Nunca use a IA como fonte única de verdade para assuntos médicos, jurídicos ou financeiros. Sempre verifique a informação no Google ou em livros.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">2. Privacidade de Dados</div>
+                        <p class="lesson-text">As conversas com a IA podem ser usadas pelas empresas para treinar o sistema.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>O que NÃO fazer:</strong> Jamais digite senhas bancárias, números de documentos (CPF/RG), segredos da sua empresa ou detalhes íntimos de saúde nos chats da IA.</li>
+                            <li><strong>Trate como público:</strong> Imagine que tudo o que você escreve ali poderá ser lido por um humano em algum momento.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">3. Deepfakes (O Perigo Visual e Sonoro)</div>
+                        <p class="lesson-text">A IA também gera imagens e vozes.</p>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Alerta de Golpe:</strong> Criminosos usam IA para clonar a voz de familiares e ligar pedindo dinheiro.</li>
+                            <li><strong>Defesa:</strong> Se receber um áudio estranho ou vídeo de alguém pedindo dinheiro urgente, desligue e ligue para o número de telefone tradicional da pessoa para confirmar.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">4. Viés (Preconceito)</div>
+                        <p class="lesson-text">Como a IA aprendeu lendo a internet, ela pode reproduzir preconceitos e estereótipos humanos. Tenha senso crítico ao ler as respostas.</p>
+                    </div>
+                </div>
+
+                <div class="lesson-section">
+                    <h3 class="lesson-section-title">PÁGINA 4: CONCLUSÃO E APLICAÇÃO PRÁTICA</h3>
+                    
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">Resumo Operacional</div>
+                        <ul style="margin-left: 20px; color: var(--dark-light);">
+                            <li><strong>Ferramenta:</strong> Use o ChatGPT, Copilot ou Gemini como auxiliares, não como substitutos do seu cérebro.</li>
+                            <li><strong>Comando:</strong> Seja específico. Diga quem é o público, qual o tamanho do texto e qual o tom desejado.</li>
+                            <li><strong>Verificação:</strong> A IA alucina (inventa). Confie, mas confira.</li>
+                            <li><strong>Segurança:</strong> Não alimente a IA com seus dados pessoais sensíveis.</li>
+                        </ul>
+                    </div>
+
+                    <div class="lesson-tip">
+                        <div class="lesson-item-title" style="margin-top:0;">Glossário Técnico</div>
+                        <br>• <strong>Prompt:</strong> O texto/comando que você digita para a IA.
+                        <br>• <strong>Chatbot:</strong> Programa de computador que simula uma conversa humana.
+                        <br>• <strong>Alucinação:</strong> Quando a IA gera uma informação falsa ou inventada, mas apresentada como fato.
+                        <br>• <strong>IA Generativa:</strong> Tipo de IA capaz de criar conteúdo novo (texto, imagem, áudio).
+                    </div>
+
+                    <div class="lesson-item">
+                        <div class="lesson-item-title">5 Perguntas de Fixação</div>
+                        <ol style="margin-left: 20px; margin-top: 10px;">
+                            <li><strong>O que é um "Prompt"?</strong><br>Resposta: É o comando ou pergunta que você digita para a IA responder.</li>
+                            <li><strong>Por que não devo digitar meu CPF ou senhas no ChatGPT?</strong><br>Resposta: Porque as conversas podem ser gravadas e usadas para treinamento, não garantindo sigilo absoluto.</li>
+                            <li><strong>O que significa dizer que a IA "alucinou"?</strong><br>Resposta: Significa que ela inventou uma informação falsa, mas a apresentou como verdadeira.</li>
+                            <li><strong>Qual a diferença entre um Prompt ruim e um bom?</strong><br>Resposta: O nível de detalhe. Prompts bons têm contexto, objetivo e especificidade.</li>
+                            <li><strong>A IA substitui a necessidade de verificar fatos?</strong><br>Resposta: Não. A verificação humana continua obrigatória, especialmente em assuntos sérios.</li>
+                        </ol>
+                    </div>
+
+                    <div class="lesson-warning">
+                        <strong>Mensagem Final:</strong> A Inteligência Artificial é a ferramenta mais transformadora desta década. Não tenha medo dela; o segredo é aprender a "fazer as perguntas certas". Use-a para eliminar tarefas chatas (como planejar cardápios ou revisar e-mails) e ganhe tempo para o que realmente importa: a criatividade e as relações humanas.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Funções para abrir e fechar as aulas
+        function openLesson(lessonNumber) {
+            // Fechar todas as aulas primeiro
+            for (let i = 1; i <= 4; i++) {
+                const modal = document.getElementById(`lessonModal${i}`);
+                if (modal) {
+                    modal.style.display = 'none';
+                }
+            }
+            
+            // Abrir a aula específica
+            const targetModal = document.getElementById(`lessonModal${lessonNumber}`);
+            if (targetModal) {
+                targetModal.style.display = 'flex';
+                document.body.style.overflow = 'hidden'; // Impede scroll da página principal
+            }
+        }
+        
+        function closeLesson(lessonNumber) {
+            const modal = document.getElementById(`lessonModal${lessonNumber}`);
+            if (modal) {
+                modal.style.display = 'none';
+                document.body.style.overflow = 'auto'; // Restaura scroll
+            }
+        }
+        
+        // Configurar eventos para os botões
+        document.addEventListener('DOMContentLoaded', function() {
+            const buttons = document.querySelectorAll('.view-lesson-btn');
+            
+            buttons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lessonNumber = this.getAttribute('data-lesson');
+                    openLesson(lessonNumber);
+                });
+            });
+            
+            // Fechar modal ao clicar fora do conteúdo
+            const modals = document.querySelectorAll('.lesson-modal');
+            modals.forEach(modal => {
+                modal.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.style.display = 'none';
+                        document.body.style.overflow = 'auto';
+                    }
+                });
+            });
+            
+            // Fechar com tecla ESC
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    for (let i = 1; i <= 4; i++) {
+                        const modal = document.getElementById(`lessonModal${i}`);
+                        if (modal) modal.style.display = 'none';
+                    }
+                    document.body.style.overflow = 'auto';
+                }
+            });
+            
+            // Efeito de carregamento suave
+            document.body.style.opacity = '0';
+            document.body.style.transition = 'opacity 0.4s ease';
+            
+            setTimeout(() => {
+                document.body.style.opacity = '1';
+            }, 100);
+        });
+        
+        // Animar os cartões ao aparecer
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+        
+        // Observar os cartões
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.module-card');
+            cards.forEach((card, index) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(20px)';
+                card.style.transition = `opacity 0.6s ease ${index * 0.1}s, transform 0.6s ease ${index * 0.1}s`;
+                observer.observe(card);
+            });
+        });
+    </script>
+</body>
+</html>
